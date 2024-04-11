@@ -1,2 +1,2 @@
 # ProblemSolving
-Thos Repo contains problems I've solved in various platforms
+Thos Repo contains problems that I've solved in various platforms
