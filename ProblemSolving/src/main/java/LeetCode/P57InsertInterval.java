@@ -11,6 +11,7 @@ public class P57InsertInterval {
 		int[][] intervals = { { 1, 3 }, { 6, 9 } };
 		int[] newInterval = { 2, 5 };
 		int[][] mergedInterval = insertBinarySearch(intervals, newInterval);
+//		int[][] mergedInterval = insertBinarySearch1(intervals, newInterval);
 
 		for (int i = 0; i < mergedInterval.length; i++) {
 			for (int j = 0; j < mergedInterval[0].length; j++) {
@@ -18,7 +19,44 @@ public class P57InsertInterval {
 			}
 			System.out.println();
 		}
-
+	}
+	
+	public static int[][] insertBinarySearch1(int[][] intervals, int[] newInterval) {
+		
+		List<int []> list = new ArrayList<>();
+		int left = 0;
+		int n = intervals.length;
+		int right = n-1;
+		
+		while(left <= right) {
+			int mid = (left +right)/2;
+			if(intervals[mid][0] < newInterval[0]) {
+				left = mid + 1;
+			} else {
+				right = mid - 1;
+			}
+		}
+		int i = 0;
+		while(i < left) {
+			list.add(intervals[i]);
+			i++;
+		}
+		list.add(newInterval);
+		
+		while(i<n) {
+			list.add(intervals[i]);
+			i++;
+		}
+		List<int []> merged = new ArrayList<>();
+		for(int [] interval: list) {
+			if(merged.size() != 0 && merged.get(merged.size() - 1)[1] >= interval[0]) {
+				//merged.get(merged.size() - 1)[0] = Math.min(interval[0], merged.get(merged.size() - 1)[0]);
+				merged.get(merged.size() - 1)[1] = Math.max(interval[1], merged.get(merged.size() - 1)[1]);
+			} else {
+				merged.add(interval);
+			}
+		}
+		return merged.toArray(new int[merged.size()][2]);
 	}
 
 	public static int[][] insertBinarySearch(int[][] intervals, int[] newInterval) {
