@@ -34,6 +34,7 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
 		return length;
 	}
 	
+	
 	// Approach 1 - Sliding window and Set
     // Iterate through the characters of the string
     // Get the character at right pointer
@@ -62,6 +63,7 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
         }
         return length;
     }
+	
 	
 	// Approach 2 - Sliding Window and Hashing
     // Iterate through the characters of the string
@@ -93,7 +95,6 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
         }
         return length;
     }
-	
 	
 	
 	// Approach 3 - The last position where each character was seen
