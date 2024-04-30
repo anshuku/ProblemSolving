@@ -3,7 +3,9 @@ package LeetCode.Trees;
 import java.util.ArrayList;
 import java.util.List;
 
-public class P94BinaryTreeInorderTraversal {
+public class P145BinaryTreePostorderTraversal {
+
+	static List<Integer> list = new ArrayList<>();
 
 	static class TreeNode {
 
@@ -27,42 +29,45 @@ public class P94BinaryTreeInorderTraversal {
 
 	}
 
-	static List<Integer> list = new ArrayList<>();
-
 	public static void main(String[] args) {
 		TreeNode root = new TreeNode(1);
 		root.left = new TreeNode(2);
 		root.right = new TreeNode(3);
-//		List<Integer> list = inorderTraversal(root);
-		
-		List<Integer> list = inorderTraversalNew(root);
+		root.left.left = new TreeNode(4);
+		root.left.right = new TreeNode(5);
 
-		System.out.println("In order traversal " + list);
+//		list = postOrderTraversal(root);
+		
+		list = postOrderTraversalNew(root);
+		
+		System.out.println("Post order traversal " + list);
 	}
 
-	private static List<Integer> inorderTraversalNew(TreeNode node) {
+	private static List<Integer> postOrderTraversal(TreeNode node) {
+		if (node != null) {
+			postOrderTraversal(node.left);
+			postOrderTraversal(node.right);
+			list.add(node.val);
+		}
+		return list;
+	}
+	
 
+	private static List<Integer> postOrderTraversalNew(TreeNode node) {
 		List<Integer> list = new ArrayList<>();
 		traversal(node, list);
 		return list;
 	}
 
 	private static void traversal(TreeNode node, List<Integer> list) {
-		if (node == null) {
+		
+		if(node == null) {
 			return;
 		}
 		traversal(node.left, list);
-		list.add(node.val);
 		traversal(node.right, list);
-	}
-
-	public static List<Integer> inorderTraversal(TreeNode node) {
-		if (node != null) {
-			inorderTraversal(node.left);
-			list.add(node.val);
-			inorderTraversal(node.right);
-		}
-		return list;
+		list.add(node.val);	
+		
 	}
 
 }
