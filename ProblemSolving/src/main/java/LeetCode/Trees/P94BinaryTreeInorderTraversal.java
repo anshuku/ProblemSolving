@@ -2,6 +2,9 @@ package LeetCode.Trees;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
+import LeetCode.Trees.P144BinaryTreePreorderTraversal.TreeNode;
 
 public class P94BinaryTreeInorderTraversal {
 
@@ -33,14 +36,31 @@ public class P94BinaryTreeInorderTraversal {
 		TreeNode root = new TreeNode(1);
 		root.left = new TreeNode(2);
 		root.right = new TreeNode(3);
-//		List<Integer> list = inorderTraversal(root);
-		
-		List<Integer> list = inorderTraversalNew(root);
+		root.left.left = new TreeNode(4);
+		root.left.right = new TreeNode(5);
+		root.right.left = new TreeNode(6);
+
+		List<Integer> list = inOrderTraversal(root);
+
+//		List<Integer> list = inOrderTraversalList(root);
+
+//		List<Integer> list = inOrderTraversalAddAll(root);
+
+//		List<Integer> list = inOrderTraversalStack(root);
 
 		System.out.println("In order traversal " + list);
 	}
 
-	private static List<Integer> inorderTraversalNew(TreeNode node) {
+	public static List<Integer> inOrderTraversal(TreeNode node) {
+		if (node != null) {
+			inOrderTraversal(node.left);
+			list.add(node.val);
+			inOrderTraversal(node.right);
+		}
+		return list;
+	}
+
+	private static List<Integer> inOrderTraversalList(TreeNode node) {
 
 		List<Integer> list = new ArrayList<>();
 		traversal(node, list);
@@ -56,12 +76,34 @@ public class P94BinaryTreeInorderTraversal {
 		traversal(node.right, list);
 	}
 
-	public static List<Integer> inorderTraversal(TreeNode node) {
-		if (node != null) {
-			inorderTraversal(node.left);
-			list.add(node.val);
-			inorderTraversal(node.right);
+	private static List<Integer> inOrderTraversalAddAll(TreeNode node) {
+		List<Integer> list = new ArrayList<>();
+		// Breaks the recursion when node is null
+		if (node == null) {
+			return list;
 		}
+		// The list.addAll() can take list values from past recursive calls
+		list.addAll(inOrderTraversalAddAll(node.left));
+		list.add(node.val);
+		list.addAll(inOrderTraversalAddAll(node.right));
+		// Returns the node value list just before recursion end(node is null)
+		return list;
+	}
+
+	private static List<Integer> inOrderTraversalStack(TreeNode root) {
+		List<Integer> list = new ArrayList<>();
+		Stack<TreeNode> stack = new Stack<>();
+		TreeNode currentNode = root;
+		while (currentNode != null || !stack.empty()) {
+			while (currentNode != null) {
+				stack.push(currentNode);
+				currentNode = currentNode.left;
+			}
+			currentNode = stack.pop();
+			list.add(currentNode.val);
+			currentNode = currentNode.right;
+		}
+
 		return list;
 	}
 
