@@ -11,6 +11,9 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
 	public static void main(String[] args) {
 		String s = "abcdeabcfgbb";
 		int len = lengthOfLongestSubstring(s);
+//		int len = lengthOfLongestSubstringSet(s);
+//		int len = lengthOfLongestSubstringHashing(s);
+//		int len = lengthOfLongestSubstringAsciiArr(s);
 		System.out.println("The length of longest substring " + len);
 	}
 
@@ -121,5 +124,23 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
         }
         return length;
     }
+	
+	// Approach 4 - The last position where each character was seen with help of ascii int[]
+    // Iterate through the characters of the string's char array
+    // Get the last occurrence of each character
+    // Get the max length by comparing current max length with last occurrence of the current character(default 1)
+    // Update the last occurrence of current character to it's current index + 1
+	public static int lengthOfLongestSubstringAsciiArr(String s) {
+		char[] charArr = s.toCharArray();
+		int[] data = new int[128];//stores last occurrence of each character
+		int length = 0, index = 0;
+		
+		for(int i = 0;i<charArr.length; i++) {
+			index = Math.max(index, data[charArr[i]]);
+			length = Math.max(length, i - index + 1);
+			data[charArr[i]] = i+1;
+		}
+		return length;
+	}
 
 }
