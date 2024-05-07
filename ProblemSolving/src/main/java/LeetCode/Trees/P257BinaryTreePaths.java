@@ -51,29 +51,7 @@ public class P257BinaryTreePaths {
 		System.out.println("The list is " + list);
 	}
 
-	private static List<String> binaryTreePathSB(TreeNode node) {
-		StringBuilder str = new StringBuilder();
-		List<String> list = new ArrayList<>();
-		traverseSB(node, list, str);
-		return list;
-	}
-
-	private static void traverseSB(TreeNode node, List<String> list, StringBuilder sb) {
-		if (node == null) {
-			return;
-		}
-		int len = sb.length();
-		sb.append(node.val);
-		if(node.left == null && node.right == null) {
-			list.add(sb.toString());
-		} else {
-			sb.append("->");
-			traverseSB(node.left, list, sb);
-			traverseSB(node.right, list, sb);
-		}
-		sb.setLength(len);
-	}
-
+	// DFS with String
 	private static List<String> binaryTreePath(TreeNode node) {
 		List<String> list = new ArrayList<>();
 		traverse(node, list, "");
@@ -94,6 +72,7 @@ public class P257BinaryTreePaths {
 		}
 	}
 
+	// DFS with List and String
 	private static List<String> binaryTreePathDFS(TreeNode node) {
 
 		List<String> list = new ArrayList<>();
@@ -116,25 +95,49 @@ public class P257BinaryTreePaths {
 		if (node.left == null && node.right == null) {
 			list.add(toPath(currPath));
 		}
-		//Remove last integer in curr path (number and not ->)
+		// Remove last integer in curr path (number and not ->)
 		currPath.remove(currPath.size() - 1);
 	}
 
 	private static String toPath(List<Integer> currPath) {
 		String str = "" + currPath.get(0);
 		for (int i = 1; i < currPath.size(); i++) {
-			str = str.concat("->").concat(String.valueOf(currPath.get(i)));
+			str = str.concat("->").concat(String.valueOf(currPath.get(i)));// "" + get(i)
 		}
 		return str;
 	}
 
 	private static String stringBuilderPath(List<Integer> currPath) {
 		StringBuilder str = new StringBuilder();
-		str.append("" + currPath.get(0));
+		str.append(currPath.get(0));
 		for (int i = 1; i < currPath.size(); i++) {
 			str.append("->").append(currPath.get(i));
 		}
 		return str.toString();
+	}
+
+	// DFS with StringBuilder
+	private static List<String> binaryTreePathSB(TreeNode node) {
+		StringBuilder str = new StringBuilder();
+		List<String> list = new ArrayList<>();
+		traverseSB(node, list, str);
+		return list;
+	}
+
+	private static void traverseSB(TreeNode node, List<String> list, StringBuilder sb) {
+		if (node == null) {
+			return;
+		}
+		int len = sb.length();
+		sb.append(node.val);
+		if (node.left == null && node.right == null) {
+			list.add(sb.toString());
+		} else {
+			sb.append("->");
+			traverseSB(node.left, list, sb);
+			traverseSB(node.right, list, sb);
+		}
+		sb.setLength(len);
 	}
 
 }
