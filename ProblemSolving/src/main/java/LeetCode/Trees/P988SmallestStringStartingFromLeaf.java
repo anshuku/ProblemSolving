@@ -8,7 +8,9 @@ import java.util.List;
 public class P988SmallestStringStartingFromLeaf {
 
 	static String smallestString = "";
+	// chs array stores the smallest string starting from leaf.
 	static char[] chs = null;
+	// l is lowest bound for chs array.
 	static int l = 0;
 
 	static class TreeNode {
@@ -30,12 +32,44 @@ public class P988SmallestStringStartingFromLeaf {
 	}
 
 	public static void main(String[] args) {
-		TreeNode root = new TreeNode(1);
+//		TreeNode root = new TreeNode(1);
+//		root.left = new TreeNode(2);
+//		root.right = new TreeNode(3);
+//		root.left.left = new TreeNode(4);
+//		root.left.right = new TreeNode(5);
+//		root.right.left = new TreeNode(6);
+//		root.right.left.left = new TreeNode(7);
+//		root.right.left.right = new TreeNode(2);
+//		root.right.left.left.right = new TreeNode(1);
+//		root.right.left.left.right.left = new TreeNode(2);
+
+//		TreeNode root = new TreeNode(3);
+//		root.left = new TreeNode(2);
+//		root.left.left = new TreeNode(2);
+//		root.left.left.left = new TreeNode(1);
+//		root.left.left.right = new TreeNode(2);
+//		root.left.left.right.left = new TreeNode(1);
+//		root.left.right = new TreeNode(3);
+//		root.left.right.left = new TreeNode(2);
+//		root.left.right.left.right = new TreeNode(2);
+//		root.left.right.left.right.left = new TreeNode(1);
+//		root.right = new TreeNode(2);
+//		root.right.left = new TreeNode(2);
+//		root.right.left.left = new TreeNode(2);
+//		root.right.left.left.right = new TreeNode(1);
+//		root.right.left.left.right.left = new TreeNode(1);
+//		root.right.right = new TreeNode(2);
+//		root.right.right.left = new TreeNode(1);
+//		root.right.right.left.left = new TreeNode(1);
+//		root.right.right.left.left.left = new TreeNode(1);
+//		root.right.right.right = new TreeNode(1);
+
+		TreeNode root = new TreeNode(2);
 		root.left = new TreeNode(2);
-		root.right = new TreeNode(3);
-		root.left.left = new TreeNode(4);
-		root.left.right = new TreeNode(5);
-		root.right.left = new TreeNode(6);
+		root.left.left = new TreeNode(1);
+		root.left.left.left = new TreeNode(0);
+		root.right = new TreeNode(1);
+		root.right.right = new TreeNode(0);
 
 //		String val = smallestStringStartingFromLeaf(root);
 
@@ -46,50 +80,6 @@ public class P988SmallestStringStartingFromLeaf {
 		String val = smallestStringStartingFromLeafCharArr(root);
 
 		System.out.println("The smallest String starting from leaf is " + val);
-	}
-
-	private static String smallestStringStartingFromLeafCharArr(TreeNode root) {
-		int depth = depth(root);
-		System.out.println("The depth is " + depth);
-		smallestStringStartingFromLeafCharArrDfs(root, new char[depth], depth - 1);
-		return new String(chs, l, depth - l);
-	}
-
-	private static int depth(TreeNode node) {
-		if (node == null) {
-			return 0;
-		}
-		return Math.max(depth(node.left), depth(node.right)) + 1;
-	}
-
-	private static void smallestStringStartingFromLeafCharArrDfs(TreeNode node, char[] t, int i) {
-		if (node == null) {
-			return;
-		}
-		t[i] = (char) ('a' + node.val);
-		if (node.left == null && node.right == null) {
-			if (chs == null) {
-				chs = Arrays.copyOf(t, t.length);
-				l = i;
-			} else {
-				for (int k = 0, d = Math.max(l, i); k + d < t.length; k++) {
-					if (chs[l + k] < t[i + k]) {
-						return;
-					} else if (chs[l + k] > t[i + k]) {
-						chs = Arrays.copyOf(t, t.length);
-						l = i;
-						return;
-					}
-				}
-				if (l < i) {
-					chs = Arrays.copyOf(t, t.length);
-					l = i;
-				}
-			}
-			return;
-		}
-		smallestStringStartingFromLeafCharArrDfs(node.left, t, i - 1);
-		smallestStringStartingFromLeafCharArrDfs(node.right, t, i - 1);
 	}
 
 	private static String smallestStringStartingFromLeaf(TreeNode root) {
@@ -168,5 +158,49 @@ public class P988SmallestStringStartingFromLeaf {
 		smallestStringStartingFromLeafStringBuilderDfs(node.left, result, sb);
 		smallestStringStartingFromLeafStringBuilderDfs(node.right, result, sb);
 		sb.deleteCharAt(0);
+	}
+
+	private static String smallestStringStartingFromLeafCharArr(TreeNode root) {
+		int depth = depth(root);
+		System.out.println("The depth is " + depth);
+		smallestStringStartingFromLeafCharArrDfs(root, new char[depth], depth - 1);
+		return new String(chs, l, depth - l);
+	}
+
+	private static int depth(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+		return Math.max(depth(node.left), depth(node.right)) + 1;
+	}
+
+	private static void smallestStringStartingFromLeafCharArrDfs(TreeNode node, char[] t, int i) {
+		if (node == null) {
+			return;
+		}
+		t[i] = (char) ('a' + node.val);
+		if (node.left == null && node.right == null) {
+			if (chs == null) {
+				chs = Arrays.copyOf(t, t.length);
+				l = i;
+			} else {
+				for (int k = 0, d = Math.max(l, i); k + d < t.length; k++) {
+					if (chs[l + k] < t[i + k]) {
+						return;
+					} else if (chs[l + k] > t[i + k]) {
+						chs = Arrays.copyOf(t, t.length);
+						l = i;
+						return;
+					}
+				}
+				if (l < i) {
+					chs = Arrays.copyOf(t, t.length);
+					l = i;
+				}
+			}
+			return;
+		}
+		smallestStringStartingFromLeafCharArrDfs(node.left, t, i - 1);
+		smallestStringStartingFromLeafCharArrDfs(node.right, t, i - 1);
 	}
 }
