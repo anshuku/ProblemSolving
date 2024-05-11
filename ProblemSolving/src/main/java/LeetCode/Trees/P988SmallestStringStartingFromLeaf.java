@@ -3,14 +3,19 @@ package LeetCode.Trees;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class P988SmallestStringStartingFromLeaf {
 
 	static String smallestString = "";
 	// chs array stores the smallest string starting from leaf.
 	static char[] chs = null;
-	// l is lowest bound for chs array.
+	// l is the current lowest bound for chs array.
 	static int l = 0;
 
 	static class TreeNode {
@@ -32,12 +37,12 @@ public class P988SmallestStringStartingFromLeaf {
 	}
 
 	public static void main(String[] args) {
-//		TreeNode root = new TreeNode(1);
-//		root.left = new TreeNode(2);
-//		root.right = new TreeNode(3);
-//		root.left.left = new TreeNode(4);
-//		root.left.right = new TreeNode(5);
-//		root.right.left = new TreeNode(6);
+		TreeNode root = new TreeNode(0);
+		root.left = new TreeNode(1);
+		root.right = new TreeNode(2);
+		root.left.left = new TreeNode(3);
+		root.left.right = new TreeNode(4);
+		root.right.left = new TreeNode(5);
 //		root.right.left.left = new TreeNode(7);
 //		root.right.left.right = new TreeNode(2);
 //		root.right.left.left.right = new TreeNode(1);
@@ -63,13 +68,13 @@ public class P988SmallestStringStartingFromLeaf {
 //		root.right.right.left.left = new TreeNode(1);
 //		root.right.right.left.left.left = new TreeNode(1);
 //		root.right.right.right = new TreeNode(1);
-
-		TreeNode root = new TreeNode(2);
-		root.left = new TreeNode(2);
-		root.left.left = new TreeNode(1);
-		root.left.left.left = new TreeNode(0);
-		root.right = new TreeNode(1);
-		root.right.right = new TreeNode(0);
+//
+//		TreeNode root = new TreeNode(2);
+//		root.left = new TreeNode(2);
+//		root.left.left = new TreeNode(1);
+//		root.left.left.left = new TreeNode(0);
+//		root.right = new TreeNode(1);
+//		root.right.right = new TreeNode(0);
 
 //		String val = smallestStringStartingFromLeaf(root);
 
@@ -77,9 +82,34 @@ public class P988SmallestStringStartingFromLeaf {
 
 //		String val = smallestStringStartingFromLeafStringBuilder(root);
 
-		String val = smallestStringStartingFromLeafCharArr(root);
+//		String val = smallestStringStartingFromLeafCharArr(root);
+
+		String val = smallestStringStartingFromLeafBfs(root);
 
 		System.out.println("The smallest String starting from leaf is " + val);
+	}
+
+	private static String smallestStringStartingFromLeafBfs(TreeNode root) {
+		String smallest = "";
+		Queue<Pair<TreeNode, String>> queue = new LinkedList<>();
+		queue.add(new MutablePair<>(root, String.valueOf((char) ('a' + root.val))));
+		while (!queue.isEmpty()) {
+			Pair<TreeNode, String> pair = queue.poll();
+			TreeNode node = pair.getKey();
+			String currentString = pair.getValue();
+			if (node.left == null && node.right == null) {
+				if (smallest.isEmpty() || smallest.compareTo(currentString) > 0) {
+					smallest = currentString;
+				}
+			}
+			if (node.left != null) {
+				queue.add(new MutablePair<>(node.left, (char) ('a' + node.left.val) + currentString));
+			}
+			if (node.right != null) {
+				queue.add(new MutablePair<>(node.right, (char) ('a' + node.right.val) + currentString));
+			}
+		}
+		return smallest;
 	}
 
 	private static String smallestStringStartingFromLeaf(TreeNode root) {
