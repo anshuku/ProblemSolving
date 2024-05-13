@@ -25,9 +25,10 @@ public class P5LongestPalindromicSubstring {
 	* For each index i, I can have odd length palindromes by starting at pointer (i, i). For even lengths pointers (i, i+1).
 	* There are n starting points for odd-length and (n-1) starting points for even-length palindromes. Total 2n-1 = O(n).
 	* Use a helper function expand(i, j) that starts two pointers left = i and right = j where (i, j) is center.
-	* When i == j then its odd-length palindrome and if i!=j it's even length palindrome. Expand from center to far away and return length. 
+	* When i == j then its odd-length palindrome and if i!=j it's even length palindrome. 
+	* Expand from center to far away and return length. 
 	* Odd: Center (i, i) returns odd length. Bounds: dist = floor(length/2) -> (i-dist, i+dist).
-	* Even: Center (i, i+1) returns even length. Bounds: dist = (lenght/2 - 1) for length=2 -> (i-dist, i+1+dist).
+	* Even: Center (i, i+1) returns even length. Bounds: dist = (length/2 - 1) for length=2 -> (i-dist, i+1+dist).
 	* 
 	* Take ans{0, 0} to track the substring indices.
 	* Iterate for all centers from 0 to n-1 and find palindromes of odd length and even length at each center(i,i) and (i,i+1) respectively.
