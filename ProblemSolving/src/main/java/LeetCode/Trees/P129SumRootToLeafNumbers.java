@@ -1,4 +1,4 @@
-package LeetCode.BinayTree;
+package LeetCode.Trees;
 
 public class P129SumRootToLeafNumbers {
 
