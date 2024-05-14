@@ -6,9 +6,4 @@ public class First implements Runnable{
 		System.out.print("first");
 	}
 
-	public static void main(String[] args) {
-		
-
-	}
-
 }
