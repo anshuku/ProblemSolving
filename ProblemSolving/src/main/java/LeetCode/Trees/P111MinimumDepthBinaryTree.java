@@ -1,7 +1,10 @@
 package LeetCode.Trees;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 public class P111MinimumDepthBinaryTree {
 
@@ -45,6 +48,8 @@ public class P111MinimumDepthBinaryTree {
 //		int minDepth = pdb.minDepthLeftRight(root);
 
 //		int minDepth = pdb.minDepthBfs(root);
+
+//		int minDepth = pdb.minDepthStream(root);
 
 		System.out.println("The minimum depth for the tree is " + minDepth);
 	}
@@ -113,5 +118,40 @@ public class P111MinimumDepthBinaryTree {
 			depth++;
 		}
 		return depth;
+	}
+	
+	int depth = 1;
+
+	private int minDepthStream(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		long count = Stream.iterate(List.of(root), this::hasNext, this::next).count();
+		System.out.println("The count for streaming nodes is " + count);
+		return depth;
+	}
+
+	boolean hasNext(List<TreeNode> list) {
+		if (list.stream().filter(Objects::nonNull).anyMatch(node -> node.left == null && node.right == null)) {
+			return false;
+		}
+		if (list.stream().anyMatch(Objects::nonNull)) {
+			depth++;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	List<TreeNode> next(List<TreeNode> list) {
+		return list.stream().flatMap(this::flat).toList();
+
+	}
+
+	Stream<TreeNode> flat(TreeNode node) {
+		if (node == null) {
+			Stream.empty();
+		}
+		return Stream.of(node.left, node.right);
 	}
 }
