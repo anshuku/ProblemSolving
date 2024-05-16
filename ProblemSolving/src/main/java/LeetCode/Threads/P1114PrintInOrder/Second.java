@@ -6,9 +6,4 @@ public class Second implements Runnable{
 		System.out.print("second");
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

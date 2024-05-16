@@ -60,6 +60,7 @@ public class P102BinaryTreeLevelOrderTraversal {
 		}
 		Queue<TreeNode> queue = new LinkedList<>();
 		queue.add(root);
+		// To avoid creating the current list again and again/reuse it.
 		List<Integer> currList = new ArrayList<>();
 		while (!queue.isEmpty()) {
 			int size = queue.size();// 1, 2, 4
@@ -81,7 +82,7 @@ public class P102BinaryTreeLevelOrderTraversal {
 		return list;
 	}
 
-	// DFS: Uses height and recursion for level order traversal list 
+	// DFS: Uses height and recursion for level order traversal list
 	private static List<List<Integer>> levelOrderTraversalheight(TreeNode root) {
 
 		List<List<Integer>> list = new ArrayList<>();
