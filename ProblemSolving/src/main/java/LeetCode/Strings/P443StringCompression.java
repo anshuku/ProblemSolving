@@ -18,43 +18,15 @@ public class P443StringCompression {
 
 		P443StringCompression psc = new P443StringCompression();
 
-//		int len = psc.compress(chars);
+		int len = psc.compress(chars);
+
+//		int len = psc.compressLessVar(chars);
 
 //		int len = psc.compressSB(chars);
 
 //		int len = psc.compressCharacterWise(chars);
 
-		int len = psc.compressLessVar(chars);
-
 		System.out.println("Length is " + len);
-	}
-
-	private int compressLessVar(char[] chars) {
-		int i = 0, res = 0;
-		int size = chars.length;
-		while (i < size) {
-			int len = 1;
-			while (i + len < size && chars[i + len] == chars[i]) {
-				len++;
-			}
-			chars[res++] = chars[i];
-			if (len > 1) {
-				int count = len;
-				int ptr = res;
-				while (count > 0) {
-					chars[res++] = (char) (count % 10 + '0');
-					count = count / 10;
-				}
-				reverse(chars, ptr, res - 1);
-
-//				for(char c: Integer.toString(len).toCharArray()) {
-//					chars[res++] = c;
-//				}
-			}
-			i += len;
-		}
-		System.out.println("The result array is " + Arrays.toString(chars));
-		return res;
 	}
 
 	private int compress(char[] chars) {
@@ -186,6 +158,35 @@ public class P443StringCompression {
 		for (int num : list) {
 			chars[start++] = (char) (num + '0');
 		}
+	}
+
+	// Most space optimized
+	private int compressLessVar(char[] chars) {
+		int i = 0, res = 0;
+		int size = chars.length;
+		while (i < size) {
+			int len = 1;
+			while (i + len < size && chars[i + len] == chars[i]) {
+				len++;
+			}
+			chars[res++] = chars[i];
+			if (len > 1) {
+				int count = len;
+				int ptr = res;
+				while (count > 0) {
+					chars[res++] = (char) (count % 10 + '0');
+					count = count / 10;
+				}
+				reverse(chars, ptr, res - 1);
+
+//					for(char c: Integer.toString(len).toCharArray()) {
+//						chars[res++] = c;
+//					}
+			}
+			i += len;
+		}
+		System.out.println("The result array is " + Arrays.toString(chars));
+		return res;
 	}
 
 	// Iterate through the chars
