@@ -20,9 +20,11 @@ public class P443StringCompression {
 
 		int len = psc.compress(chars);
 
+//		int len = psc.compressLessVar(chars);
+
 //		int len = psc.compressSB(chars);
 
-		// int len = compressCharacterWise(chars);
+//		int len = psc.compressCharacterWise(chars);
 
 		System.out.println("Length is " + len);
 	}
@@ -30,7 +32,8 @@ public class P443StringCompression {
 	private int compress(char[] chars) {
 		int i = 0;// iterates through all the unique characters in chars a single time
 		int start = 0;// keeps track of start index in resultant char array only
-		int end = 0;// keeps track of end index in current char array and iterates through all its elements
+		int end = 0;// keeps track of end index in current char array and iterates through all its
+					// elements
 		int res = 0;// if the extra values present at the end of initial char array needs to be
 					// removed
 		int size = chars.length;
@@ -157,6 +160,35 @@ public class P443StringCompression {
 		}
 	}
 
+	// Most space optimized
+	private int compressLessVar(char[] chars) {
+		int i = 0, res = 0;
+		int size = chars.length;
+		while (i < size) {
+			int len = 1;
+			while (i + len < size && chars[i + len] == chars[i]) {
+				len++;
+			}
+			chars[res++] = chars[i];
+			if (len > 1) {
+				int count = len;
+				int ptr = res;
+				while (count > 0) {
+					chars[res++] = (char) (count % 10 + '0');
+					count = count / 10;
+				}
+				reverse(chars, ptr, res - 1);
+
+//					for(char c: Integer.toString(len).toCharArray()) {
+//						chars[res++] = c;
+//					}
+			}
+			i += len;
+		}
+		System.out.println("The result array is " + Arrays.toString(chars));
+		return res;
+	}
+
 	// Iterate through the chars
 	// check 1st seen
 	public int compressSB(char[] chars) {
@@ -195,7 +227,7 @@ public class P443StringCompression {
 
 	}
 
-	public static int compressCharacterWise(char[] chars) {
+	public int compressCharacterWise(char[] chars) {
 
 		List<String> list = new ArrayList<>();
 		for (char c : chars) {
