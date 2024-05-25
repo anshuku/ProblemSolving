@@ -118,7 +118,7 @@ public class P2331EvaluateBooleanBinaryTree {
 			} else {
 				// if the map does not have the child nodes and the node is not leaf node,
 				// add both the left and right children to stack.
-				// peek mean the current top node remains in the stack.
+				// peek means the current top node remains in the stack.
 				st.push(topNode.left);
 				st.push(topNode.right);
 			}
