@@ -11,7 +11,7 @@ import java.util.Map;
  * Return the probability that Alice has n or fewer points.
  * Answers within 10^-5 of the actual answer are considered accepted.
  * 
- * 
+ * Approach - Dynamic programming, window sliding
  */
 public class P837New21Game {
 

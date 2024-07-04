@@ -116,7 +116,7 @@ public class P5LongestPalindromicSubstring {
 				arr[1] = i + 1;
 			}
 		}
-		for (int diff = 2; diff < n; diff++) {
+		for (int diff = 2; diff < n; diff++) {// difference 1 is for odd
 			for (int i = 0; i < n - diff; i++) {
 				int j = i + diff;
 				if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
