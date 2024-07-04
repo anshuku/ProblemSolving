@@ -1,5 +1,13 @@
 package LeetCode.Arrays;
 
+/*
+ * Given an integer array nums, find the subarray with the largest sum, and return its sum.
+ * LOD: Medium
+ * 
+ * This uses Greedy and DP approach
+ * Time Complexity: O(n)
+ * Space Complexity: O(1) and O(
+ */
 public class P53MaximumSubarray {
 
 	public static void main(String[] args) {
