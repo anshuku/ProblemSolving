@@ -4,6 +4,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * P1679 - Max Number of K-Sum Pairs - Medium
+ * 
+ * You are given an integer array nums and an integer k.
+ * In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
+ * Return the maximum number of operations you can perform on the array.
+ * 
+ * Approach - Two Pointers, HashMap
+ */
 public class P1679MaxNumberofKSumPairs {
 
 	public static void main(String[] args) {
