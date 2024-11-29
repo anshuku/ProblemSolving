@@ -1,5 +1,13 @@
 package LeetCode.Arrays.SlidingWindow;
 
+/*
+ * P1004. Max Consecutive Ones III - Medium
+ * 
+ * Given a binary array nums and an integer k, return the maximum number of 
+ * consecutive 1's in the array if you can flip at most k 0's.
+ * 
+ * Approach - Sliding window
+ */
 public class P1004MaxConsecutiveOnesIII {
 
 	public static void main(String[] args) {
