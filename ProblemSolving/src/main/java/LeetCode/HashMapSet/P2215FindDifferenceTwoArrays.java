@@ -16,6 +16,8 @@ import java.util.Set;
  * Note that the integers in the lists may be returned in any order.
  * 
  * Approach - Set, Array
+ * 
+ * AbstractList needs get() and size() method implementation.
  */
 public class P2215FindDifferenceTwoArrays {
 
