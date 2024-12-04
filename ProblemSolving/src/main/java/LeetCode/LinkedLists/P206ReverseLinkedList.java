@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
+ * 206. Reverse Linked List - Easy
+ * 
  * Given the head of a singly linked list, reverse the list, and return the reversed list.
  * 
- * LOD - Easy
+ * Approach - Prev and Next pointer; Recursion and temporary node
  */
 public class P206ReverseLinkedList {
 
@@ -54,10 +56,10 @@ public class P206ReverseLinkedList {
 		ListNode next = null;
 		ListNode prev = null;
 		while (curr != null) {// n cn p c
-			next = curr.next; // 2 3 4 5 -> 3 4 5 	-> 4 5		-> 5		-> 
-			curr.next = prev; // 1		 -> 2 1		-> 3 2 1	-> 4 3 2 1	-> 5 4 3 2 1
-			prev = curr; // 1			 -> 2 1		-> 3 2 1	-> 4 3 2 1	-> 5 4 3 2 1
-			curr = next; // 2 3 4 5		 -> 3 4 5	-> 4 5		-> 5		-> 
+			next = curr.next; // 2 3 4 5 -> 3 4 5 -> 4 5 -> 5 ->
+			curr.next = prev; // 1 -> 2 1 -> 3 2 1 -> 4 3 2 1 -> 5 4 3 2 1
+			prev = curr; // 1 -> 2 1 -> 3 2 1 -> 4 3 2 1 -> 5 4 3 2 1
+			curr = next; // 2 3 4 5 -> 3 4 5 -> 4 5 -> 5 ->
 
 		}
 		return prev;

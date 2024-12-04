@@ -103,6 +103,7 @@ public class P649Dota2Senate {
 			} else {
 				dires.add(n++);
 			}
+			// Greedy as we are removing next senator which will increase win chance
 			radiants.poll();
 			dires.poll();
 		}
