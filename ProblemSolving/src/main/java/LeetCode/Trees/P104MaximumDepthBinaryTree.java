@@ -5,6 +5,16 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/*
+ * P104. Maximum Depth of Binary Tree - Easy
+ * 
+ * Given the root of a binary tree, return its maximum depth.
+ * 
+ * A binary tree's maximum depth is the number of nodes along the 
+ * longest path from the root node down to the farthest leaf node.
+ * 
+ * Approach - Recursion; Queue; Deque
+ */
 public class P104MaximumDepthBinaryTree {
 
 	static class TreeNode {
