@@ -67,6 +67,8 @@ public class P437PathSumIII {
 
 	}
 
+	// Time complexity - O(n), since every node is visited once
+	// Space complexity - O(n), for storing prefix sum entries in map
 	private static int pathSumMap(TreeNode root, int targetSum) {
 		Map<Long, Integer> map = new HashMap<>();
 		map.put(0l, 1);
