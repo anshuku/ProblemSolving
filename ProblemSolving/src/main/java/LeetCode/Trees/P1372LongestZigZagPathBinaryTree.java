@@ -1,8 +1,5 @@
 package LeetCode.Trees;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /*
  * P1372. Longest ZigZag Path in a Binary Tree - Medium
  * 
