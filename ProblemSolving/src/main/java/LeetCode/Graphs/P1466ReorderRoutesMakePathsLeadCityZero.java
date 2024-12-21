@@ -31,6 +31,10 @@ import java.util.Queue;
  * In this directed tree graph, if there is an edge from child to parent node, one can't 
  * traverse the tree further. For this we treat the edges of tree as undirected 
  * We store negative of edge for traversal.
+ * 
+ * Creating an instance of List<int[]>[] can't be done because of java's generic type erasure.
+ * Generics and Arrays don't work well together, since generics are invariant
+ * while arrays are covariant in nature.
  */
 public class P1466ReorderRoutesMakePathsLeadCityZero {
 
@@ -68,6 +72,7 @@ public class P1466ReorderRoutesMakePathsLeadCityZero {
 	}
 
 	private static int minReorderArr(int n, int[][] connections) {
+		// Can't create an instance of List<Integer>[] due to java's generic type erasure.
 		List<Integer>[] adjList = new ArrayList[n];
 		for (int i = 0; i < n; i++) {
 			adjList[i] = new ArrayList<>();
@@ -94,6 +99,7 @@ public class P1466ReorderRoutesMakePathsLeadCityZero {
 	}
 
 	private static int minReorderArrayArr(int n, int[][] connections) {
+		// Can't create an instance of List<int[]>[] due to java's generic type erasure.
 		List<int[]>[] adjList = new ArrayList[n];
 		for (int i = 0; i < n; i++) {
 			adjList[i] = new ArrayList<int[]>();
