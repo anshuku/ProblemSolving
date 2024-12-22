@@ -15,6 +15,7 @@ import java.util.Random;
  * Can you solve it without sorting?
  * 
  * Approach - Heap Sort, Priority queue
+ * Max Heap: new PriorityQueue<Integer>((a, b) -> b - a)
  */
 public class P215KthLargestElementArray {
 
