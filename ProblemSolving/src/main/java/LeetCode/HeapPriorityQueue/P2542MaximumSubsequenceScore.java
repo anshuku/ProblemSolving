@@ -113,13 +113,20 @@ public class P2542MaximumSubsequenceScore {
 		int product = 0;
 		int sum = 0;
 		for (int i = 0; i < n; i++) {
+//			sum += combined[i][0];
+//			pq.offer(combined[i][0]);
+//			// Come before equality check otherwise no further product updates
+//			if (pq.size() > k) {
+//				int num = pq.poll();
+//				sum -= num;
+//			}
+
+			if(pq.size() + 1 > k) {
+				sum -= pq.poll();
+			}
 			sum += combined[i][0];
 			pq.offer(combined[i][0]);
-			// Come before equality check otherwise no further product updates
-			if (pq.size() > k) {
-				int num = pq.poll();
-				sum -= num;
-			}
+			
 			if (pq.size() == k) {
 				// Minimum from the window of k elements is taken in combined[i][1]
 				product = Math.max(product, sum * combined[i][1]);
