@@ -26,7 +26,7 @@ public class P216CombinationSumIII {
 
 		List<List<Integer>> list = combinationSum3(k, n);
 
-		System.out.printf("The combination sum for %d elements having sum %d is " + list, k, n);
+		System.out.printf("The combinations for %d elements having sum %d is " + list, k, n);
 
 	}
 
@@ -44,6 +44,7 @@ public class P216CombinationSumIII {
 		}
 		for (int i = start; i <= 9; i++) { // i = start means the elements will be unique
 			if (list.size() >= k || i > n) {
+				// Since we're using sorted(ascending) index values of for loop, we can break
 				break;
 			}
 			list.add(i);
