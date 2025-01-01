@@ -18,6 +18,8 @@ import java.util.List;
  * The test cases are generated such that the number of unique combinations that 
  * sum up to target is less than 150 combinations for the given input.
  * 
+ * All elements of candidates are distinct.
+ * 
  * Approach - Backtracking
  * 
  * Here we need to generate combinations with the given target sum
