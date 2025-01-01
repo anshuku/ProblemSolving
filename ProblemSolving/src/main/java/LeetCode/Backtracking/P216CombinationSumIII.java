@@ -44,7 +44,7 @@ public class P216CombinationSumIII {
 		}
 		for (int i = start; i <= 9; i++) { // i = start means the elements will be unique
 			if (list.size() >= k || i > n) {
-				// Since we're using sorted(ascending) index values of for loop, we can break
+				// Since we're using sorted(ascending) index values in for loop, we can break
 				break;
 			}
 			list.add(i);
