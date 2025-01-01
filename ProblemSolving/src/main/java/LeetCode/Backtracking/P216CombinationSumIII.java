@@ -48,6 +48,7 @@ public class P216CombinationSumIII {
 				break;
 			}
 			list.add(i);
+			// Passing index i+1 as start since the candidate can't be reused 
 			recursive(result, list, i + 1, k, n - i); // start = i+1 means check all next elements from start
 			list.remove(list.size() - 1);
 		}
