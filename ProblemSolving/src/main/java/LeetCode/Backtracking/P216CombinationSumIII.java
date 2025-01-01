@@ -21,11 +21,12 @@ public class P216CombinationSumIII {
 	public static void main(String[] args) {
 
 //		int k = 3, n = 7;
-		int k = 3, n = 9;
+//		int k = 3, n = 9;
+		int k = 3, n = 15;
 
 		List<List<Integer>> list = combinationSum3(k, n);
 
-		System.out.printf("The combination sum for %d elements having sum %d is " + list, k, n);
+		System.out.printf("The combinations for %d elements having sum %d is " + list, k, n);
 
 	}
 
@@ -41,12 +42,14 @@ public class P216CombinationSumIII {
 			result.add(new ArrayList<Integer>(list));
 			return;
 		}
-		for (int i = start; i <= 9; i++) {
+		for (int i = start; i <= 9; i++) { // i = start means the elements will be unique
 			if (list.size() >= k || i > n) {
+				// Since we're using sorted(ascending) index values in for loop, we can break
 				break;
 			}
 			list.add(i);
-			recursive(result, list, i + 1, k, n - i);
+			// Passing index i+1 as start since the candidate can't be reused 
+			recursive(result, list, i + 1, k, n - i); // start = i+1 means check all next elements from start
 			list.remove(list.size() - 1);
 		}
 	}
