@@ -19,6 +19,12 @@ import java.util.List;
  * sum up to target is less than 150 combinations for the given input.
  * 
  * Approach - Backtracking
+ * 
+ * Here we need to generate combinations with the given target sum
+ * Backtracking is used to incrementally generate all the combinations.
+ * The conditions are used to eliminate combinations(backtrack) which are not needed.
+ * 
+ * The solution is applicable for non negative input.
  */
 public class P39CombinationSum {
 
@@ -67,6 +73,9 @@ public class P39CombinationSum {
 		};
 	}
 
+	// Time Complexity - O(2^n) worst case, all subsets of candidates are explored.
+	// Space Complexity - O(t/d) where t is target and d is smallest candidate.
+	// For recursion stack and temporary list
 	private static List<List<Integer>> combinationSumNoBreak(int[] candidates, int target) {
 		List<List<Integer>> result = new ArrayList<>();
 		recursive(result, new ArrayList<>(), candidates, 0, target);
