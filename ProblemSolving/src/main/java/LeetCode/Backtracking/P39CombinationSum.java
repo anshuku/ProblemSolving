@@ -93,6 +93,7 @@ public class P39CombinationSum {
 				// Can't use break since the candidates array might not be sorted
 				if (candidates[i] <= target) {
 					list.add(candidates[i]);
+					// Passing index i as start since the candidate can be reused
 					recursive(result, list, candidates, i, target - candidates[i]);
 					list.remove(list.size() - 1); // Java 21: list.removeLast();
 				}
@@ -118,6 +119,7 @@ public class P39CombinationSum {
 				break;
 			}
 			list.add(candidates[i]);
+			// Passing index i as start since the candidate can be reused
 			recursiveSort(result, list, candidates, i, target - candidates[i]);
 			list.remove(list.size() - 1);
 		}
