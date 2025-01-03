@@ -8,15 +8,18 @@ import java.util.List;
  * 
  * Given a string s, partition s such that every substring of the partition is a palindrome. 
  * Return all possible palindrome partitioning of s.
+ * 
+ * Approach - Backtracking
  */
 public class P131PalindromePartitioning {
 
 	public static void main(String[] args) {
 
-//		String s = "aab";
+		String s = "aab";
 //		String s = "a";
 //		String s = "abb";
-		String s = "aba";
+//		String s = "aba";
+//		String s = "ababababababababababababcbabababababababababababa"; // TLE
 
 		List<List<String>> partitions = partition(s);
 
