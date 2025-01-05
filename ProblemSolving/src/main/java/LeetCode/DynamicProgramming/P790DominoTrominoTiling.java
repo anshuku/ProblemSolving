@@ -130,7 +130,8 @@ public class P790DominoTrominoTiling {
 //		}
 		// may prepopulate the dp array with -1
 
-		// 1-> for space and 0 for no space
+		// 1 for space and 0 for no space
+		// dp[0][0] has answer
 		return (int) recursiveMemoized(n, 0, 0, dp);
 	}
 
