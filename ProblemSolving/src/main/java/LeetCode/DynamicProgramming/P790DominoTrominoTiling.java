@@ -44,6 +44,7 @@ public class P790DominoTrominoTiling {
 		System.out.println("Recursive: The number of ways for tiling: " + waysRecursive);
 	}
 
+	// Bottom Up Approach
 	// Recurrence relations for 1D DP, derived empirically
 	// 1 config of 2 horizontal domino, 1 config of 1 vertical domino
 	// 2 configs of 2 trominos
@@ -85,6 +86,7 @@ public class P790DominoTrominoTiling {
 	// 1 4 9
 	// 1 1
 	// 0
+	// Bottom Up Approach
 	public static int numTilings2D(int n) {
 
 		if (n < 3) {
@@ -116,6 +118,7 @@ public class P790DominoTrominoTiling {
 		return (int) dp[n][0];
 	}
 
+	// Top Down Approach - dp table filled from n -> 0
 	// Time complexity - O(n) with cache, it's 3*n for 3 states and n columns
 	// Space complexity - O(n) needed for recursion stack space and dp array.
 	private static int numTilingsMemoized(int n) {
@@ -128,14 +131,14 @@ public class P790DominoTrominoTiling {
 		// may prepopulate the dp array with -1
 
 		// 1-> for space and 0 for no space
-		return (int) recursiveMemoized(n, 1, 0, dp);
+		return (int) recursiveMemoized(n, 0, 0, dp);
 	}
 
 	private static long recursiveMemoized(int n, int i, int space, long[][] dp) {
-		if (i > n + 1) {
+		if (i > n) {
 			return 0;
 		}
-		if (i == n + 1) {
+		if (i == n) {
 			if (space == 1) {
 				return 0;
 			}
@@ -157,18 +160,19 @@ public class P790DominoTrominoTiling {
 		return count % mod;
 	}
 
+	// Top Down Approach
 	// Time complexity - O(3^n) for n columns. max 3 recursive calls are branched
 	// and there are n such states
 	// Space complexity - O(n) for recursivon stack space
 	private static int numTilingsRecursive(int n) {
-		return recursive(1, false, n);
+		return recursive(0, false, n);
 	}
 
 	private static int recursive(int i, boolean space, int n) {
-		if (i > n + 1) {
+		if (i > n) {
 			return 0;
 		}
-		if (i == n + 1) {
+		if (i == n) {
 			if (space) {
 				return 0;
 			}
