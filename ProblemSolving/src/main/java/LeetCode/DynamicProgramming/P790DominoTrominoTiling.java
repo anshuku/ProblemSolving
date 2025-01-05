@@ -104,7 +104,7 @@ public class P790DominoTrominoTiling {
 		dp[1][1] = 1;
 		dp[1][2] = 1;
 
-		// There are 8 cases in total for n >=3
+		// There are 8 cases in total for n >=2
 		for (int i = 2; i <= n; i++) {
 			// in this case 1 vertical d, 2 horizontal d, 1 tromino, 1 tromino
 			dp[i][0] = (dp[i - 1][0] + dp[i - 2][0] + dp[i - 2][1] + dp[i - 2][2]) % mod;
