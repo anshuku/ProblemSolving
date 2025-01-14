@@ -1,0 +1,96 @@
+package LeetCode.DynamicProgramming;
+
+import java.util.Arrays;
+
+/*
+ * P714. Best Time to Buy and Sell Stock with Transaction Fee
+ * 
+ * You are given an array prices where prices[i] is the price of a given stock 
+ * on the ith day, and an integer fee representing a transaction fee.
+ * 
+ * Find the maximum profit you can achieve. You may complete as many transactions 
+ * as you like, but you need to pay the transaction fee for each transaction.
+ * 
+ * Note:
+ * You may not engage in multiple transactions simultaneously 
+ * (i.e., you must sell the stock before you buy again).
+ * The transaction fee is only charged once for each stock purchase and sale.
+ * 
+ * Approach - DP
+ */
+public class P714BestTimeBuySellStockTransactionFee {
+
+	public static void main(String[] args) {
+
+//		int[] prices = { 1, 3, 2, 8, 4, 9 };
+//		int fee = 2;
+
+//		int[] prices = { 1, 3, 7, 5, 10, 3 };
+//		int fee = 3;
+
+//		int[] prices = { 1, 3, 5, 7 };
+//		int fee = 2;
+
+		int[] prices = { 1, 4, 7, 10 };
+		int fee = 2;
+
+		int maxProfit2States = maxProfit2States(prices, fee);
+		System.out
+				.println("2 States: The max profit while selling the stock with transaction fee: " + maxProfit2States);
+
+		int maxProfit1DDP = maxProfit1DDP(prices, fee);
+		System.out.println("1D DP: The max profit while selling the stock with transaction fee: " + maxProfit1DDP);
+
+		int maxProfit2DDP = maxProfit2DDP(prices, fee);
+		System.out.println("2D DP: The max profit while selling the stock with transaction fee: " + maxProfit2DDP);
+	}
+
+	private static int maxProfit1DDP(int[] prices, int fee) {
+		int n = prices.length;
+		int[] cash = new int[n];
+		int[] hold = new int[n];
+		hold[0] = -prices[0];
+		for (int i = 1; i < n; i++) {
+			cash[i] = Math.max(cash[i - 1], hold[i - 1] + prices[i] - fee);
+			hold[i] = Math.max(hold[i - 1], cash[i - 1] - prices[i]);
+		}
+		return cash[n - 1];
+	}
+
+	private static int maxProfit2States(int[] prices, int fee) {
+		int n = prices.length;
+		int cash = 0; // sell // fee applied to ensure profit >= 0
+		int hold = -prices[0]; // buy, no fee since we may not be able to sell
+		for (int i = 1; i < n; i++) {
+			int lastCash = cash; // not needed 1 5 8 -> profit is 7 - fee and not 7 - 2*fee
+			// selling and buying at same day is not needed.
+			cash = Math.max(cash, hold + prices[i] - fee); // selling involves fee
+			hold = Math.max(hold, lastCash - prices[i]);
+		}
+		return cash;
+	}
+
+	public static int maxProfit2DDP(int[] prices, int fee) {
+		int maxProfit = 0;
+		int n = prices.length;
+		int k = n - 1;
+		int[] txPrice = new int[k];
+		int[] txProfit = new int[k];
+
+		Arrays.fill(txPrice, prices[0]);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < k; j++) {
+				int profit = 0;
+				if (j != 0) {
+					profit = txProfit[j - 1];
+				}
+				txPrice[j] = Math.min(txPrice[j], prices[i] - profit);
+				txProfit[j] = Math.max(txProfit[j], prices[i] - txPrice[j] - fee);
+			}
+		}
+		for (int profit : txProfit) {
+			maxProfit = Math.max(maxProfit, profit);
+		}
+		return maxProfit;
+	}
+}
