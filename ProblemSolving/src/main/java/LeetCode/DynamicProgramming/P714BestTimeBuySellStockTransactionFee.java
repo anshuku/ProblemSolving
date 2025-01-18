@@ -31,18 +31,57 @@ public class P714BestTimeBuySellStockTransactionFee {
 //		int[] prices = { 1, 3, 5, 7 };
 //		int fee = 2;
 
-		int[] prices = { 1, 4, 7, 10 };
+//		int[] prices = { 1, 4, 7, 10 };
+//		int fee = 2;
+
+		int[] prices = { 1, 4, 3, 6 };
 		int fee = 2;
 
+		int maxProfit1Var = maxProfit1Var(prices, fee);
+		System.out.println("Buy price: The max profit while selling stock with transaction fee: " + maxProfit1Var);
+
 		int maxProfit2States = maxProfit2States(prices, fee);
-		System.out
-				.println("2 States: The max profit while selling the stock with transaction fee: " + maxProfit2States);
+		System.out.println("2 States: The max profit while selling stock with transaction fee: " + maxProfit2States);
 
 		int maxProfit1DDP = maxProfit1DDP(prices, fee);
 		System.out.println("1D DP: The max profit while selling the stock with transaction fee: " + maxProfit1DDP);
 
 		int maxProfit2DDP = maxProfit2DDP(prices, fee);
 		System.out.println("2D DP: The max profit while selling the stock with transaction fee: " + maxProfit2DDP);
+	}
+
+	// Greedy
+	// price > (buyPrice + fee), price - fee > buyPrice (current).
+	private static int maxProfit1Var(int[] prices, int fee) {
+		int buyPrice = Integer.MAX_VALUE;
+		int profit = 0;
+		for (int price : prices) {
+			if (buyPrice > price) {
+				buyPrice = price;
+			} else if (price > (buyPrice + fee)) {
+				profit += price - (buyPrice + fee);
+				// It means buying the stock again at the adjusted price.
+				// To find subsequent profits, it needs to be reflected that a fee was paid.
+				// Any future price increase must consider previous fee paid
+				buyPrice = price - fee; // effective cost after deducting fee
+			}
+		}
+		return profit;
+	}
+
+	private static int maxProfit2States(int[] prices, int fee) {
+		int n = prices.length;
+		int cash = 0; // sell // fee applied to ensure profit >= 0
+		int hold = -prices[0]; // buy, no fee since we may not be able to sell
+		for (int i = 1; i < n; i++) {
+			int lastCash = cash; // not needed 1 5 8 -> profit is 7 - fee and not 7 - 2*fee
+			// selling and buying at same day is not needed.
+			// hold can have today's non holding profit since it depends
+			// on best possible non holding profit upto that day.
+			cash = Math.max(cash, hold + prices[i] - fee); // selling involves fee
+			hold = Math.max(hold, lastCash - prices[i]);
+		}
+		return cash;
 	}
 
 	private static int maxProfit1DDP(int[] prices, int fee) {
@@ -55,19 +94,6 @@ public class P714BestTimeBuySellStockTransactionFee {
 			hold[i] = Math.max(hold[i - 1], cash[i - 1] - prices[i]);
 		}
 		return cash[n - 1];
-	}
-
-	private static int maxProfit2States(int[] prices, int fee) {
-		int n = prices.length;
-		int cash = 0; // sell // fee applied to ensure profit >= 0
-		int hold = -prices[0]; // buy, no fee since we may not be able to sell
-		for (int i = 1; i < n; i++) {
-			int lastCash = cash; // not needed 1 5 8 -> profit is 7 - fee and not 7 - 2*fee
-			// selling and buying at same day is not needed.
-			cash = Math.max(cash, hold + prices[i] - fee); // selling involves fee
-			hold = Math.max(hold, lastCash - prices[i]);
-		}
-		return cash;
 	}
 
 	public static int maxProfit2DDP(int[] prices, int fee) {
