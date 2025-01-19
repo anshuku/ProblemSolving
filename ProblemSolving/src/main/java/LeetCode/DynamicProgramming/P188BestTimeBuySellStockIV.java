@@ -2,8 +2,6 @@ package LeetCode.DynamicProgramming;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
 
 /*
  * P188. Best Time to Buy and Sell Stock IV
@@ -162,9 +160,13 @@ public class P188BestTimeBuySellStockIV {
 		}
 
 		// dp[day_number][transaction_number][stock_holding] holds profit
+		// Transaction consists of 2 actions in pair - buy and sell.
+		// Only buy changes the number of transactions -> +1 for buy, 0 for sell
 		int[][][] dp = new int[n][k + 1][2];
 
 		// For day = 0, transaction_number > 1 and stock hold = 1 needs to be removed
+		// One can also remove the dp[i][0][1] with -INF but not need as j starts from 1
+		// Since at any day one can't hold a stock without any transaction
 		for (int i = 0; i <= k; i++) {
 			dp[0][i][1] = Integer.MIN_VALUE;
 //			dp[0][i][1] = -prices[0]; // not a constant still works, but slower
@@ -177,9 +179,9 @@ public class P188BestTimeBuySellStockIV {
 		// 4 States
 		for (int i = 1; i < n; i++) {
 			for (int j = 1; j <= k; j++) {
-				// Stock is not held or stock is sold for profit
+				// Stock is not held or stock is sold for profit. Stock hold is 0 EOD
 				dp[i][j][0] = Math.max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i]);
-				// Stock is held or stock is bought with prices[i]
+				// Stock is held or stock is bought with prices[i]. Stock hold is 1 EOD
 				dp[i][j][1] = Math.max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i]); // prices[1] directly
 				// dp[i - 1][j][1] or dp[0][1][1] should have -prices[0] else
 				// dp[i - 1][j - 1][0] - prices[i] or dp[0][0][0] - prices[i] = 0 - prices[1]
