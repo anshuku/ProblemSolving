@@ -31,14 +31,22 @@ public class P714BestTimeBuySellStockTransactionFee {
 //		int[] prices = { 1, 3, 5, 7 };
 //		int fee = 2;
 
-//		int[] prices = { 1, 4, 7, 10 };
-//		int fee = 2;
-
-		int[] prices = { 1, 4, 3, 6 };
+		int[] prices = { 1, 4, 7, 10 };
 		int fee = 2;
+
+//		int[] prices = { 1, 4, 3, 6 };
+//		int fee = 2;
 
 		int maxProfit1Var = maxProfit1Var(prices, fee);
 		System.out.println("Buy price: The max profit while selling stock with transaction fee: " + maxProfit1Var);
+
+		int maxProfit2StatesBuy = maxProfit2StatesBuy(prices, fee);
+		System.out.println(
+				"2 States Buy: The max profit while selling stock with transaction fee: " + maxProfit2StatesBuy);
+
+		int maxProfit2StatesSell = maxProfit2StatesSell(prices, fee);
+		System.out.println(
+				"2 States Sell: The max profit while selling stock with transaction fee: " + maxProfit2StatesSell);
 
 		int maxProfit2States = maxProfit2States(prices, fee);
 		System.out.println("2 States: The max profit while selling stock with transaction fee: " + maxProfit2States);
@@ -69,6 +77,29 @@ public class P714BestTimeBuySellStockTransactionFee {
 		return profit;
 	}
 
+	// Buying or selling either one of them can involve fee
+	private static int maxProfit2StatesBuy(int[] prices, int fee) {
+		int sold = 0, held = Integer.MIN_VALUE;
+		for (int price : prices) {
+			sold = Math.max(sold, held + price);
+			held = Math.max(held, sold - price - fee); // buying involves fee
+		}
+		return sold;
+	}
+
+	// Here since there is a possibility of cash value overflowing max int
+	// Use long to store the cash and sold
+	// This happens since held is initialized with -INFs
+	private static int maxProfit2StatesSell(int[] prices, int fee) {
+		long sold = 0, held = Integer.MIN_VALUE;
+		for (int price : prices) {
+			sold = Math.max(sold, held + price - fee); // selling involves fee
+			held = Math.max(held, sold - price);
+		}
+		return (int) sold;
+	}
+
+	// Here no overflow since hold is initialized to -prices[0]
 	private static int maxProfit2States(int[] prices, int fee) {
 		int n = prices.length;
 		int cash = 0; // sell // fee applied to ensure profit >= 0
@@ -81,7 +112,7 @@ public class P714BestTimeBuySellStockTransactionFee {
 			cash = Math.max(cash, hold + prices[i] - fee); // selling involves fee
 			hold = Math.max(hold, lastCash - prices[i]);
 		}
-		return cash;
+		return (int) cash;
 	}
 
 	private static int maxProfit1DDP(int[] prices, int fee) {
