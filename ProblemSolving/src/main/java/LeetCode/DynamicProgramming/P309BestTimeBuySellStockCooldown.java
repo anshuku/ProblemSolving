@@ -22,8 +22,8 @@ public class P309BestTimeBuySellStockCooldown {
 
 //		int[] prices = { 8, 6, 4, 3, 3, 2, 3, 5, 8, 3, 8, 2, 6 };
 
-		int maxProfit1DDPReverse = maxProfit1DDPReverse(prices);
-		System.out.println("1D DP Reverse: The max profit with cooldown: " + maxProfit1DDPReverse);
+		int maxProfit3VarsSkip = maxProfit3VarsSkip(prices);
+		System.out.println("3 Vars skip: The max profit with cooldown: " + maxProfit3VarsSkip);
 
 		int maxProfit3VarsStart = maxProfit3VarsStart(prices);
 		System.out.println("3 Vars start: The max profit with cooldown: " + maxProfit3VarsStart);
@@ -34,31 +34,28 @@ public class P309BestTimeBuySellStockCooldown {
 		int maxProfit1DDP = maxProfit1DDP(prices);
 		System.out.println("1D DP: The max profit with cooldown: " + maxProfit1DDP);
 
+		int maxProfit1DDPReverse = maxProfit1DDPReverse(prices);
+		System.out.println("1D DP Reverse: The max profit with cooldown: " + maxProfit1DDPReverse);
+
 		int maxProfitBF = maxProfitBF(prices);
 		System.out.println("Brute Force: The max profit with cooldown: " + maxProfitBF);
 
 	}
 
-	// Time complexity - O(n^2), outer loop n and inner loop 1 to n
-	// Total 1+2..+n = n*(n+1)/2 or O(n^2).
-	// Space complexity - O(n) for dp array.
-	private static int maxProfit1DDPReverse(int[] prices) {
+	// Presold is profit obtained for selling stcks on (i-2)th day
+	// This can be used to solved cooldown = 1,2,..n day problems.
+	private static int maxProfit3VarsSkip(int[] prices) {
 		int n = prices.length;
-//		if (n < 2 || prices[n - 2] > prices[n - 1]) {
-//			return 0;
-//		}
-		int[] MP = new int[n + 2];
-		for (int i = n - 2; i >= 0; i--) {
-			int maxProfit = 0;
-			for (int j = i + 1; j < n; j++) {
-//				if (prices[j] > prices[i]) {
-//					maxProfit = Math.max(maxProfit, prices[j] - prices[i] + MP[j + 2]);
-//				}
-				maxProfit = Math.max(maxProfit, prices[j] - prices[i] + MP[j + 2]);
-			}
-			MP[i] = Math.max(maxProfit, MP[i + 1]);
+		int held = Integer.MIN_VALUE;
+		int sold = 0;
+		int preSold = 0;
+		for (int i = 0; i < n; i++) {
+			int lastSold = sold;
+			sold = Math.max(sold, held + prices[i]);
+			held = Math.max(held, preSold - prices[i]);
+			preSold = lastSold;
 		}
-		return MP[0];
+		return sold;
 	}
 
 	// reset can be the starting state since there are no transactions
@@ -117,6 +114,28 @@ public class P309BestTimeBuySellStockCooldown {
 			reset[i] = Math.max(reset[i - 1], sold[i - 1]);// no transaction
 		}
 		return Math.max(reset[n - 1], sold[n - 1]);
+	}
+
+	// Time complexity - O(n^2), outer loop n and inner loop 1 to n
+	// Total 1+2..+n = n*(n+1)/2 or O(n^2).
+	// Space complexity - O(n) for dp array.
+	private static int maxProfit1DDPReverse(int[] prices) {
+		int n = prices.length;
+//		if (n < 2 || prices[n - 2] > prices[n - 1]) {
+//			return 0;
+//		}
+		int[] MP = new int[n + 2];
+		for (int i = n - 2; i >= 0; i--) {
+			int maxProfit = 0;
+			for (int j = i + 1; j < n; j++) {
+//				if (prices[j] > prices[i]) {
+//					maxProfit = Math.max(maxProfit, prices[j] - prices[i] + MP[j + 2]);
+//				}
+				maxProfit = Math.max(maxProfit, prices[j] - prices[i] + MP[j + 2]);
+			}
+			MP[i] = Math.max(maxProfit, MP[i + 1]);
+		}
+		return MP[0];
 	}
 
 	public static int maxProfitBF(int[] prices) {
