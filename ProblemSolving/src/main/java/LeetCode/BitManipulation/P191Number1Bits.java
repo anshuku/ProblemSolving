@@ -1,7 +1,7 @@
 package LeetCode.BitManipulation;
 
 /* 
- * P191. Number of 1 Bits
+ * P191. Number of 1 Bits - Easy
  * 
  * Given a positive integer n, write a function that returns the number of set bits
  * in its binary representation (also known as the Hamming weight).
