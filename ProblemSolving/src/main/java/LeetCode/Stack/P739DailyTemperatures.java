@@ -111,7 +111,7 @@ public class P739DailyTemperatures {
 			// below code is redundant and expects stack to be not empty
 //			if (temperatures[i] <= temperatures[stack.peek()]) {
 //				stack.push(i);
-//			} else {
+//			} else {73, 74, 75, 71, 69, 72, 76, 73
 			while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
 				result[stack.peek()] = i - stack.pop();
 			}
