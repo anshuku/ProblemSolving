@@ -1,6 +1,8 @@
 package LeetCode.Arrays;
 
 /*
+ * P1534. Count Good Triplets - Easy
+ * 
  * Given an array of integers arr, and three integers a, b and c. You need to find the number of good triplets.
  * 
  * A triplet (arr[i], arr[j], arr[k]) is good if the following conditions are true:
@@ -12,7 +14,7 @@ package LeetCode.Arrays;
  * Where |x| denotes the absolute value of x.
  * Return the number of good triplets.
  * 
- * Here, brute force method is applicable.
+ * Approach - Brute force method is applicable.
  */
 public class P1534CountGoodTriplets {
 
