@@ -12,7 +12,7 @@ package LeetCode.LinkedLists;
  * 
  * You must solve the problem in O(1) extra space complexity and O(n) time complexity.
  * 
- * 
+ * Approach - Prev and Next pointer, Node traversal
  */
 public class P328OddEvenLinkedList {
 

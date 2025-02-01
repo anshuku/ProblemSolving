@@ -1,5 +1,16 @@
 package LeetCode.Strings;
 
+/*
+ * P1071. Greatest Common Divisor of Strings - Easy
+ * 
+ * For two strings s and t, we say "t divides s" if and only if s = t + t + t + ... + t + t 
+ * (i.e., t is concatenated with itself one or more times).
+ * 
+ * Given two strings str1 and str2, return the largest 
+ * string x such that x divides both str1 and str2.
+ * 
+ * Approach - Recursion, GCD
+ */
 public class P1071GCDString {
 
 	public static void main(String[] args) {
@@ -7,7 +18,7 @@ public class P1071GCDString {
 		String str1 = "ABCABCABC";
 		String str2 = "ABC";
 
-		//System.out.println("subs" + str1.substring(str2.length()));
+		// System.out.println("subs" + str1.substring(str2.length()));
 
 		// String gcdString = gcdOfStrings(str1, str2);
 
