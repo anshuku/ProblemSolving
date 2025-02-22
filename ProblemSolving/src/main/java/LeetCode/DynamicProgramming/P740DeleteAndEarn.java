@@ -1,7 +1,6 @@
 package LeetCode.DynamicProgramming;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Map;
  * delete every element equal to nums[i] - 1 and every element equal to nums[i] + 1.
  * Return the maximum number of points you can earn by applying the above operation some number of times.
  * 
- * Approach - DP - tabulation, memoization
+ * Approach - DP: tabulation, memoization
  * 
  * log(n) to the base 2 in program is given by logn / log2
  * since log(n) takes base as 10.
