@@ -1,6 +1,14 @@
 package LeetCode.Strings;
 
-//Given a string s, return the longest palindromic substring in s.
+/*
+ * P5. Longest Palindromic Substring - Medium
+ * 
+ * Given a string s, return the longest palindromic substring in s.
+ * 
+ * Approach - DP, Expand from centers
+ * 
+ * Using char[] is always faster than String directly
+ */
 public class P5LongestPalindromicSubstring {
 
 	public static void main(String[] args) {
@@ -46,27 +54,54 @@ public class P5LongestPalindromicSubstring {
 	* Space complexity - O(1) since no extra space is needed other than constants.
 	*/
 	private static String longestPalindromeExpandFromCenters(String s) {
+		int[] arr = { 0, 0 };
+        char[] charArr = s.toCharArray();
+        int n = s.length();
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            int oddLen = expandCenters(charArr, i, i);
+            if (maxLen < oddLen) {
+                arr[0] = i - oddLen / 2;
+                arr[1] = i + oddLen / 2;
+                maxLen = oddLen;
+            }
+            int evenLen = expandCenters(charArr, i, i + 1);
+            if (maxLen < evenLen) {
+                arr[0] = i - evenLen / 2 + 1;
+                arr[1] = i + evenLen / 2;
+                maxLen = evenLen;
+            }
+        }
+        return s.substring(arr[0], arr[1] + 1);
+        
+//		int n = s.length();
+//		int ans[] = new int[] { 0, 0 };
+//
+//		for (int i = 0; i < n; i++) {
+//
+//			int oddLen = expand(i, i, s);
+//			if (oddLen > ans[1] - ans[0] + 1) {
+//				int dist = oddLen / 2;
+//				ans[0] = i - dist;
+//				ans[1] = i + dist;
+//			}
+//
+//			int evenLen = expand(i, i + 1, s);
+//			if (evenLen > ans[1] - ans[0] + 1) {
+//				int dist = evenLen / 2 - 1;
+//				ans[0] = i - dist;
+//				ans[1] = i + 1 + dist;
+//			}
+//		}
+//		return s.substring(ans[0], ans[1] + 1);
+	}
 
-		int n = s.length();
-		int ans[] = new int[] { 0, 0 };
-
-		for (int i = 0; i < n; i++) {
-
-			int oddLen = expand(i, i, s);
-			if (oddLen > ans[1] - ans[0] + 1) {
-				int dist = oddLen / 2;
-				ans[0] = i - dist;
-				ans[1] = i + dist;
-			}
-
-			int evenLen = expand(i, i + 1, s);
-			if (evenLen > ans[1] - ans[0] + 1) {
-				int dist = evenLen / 2 - 1;
-				ans[0] = i - dist;
-				ans[1] = i + 1 + dist;
-			}
+	private static int expandCenters(char[] arr, int i, int j) {
+		while (i >= 0 && j < arr.length && arr[i] == arr[j]) {
+			i--;
+			j++;
 		}
-		return s.substring(ans[0], ans[1] + 1);
+		return j - i - 1;
 	}
 
 	private static int expand(int i, int j, String s) {
