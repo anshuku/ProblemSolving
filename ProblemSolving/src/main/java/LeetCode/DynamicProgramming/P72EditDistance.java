@@ -13,14 +13,13 @@ package LeetCode.DynamicProgramming;
  * 
  * Approach - DP
  * 
- * Transform operation - Insert, Update and Delete is used in Levenshetein Distance
- *  
+ * Transform operation - Insert, Update and Delete is used in Levenshtein Distance
  */
 public class P72EditDistance {
 
 	public static void main(String[] args) {
-//		String word1 = "horse";
-//		String word2 = "ros";
+		String word1 = "horse";
+		String word2 = "ros";
 
 //		String word1 = "";
 //		String word2 = "a";
@@ -28,8 +27,8 @@ public class P72EditDistance {
 //		String word1 = "a";
 //		String word2 = "ab";
 
-		String word1 = "dinitrophenylhydrazine";
-		String word2 = "benzalphenylhydrazone";
+//		String word1 = "dinitrophenylhydrazine";
+//		String word2 = "benzalphenylhydrazone";
 
 		int m = word1.length();
 		int n = word2.length();
@@ -51,6 +50,8 @@ public class P72EditDistance {
 	private static int minDistanceTabulation(String word1, String word2) {
 		int m = word1.length();
 		int n = word2.length();
+		char[] charArr1 = word1.toCharArray();
+		char[] charArr2 = word2.toCharArray();
 		int[][] dp = new int[m + 1][n + 1];
 		for (int i = 1; i <= m; i++) {
 			dp[i][0] = i;
@@ -60,7 +61,7 @@ public class P72EditDistance {
 		}
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
-				if (word1.charAt(i - 1) != word2.charAt(j - 1)) {
+				if (charArr1[i - 1] != charArr2[j - 1]) {
 					// Replace i-1, j-1 | Insert j-1 | or Delete i-1
 					dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
 				} else {
@@ -78,11 +79,13 @@ public class P72EditDistance {
 	public static int minDistanceMemoized(String word1, String word2) {
 		int m = word1.length();
 		int n = word2.length();
+		char[] wordArr1 = word1.toCharArray();
+		char[] wordArr2 = word2.toCharArray();
 		int[][] dp = new int[m + 1][n + 1];
-		return minDistance(word1, word2, m, n, dp);
+		return minDistance(wordArr1, wordArr2, m, n, dp);
 	}
 
-	public static int minDistance(String word1, String word2, int i, int j, int[][] dp) {
+	public static int minDistance(char[] wordArr1, char[] wordArr2, int i, int j, int[][] dp) {
 		if (i == 0) {
 			return dp[i][j] = j;
 		}
@@ -92,13 +95,13 @@ public class P72EditDistance {
 		if (dp[i][j] != 0) {
 			return dp[i][j];
 		}
-		if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-			return dp[i][j] = minDistance(word1, word2, i - 1, j - 1, dp);
+		if (wordArr1[i - 1] == wordArr2[j - 1]) {
+			return dp[i][j] = minDistance(wordArr1, wordArr2, i - 1, j - 1, dp);
 		} else {
 			// Replace, insert, delete
-			int minReplaceDistance = minDistance(word1, word2, i - 1, j - 1, dp);
-			int minInsertDistance = minDistance(word1, word2, i, j - 1, dp);
-			int minDeleteDistance = minDistance(word1, word2, i - 1, j, dp);
+			int minReplaceDistance = minDistance(wordArr1, wordArr2, i - 1, j - 1, dp);
+			int minInsertDistance = minDistance(wordArr1, wordArr2, i, j - 1, dp);
+			int minDeleteDistance = minDistance(wordArr1, wordArr2, i - 1, j, dp);
 
 			return dp[i][j] = Math.min(minReplaceDistance, Math.min(minInsertDistance, minDeleteDistance)) + 1;
 		}
