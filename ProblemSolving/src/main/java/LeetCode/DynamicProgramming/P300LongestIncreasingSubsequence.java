@@ -36,6 +36,8 @@ public class P300LongestIncreasingSubsequence {
 	// In case when the current num to be checked is not greater than list's
 	// largest. We can perform Binary search(list is sorted) to find the list's
 	// index which has an element greater than or equal to num.
+	// Here, we perform strictly increasing binary search finding and replacing the
+	// first index where obstacles[i] <= list.get(mid)
 	// Time complexity - O(n*logn)
 	// Space complexity - O(n)
 	private static int lengthOfLISBuildBS(int[] nums) {
