@@ -13,6 +13,8 @@ package LeetCode.DynamicProgramming;
  * (i.e., you must sell the stock before you buy again).
  * 
  * Approach - DP
+ * 
+ * state machine is mathematical model of computation.
  */
 public class P309BestTimeBuySellStockCooldown {
 
@@ -42,8 +44,8 @@ public class P309BestTimeBuySellStockCooldown {
 
 	}
 
-	// Presold is profit obtained for selling stcks on (i-2)th day
-	// This can be used to solved cooldown = 1,2,..n day problems.
+	// Presold is profit obtained for selling stocks on (i-2)th day
+	// This can be used to solve cooldown = 1,2,..n day problems.
 	private static int maxProfit3VarsSkip(int[] prices) {
 		int n = prices.length;
 		int held = Integer.MIN_VALUE;
@@ -90,17 +92,26 @@ public class P309BestTimeBuySellStockCooldown {
 		return Math.max(sold, reset);
 	}
 
-	// State machine
+	// State machine - models the behaviors and states of game agent.
 	// There are 3 states - Held, Sold and Reset(starting point)
-	// Due to cooldown rule, agent can't held any stock after sell so force reset
-	// There are 3 actions - Buy, Sell and Rest
-	// Rest state - no buy or sell transaction
-	// One can either rest(state remains held) or buy(state -> sold) at Hold state
+	// Held - Agent holds a stock which he bought at some point before.
+	// Sold - Agent just sold the stock right before and is not holding any stock.
+	// Reset - starting point(no stock buy/sell). Transient state before held and
+	// sold. Due to cooldown rule, after sold state, agent can't immediately acquire
+	// any stock after sell so force reset. Rest button for cycles of buy and sell.
+	// There are 3 actions - Buy, Sell and Rest for transitioning between states.
+	// sell - Agent sells the stock at current moment and transitions to sold state.
+	// buy - Agent buys the stock at current moment and transitions to held state.
+	// rest - no buy or sell transaction. At held/reset state agent performs no
+	// transaction and it remains in held/reset state.
+	// One can either rest(state remains held) or buy(state -> sold) at Held state
 	// One can only enter to reset state after Sold state
 	// One can either rest or buy(state -> sold) at Reset state
-	// The previous state of sold can be only be held state since a stock is needed
-	// The previous state of held can be held(no transaction) or reset state to buy
-	// The prvious state of reset can be rest(no transaction) or sold state(just)
+	// The previous state of sold can be only be held state since a stock is needed.
+	// The previous state of held can be held(no transaction) or reset state to buy.
+	// The previous state of reset can be reset(no transaction) or sold state(just).
+	// The max profits from all the transactions is max(sold[n-1], reset[n-1])
+	// At last price point one either sell the stock or does no transaction.
 	// One can also find the actions needed to find the max profit
 	private static int maxProfit1DDP(int[] prices) {
 		int n = prices.length;
@@ -116,6 +127,8 @@ public class P309BestTimeBuySellStockCooldown {
 		return Math.max(reset[n - 1], sold[n - 1]);
 	}
 
+	// MP[i] is the maximal profit we can obtain while starting from index i to n.
+	//
 	// Time complexity - O(n^2), outer loop n and inner loop 1 to n
 	// Total 1+2..+n = n*(n+1)/2 or O(n^2).
 	// Space complexity - O(n) for dp array.
@@ -133,6 +146,7 @@ public class P309BestTimeBuySellStockCooldown {
 //				}
 				maxProfit = Math.max(maxProfit, prices[j] - prices[i] + MP[j + 2]);
 			}
+			// We either sell the stock at future or do nothing.
 			MP[i] = Math.max(maxProfit, MP[i + 1]);
 		}
 		return MP[0];
