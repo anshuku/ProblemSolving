@@ -49,9 +49,6 @@ public class P188BestTimeBuySellStockIV {
 		int[] prices = { 8, 6, 4, 3, 3, 2, 3, 5, 8, 3, 8, 2, 6 };
 		int k = 2;
 
-		int maxProfit = maxProfit(k, prices);
-		System.out.println("The max profit for selling the stock at most k times: " + maxProfit);
-
 		int maxProfitOnePass = maxProfitOnePass(k, prices);
 		System.out.println("One Pass: The max profit for selling the stock at most k times: " + maxProfitOnePass);
 
@@ -68,71 +65,6 @@ public class P188BestTimeBuySellStockIV {
 		int maxProfitMerging = maxProfitMerge(k, prices);
 		System.out.println("Merging: The max profit for selling the stock at most k times: " + maxProfitMerging);
 
-	}
-
-	private static int maxProfit(int k, int[] prices) {
-		int n = prices.length;
-		if (n == 0 || k == 0) {
-			return 0;
-		}
-		if (k / 2 >= n) {
-			int maxProfit = 0;
-			for (int i = 1; i < n; i++) {
-				if (prices[i] > prices[i - 1]) {
-					maxProfit += prices[i] - prices[i - 1];
-				}
-			}
-			return maxProfit;
-		}
-
-		List<int[]> intervals = new ArrayList<>();
-		int start = 0, end = 0;
-		for (int i = 1; i < n; i++) {
-			if (prices[i] >= prices[i - 1]) {
-				end = i;
-			} else {
-				if (end > start) {
-					intervals.add(new int[] { start, end, prices[end] - prices[start] });
-				}
-				start = i;
-			}
-		}
-		if (end > start) {
-			intervals.add(new int[] { start, end, prices[end] - prices[start] });
-		}
-		while (intervals.size() > k) {
-			int minLoss = Integer.MAX_VALUE;
-			int minLossIndex = 0;
-			int minProfit = intervals.get(0)[2];
-			int minProfitIndex = 0;
-			for (int i = 0; i < intervals.size() - 1; i++) {
-				int[] interval1 = intervals.get(i);
-				int[] interval2 = intervals.get(i + 1);
-				int loss = interval1[2] + interval2[2] - (prices[interval2[1]] - prices[interval1[0]]);
-				if (minLoss > loss) {
-					minLoss = loss;
-					minLossIndex = i;
-				}
-				int profit = interval2[2];
-				if (minProfit > profit) {
-					minProfit = profit;
-					minProfitIndex = i + 1;
-				}
-			}
-			if (minLoss >= minProfit) {
-				intervals.remove(minProfitIndex);
-			} else {
-				int[] interval = intervals.get(minLossIndex);
-				interval[1] = intervals.get(minLossIndex + 1)[1];
-				interval[2] = prices[interval[1]] - prices[interval[0]];
-				intervals.remove(minLossIndex + 1);
-			}
-		}
-		int maxProfit = 0;
-		for (int[] interval : intervals) {
-			maxProfit += interval[2];
-		}
-		return maxProfit;
 	}
 
 	// Time complexity - O(n*k), since we iterate over all days and transactions
