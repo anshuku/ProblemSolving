@@ -48,8 +48,16 @@ public class P714BestTimeBuySellStockTransactionFee {
 		System.out.println(
 				"2 States Sell: The max profit while selling stock with transaction fee: " + maxProfit2StatesSell);
 
+		int maxProfit2StatesAlt = maxProfit2StatesAlt(prices, fee);
+		System.out.println(
+				"2 States Alt: The max profit while selling stock with transaction fee: " + maxProfit2StatesAlt);
+
 		int maxProfit2States = maxProfit2States(prices, fee);
 		System.out.println("2 States: The max profit while selling stock with transaction fee: " + maxProfit2States);
+
+		int maxProfit1DDPAlt = maxProfit1DDPAlt(prices, fee);
+		System.out
+				.println("1D DP Alt: The max profit while selling the stock with transaction fee: " + maxProfit1DDPAlt);
 
 		int maxProfit1DDP = maxProfit1DDP(prices, fee);
 		System.out.println("1D DP: The max profit while selling the stock with transaction fee: " + maxProfit1DDP);
@@ -66,7 +74,7 @@ public class P714BestTimeBuySellStockTransactionFee {
 		for (int price : prices) {
 			if (buyPrice > price) {
 				buyPrice = price;
-			} else if (price > (buyPrice + fee)) {
+			} else if (price > (buyPrice + fee)) { // or simply an if (without else)
 				profit += price - (buyPrice + fee);
 				// It means buying the stock again at the adjusted price.
 				// To find subsequent profits, it needs to be reflected that a fee was paid.
@@ -99,7 +107,19 @@ public class P714BestTimeBuySellStockTransactionFee {
 		return (int) sold;
 	}
 
+	public static int maxProfit2StatesAlt(int[] prices, int fee) {
+		int n = prices.length;
+		int hold = -prices[0] - fee;
+		int sold = 0;
+		for (int i = 1; i < n; i++) {
+			hold = Math.max(hold, sold - prices[i] - fee);
+			sold = Math.max(sold, hold + prices[i]);
+		}
+		return sold;
+	}
+
 	// Here no overflow since hold is initialized to -prices[0]
+	// Safer
 	private static int maxProfit2States(int[] prices, int fee) {
 		int n = prices.length;
 		int cash = 0; // sell // fee applied to ensure profit >= 0
@@ -113,6 +133,18 @@ public class P714BestTimeBuySellStockTransactionFee {
 			hold = Math.max(hold, lastCash - prices[i]);
 		}
 		return (int) cash;
+	}
+
+	private static int maxProfit1DDPAlt(int[] prices, int fee) {
+		int n = prices.length;
+		int[] held = new int[n];
+		int[] sold = new int[n];
+		held[0] = -prices[0] - fee;
+		for (int i = 1; i < n; i++) {
+			held[i] = Math.max(held[i - 1], sold[i - 1] - prices[i] - fee);
+			sold[i] = Math.max(sold[i - 1], held[i - 1] + prices[i]);
+		}
+		return sold[n - 1];
 	}
 
 	private static int maxProfit1DDP(int[] prices, int fee) {

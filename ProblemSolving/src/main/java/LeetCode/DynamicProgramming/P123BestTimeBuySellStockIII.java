@@ -57,7 +57,7 @@ public class P123BestTimeBuySellStockIII {
 
 	// Bidirectional dynamic programming - Divide and conquer
 	// The input array is divided into two and 2 max profits are obtained.
-	// The sum of the two proifts in [0,1..i] and [i+1,i+2,..n-1] is result
+	// The sum of the two profts in [0,1..i] and [i+1,i+2,..n-1] is result.
 	// Time Complexity - O(n)
 	// Space Complexity - O(n)
 	public static int maxProfitBidirectional(int[] prices) {
