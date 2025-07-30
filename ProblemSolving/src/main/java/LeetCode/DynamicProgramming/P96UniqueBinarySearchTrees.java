@@ -45,14 +45,16 @@ public class P96UniqueBinarySearchTrees {
 	// root 1<=i<=n. G(n) = Sum F(i,n) for i = 1 to n.
 	// Base case, there is only 1 combination to construct a BST out of sequence of
 	// length 1(only root) and nothing(empty tree). G(0) = 1 and G(1) = 1.
-	// F(3, 7) to construct unique BST with 3 as root. Create subtree from 1,2 (G2)
+	// F(3, 7) to construct unique BST with 3 as root. Create left subtree from 1,2
+	// (G2)
 	// and create right subtree 4,5,6,7(G4). Combine the two via cartesian product.
 	// F(3,7) = G(2) * G(4).
 	// F(i,n) = G(i-1)*G(n-i) or product of number of BSTs possible from left and
 	// right child. Left subtree has i-1 nodes and right subtree has n-i nodes.
 	// G(n) = Sum G(i-1)*G(n-i) for i = 1 to n
 	// Time complexity - O(n^2) for computing G(n) or sum i = 2 to n for G(n)
-	// Space complexity - O(N) for G(n)
+	// (n-1)*(n+2)/2
+	// Space complexity - O(n) for G(n)
 	public static int numTreesDP(int n) {
 		int[] G = new int[n + 1];
 		G[0] = 1;
