@@ -25,8 +25,14 @@ public class P198HouseRobber {
 		int maxRob2Vars = rob2Vars(nums);
 		System.out.println("2 vars DP: The max robbed amount from houses is: " + maxRob2Vars);
 
-		int maxRob1DDP = rob1DDPBU(nums);
+		int maxRob1DDP = rob1DDP(nums);
 		System.out.println("1D DP: The max robbed amount from houses is: " + maxRob1DDP);
+
+		int maxRob1DDPAlt = rob1DDPAlt(nums);
+		System.out.println("1D DP Alt: The max robbed amount from houses is: " + maxRob1DDPAlt);
+
+		int maxRob1DDPRev = rob1DDPRev(nums);
+		System.out.println("1D DP Reverse: The max robbed amount from houses is: " + maxRob1DDPRev);
 
 		int maxRobMemoized = robMemoizedTD(nums);
 		System.out.println("Memoization The max robbed amount from houses is: " + maxRobMemoized);
@@ -48,7 +54,7 @@ public class P198HouseRobber {
 
 	// Tabulation - Bottom up
 	// The cache is the dp table
-	public static int rob1DDPBU(int[] nums) {
+	public static int rob1DDP(int[] nums) {
 		int n = nums.length;
 		int[] dp = new int[n + 1];
 
@@ -59,6 +65,37 @@ public class P198HouseRobber {
 			dp[i + 1] = Math.max(dp[i], dp[i - 1] + nums[i]);
 		}
 		return dp[n];
+	}
+
+	public static int rob1DDPAlt(int[] nums) {
+		int n = nums.length;
+		int[] dp = new int[n];
+
+		dp[0] = nums[0];
+		dp[1] = Math.max(nums[0], nums[1]);
+
+		for (int i = 2; i < n; i++) {
+			dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+		}
+		return dp[n - 1];
+	}
+
+	private static int rob1DDPRev(int[] nums) {
+		int n = nums.length;
+
+		if (nums == null || n == 0) {
+			return 0;
+		}
+
+		int[] dp = new int[n + 1];
+
+		dp[n] = 0;
+		dp[n - 1] = nums[n - 1];
+
+		for (int i = n - 2; i >= 0; i--) {
+			dp[i] = Math.max(dp[i + 1], dp[i + 2] + nums[i]);
+		}
+		return dp[0];
 	}
 
 	// Recusion with memoization - Top down
