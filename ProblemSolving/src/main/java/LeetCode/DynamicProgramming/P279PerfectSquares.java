@@ -15,11 +15,12 @@ import java.util.Set;
  * in other words, it is the product of some integer with itself. 
  * For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
  * 
- * Approach - DP, Math
+ * Approach - DP, Math, BFS, enumeration
  * 
  * Populating dp[i] = Integer.MAX_VALUE; takes more time, better to assign val with MAX.
  * 
  * The correctness of Greedy algorithm can be done with contradiction.
+ * BFS finds the shortest path in an unweighted graph.
  */
 public class P279PerfectSquares {
 
