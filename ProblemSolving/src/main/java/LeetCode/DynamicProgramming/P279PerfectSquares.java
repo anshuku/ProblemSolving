@@ -181,6 +181,9 @@ public class P279PerfectSquares {
 			} else {
 				int val = Integer.MAX_VALUE;
 				for (int j = 0; j < sq - 1; j++) {
+					if (i < arr[j]) {
+						break;
+					}
 					val = Math.min(val, dp[i - arr[j]]);
 				}
 				dp[i] = val + 1;
