@@ -17,7 +17,8 @@ import java.util.Arrays;
  * 
  * Approach - DP
  * 
- * Integer[][] is faster than int[][]
+ * Integer[][] dp is faster than int[][] dp in case there 
+ * are lots of 0s stored as answer to subproblems.
  */
 public class P518CoinChangeII {
 
@@ -31,8 +32,14 @@ public class P518CoinChangeII {
 		int combinationsTabulation = changeTabulation(amount, coins);
 		System.out.println("Tabulation: The number of coin combinations: " + combinationsTabulation);
 
+		int combinationsTabulation2D = changeMemoized2D(amount, coins);
+		System.out.println("Tabulation 2D: The number of coin combinations: " + combinationsTabulation2D);
+
 		int combinationsMemoized = changeMemoized(amount, coins);
 		System.out.println("DFS Memoized BT: The number of coin combinations: " + combinationsMemoized);
+
+		int combinationsMemoized2 = changeMemoized2(amount, coins);
+		System.out.println("DFS Memoized BT 2: The number of coin combinations: " + combinationsMemoized2);
 
 		int combinationsRecursiveSorted = changeBacktrackingSorted(amount, coins);
 		System.out.println("DFS Recursive BT Sorted: The number of coin combinations: " + combinationsRecursiveSorted);
@@ -75,6 +82,76 @@ public class P518CoinChangeII {
 		return dp[amount];
 	}
 
+	// DP - Tabulation 2D
+	// dp[i][j], i is the index of coin we're considering (coins[i] to coins[n-1])
+	// and j is amount already considered or remaining amount we want to make.
+	// dp[i][j] is number of ways to make amount using coins all coins from first
+	// coin at index 0 till last(n-1).
+	// we set dp[i][0] as 1 instead of just dp[0][0] as 1 because for any set of
+	// coins, starting from any index, there's exactly 1 way to make amount 0, take
+	// no coins.
+	private static int changeMemoized2D(int amount, int[] coins) {
+		int n = coins.length;
+		// dp has size (n + 1)*(amount + 1)
+		// n+1 acts as padding when we calculate dp[i][j] = dp[i + 1][j]
+		// amount + 1 is row length as we want to return dp[0][amount]
+		int[][] dp = new int[n + 1][amount + 1];
+		// Making amount
+		// for amount = 0, we can have 1 combination when coin = 0
+		// for coin = 1, 2,..., n-1, that combination = 1 is reused.
+		// till n-1 or nth coin. index = n or (n+1)th coin means no coin left.
+		// In recursive approach it means we return 1 when amount = 0
+		// It also means we return 0 when coins index = n
+		for (int i = 0; i < n; i++) { // j <= n, then j = 0 can be in inner loop
+			dp[i][0] = 1;
+		}
+
+		// reverse iterating coin values as we need to use (i+1)th value
+		for (int i = n - 1; i >= 0; i--) {
+			// iterating amount from i = 1 to amount as amount = 0 is already taken care.
+			for (int j = 1; j <= amount; j++) {
+				// use current coins at least once
+				// stay at same i as we have unlimited coins
+				if (j >= coins[i]) {
+					dp[i][j] = dp[i + 1][j] + dp[i][j - coins[i]];
+				} else { // skip current coin and use coins after this one.
+					dp[i][j] = dp[i + 1][j];
+				}
+			}
+		}
+		// we want to return max combinations of coins needed for the given whole amount
+		// dp[i][j] is number of ways to make amount j using coins i onwards till n-1.
+		// In recursive approach we pass 0th coin and max amount.
+		return dp[0][amount];
+	}
+
+	private static int changeMemoized(int amount, int[] coins) {
+		// Stores number of ways to make amount(remaining) from coin start onwards.
+		// can use int[][] dp as well, but we need to populate all cells with -1.
+		Integer[][] dp = new Integer[amount + 1][coins.length];
+//		Arrays.sort(coins);
+		return dfsMemoized(amount, coins, 0, dp);
+	}
+
+	private static int dfsMemoized(int amount, int[] coins, int start, Integer[][] dp) {
+		// Found one valid combination
+		if (amount == 0) {
+			return 1;
+		}
+		// no coins left
+		if (start == coins.length) {
+			return 0;
+		}
+		if (dp[amount][start] != null) {
+			return dp[amount][start];
+		}
+		if (amount < coins[start]) {
+			return dp[amount][start] = dfsMemoized(amount, coins, start + 1, dp);
+		}
+		return dp[amount][start] = dfsMemoized(amount - coins[start], coins, start, dp)
+				+ dfsMemoized(amount, coins, start + 1, dp);
+	}
+
 	// DFS Memoization - Backtracking
 	// We cache the results in a 2D DP table
 	// State = (amount, start), amount: how much is left
@@ -86,14 +163,15 @@ public class P518CoinChangeII {
 	// where there are two recursive calls so O(amount*n).
 	// Space complexity - O(amount * n), Memo table takes O(amount * n) and
 	// Recursion stack takes O(amount) time.
-	private static int changeMemoized(int amount, int[] coins) {
+	private static int changeMemoized2(int amount, int[] coins) {
 		// Stores number of ways to make amount(remaining) from coin start onwards.
+		// can use int[][] dp as well, but we need to populate all cells with -1.
 		Integer[][] dp = new Integer[amount + 1][coins.length];
 //		Arrays.sort(coins);
-		return dfsMemoized(amount, coins, 0, dp);
+		return dfsMemoized2(amount, coins, 0, dp);
 	}
 
-	private static int dfsMemoized(int amount, int[] coins, int start, Integer[][] dp) {
+	private static int dfsMemoized2(int amount, int[] coins, int start, Integer[][] dp) {
 		// Found one valid combination
 		if (amount == 0) {
 			return 1;
