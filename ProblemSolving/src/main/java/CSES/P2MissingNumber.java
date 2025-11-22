@@ -5,7 +5,7 @@ import java.util.Scanner;
 /*
  * P2 Missing Number
  * 
- * You are given all numbers between 1,2,\ldots,n except one. Your task is to find the missing number.
+ * You are given all numbers between 1,2,...,n except one. Your task is to find the missing number.
  * 
  * Input
  * The first input line contains an integer n.
