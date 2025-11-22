@@ -12,7 +12,20 @@ import java.util.Scanner;
  * 
  * Your task is to simulate the execution of the algorithm for a given value of n.
  * 
- * Approach - While
+ * Input
+ * The only input line contains an integer n.
+ * 
+ * Output
+ * Print a line that contains all values of n during the algorithm.
+ * 
+ * Constraints
+ * 1 <= n <= 10^6
+ * 
+ * Example
+ * Input: 3
+ * Output: 3 10 5 16 8 4 2 1
+ * 
+ * Approach - While, Scanner, Long
  */
 public class P1WeirdAlgorithm {
 
@@ -21,6 +34,7 @@ public class P1WeirdAlgorithm {
 		long n = s.nextLong();
 
 		printSequence(n);
+		s.close();
 
 	}
 
