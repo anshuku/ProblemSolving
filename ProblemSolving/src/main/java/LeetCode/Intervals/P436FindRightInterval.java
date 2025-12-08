@@ -102,8 +102,9 @@ public class P436FindRightInterval {
 	// interval as the key and the index of the interval as the value.
 	// We iterate over intervals and get the end point of it. We use
 	// TreeMap.ceilingEntry(end_point) to either get the entry where the start index
-	// is >= end point of ith(current) interval or null if no such key is found.
-	// If we obtain the value from the entry we store it in result else store -1.
+	// is just larget than or equal to (>=) end point of ith(current) interval or
+	// null if no such key is found. If we obtain the value from the entry we store
+	// it in result else store -1.
 	// Time complexity - O(n*logn), to insert an entry into tree map takes O(logn)
 	// times and we have n such elements. TreeMap.ceilingEntry() takes O(logn) time
 	// and n searches are done.
@@ -118,6 +119,7 @@ public class P436FindRightInterval {
 		int[] result = new int[n];
 		for (int i = 0; i < n; i++) {
 			int end = intervals[i][1];
+			// Gives the start point just larger than the end point.
 			Map.Entry<Integer, Integer> entry = map.ceilingEntry(end);
 			if (entry != null) {
 				result[i] = entry.getValue();
