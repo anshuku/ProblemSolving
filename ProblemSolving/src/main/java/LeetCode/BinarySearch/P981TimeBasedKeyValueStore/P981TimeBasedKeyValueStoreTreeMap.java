@@ -57,7 +57,7 @@ public class P981TimeBasedKeyValueStoreTreeMap {
 			return "";
 		}
 		TreeMap<Integer, String> entries = map.get(key);
-		// Need to find the timestamp entry which is just less than given timestamp key.
+		// Need to find the timestamp entry which is just <= given timestamp key.
 		Integer floorKey = entries.floorKey(timestamp);
 		if (floorKey == null) {
 			return "";
