@@ -41,6 +41,10 @@ public class P153FindMinimumRotatedSortedArray {
 	// the search direction is different. If the last element is not greater than
 	// first. It means the array is rotated. This also means there is a point in
 	// array where there is a change called inflection point.
+	// The array is rotated strictly increasing. There is exactly one pivot.
+	// nums[n-1] acts a fixed reference that lies on the right sorted part.
+	// The algo is perfectly monotonic, so binary search works. It relies on
+	// uniqueness.
 	// 4, 5, 6, 7, 0, 1, 2
 	// 4, 5, 6, 0, 1, 2, 3
 	// 5, 6, 0, 1, 2, 3, 4
