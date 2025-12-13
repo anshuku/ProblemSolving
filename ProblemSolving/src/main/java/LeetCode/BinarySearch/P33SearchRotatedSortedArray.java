@@ -15,6 +15,8 @@ package LeetCode.BinarySearch;
  * 
  * You must write an algorithm with O(log n) runtime complexity.
  * 
+ * All values of nums are unique.
+ * 
  * Approach - Binary Search
  */
 public class P33SearchRotatedSortedArray {
