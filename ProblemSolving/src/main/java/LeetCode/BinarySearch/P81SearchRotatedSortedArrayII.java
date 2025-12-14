@@ -29,6 +29,9 @@ public class P81SearchRotatedSortedArrayII {
 		int[] nums = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1 };
 		int target = 2;
 
+		boolean isPresentOnePassAlt = searchOnePassAlt(nums, target);
+		System.out.println("BS One Pass Alt: The given element is present: " + isPresentOnePassAlt);
+
 		boolean isPresentOnePassOpt = searchOnePassOpt(nums, target);
 		System.out.println("BS One Pass Opt: The given element is present: " + isPresentOnePassOpt);
 
@@ -37,6 +40,38 @@ public class P81SearchRotatedSortedArrayII {
 
 		boolean isPresentShift = searchShift(nums, target);
 		System.out.println("BS Shift: The given element is present: " + isPresentShift);
+	}
+
+	private static boolean searchOnePassAlt(int[] nums, int target) {
+		int n = nums.length;
+		int start = 0;
+		int end = n - 1;
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
+			if (nums[mid] == target) {
+				return true;
+			}
+			// duplicates block decision
+			if (nums[start] == nums[mid] && nums[mid] == nums[end]) {
+				start++;
+				end--;
+				// left half sorted, equality is important as we've 2 condition with && in 1st.
+			} else if (nums[start] <= nums[mid]) {
+				if (target >= nums[start] && target < nums[mid]) {
+					end = mid - 1;
+				} else {
+					start = mid + 1;
+				}
+				// right half sorted
+			} else {
+				if (target > nums[mid] && target <= nums[end]) {
+					start = mid + 1;
+				} else {
+					end = mid - 1;
+				}
+			}
+		}
+		return false;
 	}
 
 	// Binary Search - One pass
