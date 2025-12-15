@@ -154,7 +154,7 @@ public class P81SearchRotatedSortedArrayII {
 	private static boolean searchOnePass(int[] nums, int target) {
 		int n = nums.length;
 		int start = 0;
-		int end = nums.length;
+		int end = n - 1;
 		while (start <= end) {
 			int mid = start + (end - start) / 2;
 			if (nums[mid] == target) {
