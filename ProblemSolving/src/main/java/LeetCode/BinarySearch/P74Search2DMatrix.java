@@ -10,6 +10,8 @@ package LeetCode.BinarySearch;
  * Given an integer target, return true if target is in matrix or false otherwise.
  * 
  * You must write a solution in O(log(m * n)) time complexity.
+ * 
+ * Approach - Binary Search
  */
 public class P74Search2DMatrix {
 
