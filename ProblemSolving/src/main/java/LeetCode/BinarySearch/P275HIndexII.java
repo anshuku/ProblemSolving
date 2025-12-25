@@ -36,18 +36,19 @@ public class P275HIndexII {
 	// Binary search - lower bound
 	// This problem can be re-phrased as: Given a sorted citations array, we find
 	// the first number citations[i], where citations[i] >= n-i. We can use binary
-	// search as it's a sorted list. We want the lower bound here since we want the
-	// 1st citations[mid] >= n - mid. We compare n-mid to citations[mid](pivot),
+	// search as it's a sorted list. We want the upper bound here since we want the
+	// last n - mid such that citations[mid] >= n - mid. We compare n-mid to
+	// citations[mid](pivot).
 	// 1. citations[mid] == n - mid, there is (n-mid) papers with an equal or higher
 	// citation count than citations[mid]. It's optimal, if we move to the right,
 	// the next paper is going to have max(0, n - mid - 1) papers with >= c. Also,
-	// citations[mid + 1] > (n-mid-1), and this isn't h-index. If we move right, we
-	// can have smaller or equal h-index(sub-optimal). So, return citations[mid].
+	// citations[mid + 1] > (n-mid-1), and this isn't h-index. If we move left, we
+	// can have smaller(or equal) h-index(sub-optimal). So, return citations[mid].
 	// 2. if citations[mid] < n - mid, the target needs to be >= n - mid, we need to
 	// look at the sublist on right, start = mid + 1.
 	// 3. if citations[mid] > n - mid, the target needs to be >= n - mid, we need to
 	// look at the sublist on left, end = mid - 1.
-	// We return n - mid(count of indices beginning at mid throguh end of array),
+	// We return n - mid(count of indices beginning at mid through end of array),
 	// instead of a value at some postion in array.
 	// Time complexity - O(logN), for binary search.
 	// Space complexity - O(1)
@@ -56,7 +57,7 @@ public class P275HIndexII {
 		int start = 0;
 		int end = n - 1;
 
-		// We need to find the leftmost index such that: citations[index] >= n - mid
+		// We need to find the rightmost index such that: citations[index] >= n - mid
 		while (start <= end) {
 			int mid = start + (end - start) / 2;
 			if (citations[mid] == n - mid) {
@@ -69,7 +70,7 @@ public class P275HIndexII {
 			}
 		}
 		// There is no exact match, so there's exactly (n-left) papers that have
-		// citations <= citiations[left]
+		// citations >= citiations[left]. Also, citations[left] >= n - left
 		return n - start;
 	}
 
