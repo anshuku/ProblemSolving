@@ -34,12 +34,24 @@ public class P1539KthMissingPositiveNumber {
 	// element. We compare the input array with an array with no missing numbers.
 	// The number of missing integers = difference between corresponding numbers.
 	// The number of missing positive integers before idx = arr[idx] - idx - 1.
+	// This idx is missing index missing(i). We want first index i, missing(i) >= k.
 	// Using binary search, we get middle of array as pivot index. If the number of
 	// +ve integers which are missing before arr[pivot] < k, we search on right.
-	// Otherwise we search on left side. At end start = end + 1 and the kth missing
+	// Otherwise we search on left side. At end, start = end + 1 and the kth missing
 	// number is in-between arr[right] and arr[left]. The number of integers missing
-	// before arr[right] is arr[right] - right - 1. The number to return is
-	// arr[end] + k - (arr[end] - end - 1) = k + start
+	// before arr[right] is arr[right] - right - 1. This lower bound binary search
+	// helps finding smallest index i such that missing(i) >= k. Lower bound = first
+	// position where the condition became true.
+	// Why not upper bound> here condition: missing(i) <= k, last index where
+	// missing(i) <= k. This is not needed ad missing(i) can skip values. We need to
+	// know where the kth missing number falls, not position below it.
+	// arr = [2,3,4,7,11] and missing = [1,1,1,3,6] for k = 2, upper bound of <= 2
+	// is index 2. But the 2nd missing number is 5, which lies after index 2.
+	// The problem with upper bound is in case when k lies in missing, start goes
+	// beyond the k's value. So, we must use lower bound. arr=[1,3], k=1 and
+	// missing=[0,1]. We use lower bound as we're searching 1st position where the
+	// count of missing numbers reaches k.
+	// The number to return is arr[end] + k - (arr[end] - end - 1) = k + start
 	// Time complexity - O(logN)
 	// Space complexity - O(1)
 	private static int findKthPositiveBS(int[] arr, int k) {
@@ -51,9 +63,10 @@ public class P1539KthMissingPositiveNumber {
 
 		while (start <= end) {
 			int mid = start + (end - start) / 2;
-			int currMissing = arr[mid] - mid - 1;
+			int currMissing = arr[mid] - mid - 1; // missing i
 			// If the number of positive integers missing before arr[pivot] < k
 			// we search on the right
+			// We try to find the first index i where missing(i) >= k
 			if (currMissing < k) {
 				start = mid + 1;
 			} else { // otherwise we go left

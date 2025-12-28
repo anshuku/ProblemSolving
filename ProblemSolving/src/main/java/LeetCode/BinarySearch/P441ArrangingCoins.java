@@ -43,7 +43,7 @@ public class P441ArrangingCoins {
 	// Binary search
 	// If answer is k, we've managed to complete k rows of coins.
 	// The completed rows contain in total 1+2+...+k = k*(k+1)/2 coins.
-	// We need to find maximum k sych that k*(k+1)/2 <= N.
+	// We need to find maximum k such that k*(k+1)/2 <= N.
 	// Time complexity - O(logN)
 	// Space complexity - O(1)
 	public static int arrangeCoinsBS(int n) {
