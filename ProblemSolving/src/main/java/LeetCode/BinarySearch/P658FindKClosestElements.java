@@ -100,7 +100,7 @@ public class P658FindKClosestElements {
 		}
 		// To use start <= end we must use end = n - k - 1 else
 		// when both start and end = n - k, we get arr[mid + k] = arr[n] which gives
-		// ArrayIndexOutOfBoundsException. So to shrink search space use end = n-k-1
+		// ArrayIndexOutOfBoundsException. So to shrink search space, use end = n-k-1
 //		int end = n - k - 1;
 //		while (start <= end) {
 //			int mid = start + (end - start) / 2;
