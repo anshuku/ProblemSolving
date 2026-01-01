@@ -62,7 +62,7 @@ public class P658FindKClosestElements {
 	// then move left pointer. The smallest element wins when there is a tie.
 	// At end we've located the leftmost index for the final answer.
 	// We're not searching value but searching the smallest start index i such that:
-	// x−arr[i]≤arr[i+k]−x. This is a monotonic boolean function over i ∈ [0 , n-k].
+	// x−arr[i]≤arr[i+k]−x. This is a monotonic boolean function over i ∈ [0, n-k].
 	// while(start < end) is a classic lower bound/1st true binary search template.
 	// When start == end invariant answer ∈ [start, end]. We get 1st valid index.
 	// while(start <= end) breaks as the invariant, answer ∈ [start, end+1]
@@ -84,7 +84,7 @@ public class P658FindKClosestElements {
 			return kClosest;
 		}
 		int start = 0;
-		// while(start < end) natrually preserves mid <= n-k-1 so mid
+		// while(start < end) naturally preserves mid <= n-k-1
 		int end = n - k;
 
 		while (start < end) {
