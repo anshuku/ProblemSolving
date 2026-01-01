@@ -1,5 +1,12 @@
 package LeetCode.BitManipulation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /*
  * P136. Single Number - Easy
  * 
@@ -23,9 +30,17 @@ public class P136SingleNumber {
 //		int[] nums = { 2, 2, 1 };
 		int[] nums = { 4, 1, 2, 1, 2 };
 
-		int num = singleNumber(nums);
-		System.out.println("The single number is: " + num);
+		int numXOR = singleNumberXOR(nums);
+		System.out.println("XOR: The single number is: " + numXOR);
 
+		int numMath = singleNumberMath(nums);
+		System.out.println("Math: The single number is: " + numMath);
+
+		int numMap = singleNumberMap(nums);
+		System.out.println("Map: The single number is: " + numMap);
+
+		int numList = singleNumberList(nums);
+		System.out.println("List: The single number is: " + numList);
 	}
 
 	// XOR chaining
@@ -39,7 +54,7 @@ public class P136SingleNumber {
 	// The XOR chaining gives the number which appears once.
 	// When the numbers appears twice anywhere then
 	// XOR removes it as 0. 0 ^ number appearing once gives the result.
-	public static int singleNumber(int[] nums) {
+	public static int singleNumberXOR(int[] nums) {
 		int num = nums[0];
 		int n = nums.length;
 
@@ -49,4 +64,52 @@ public class P136SingleNumber {
 		return num;
 	}
 
+	// Math
+	// Time complexity - O(n)
+	// Space complexity - O(n)
+	private static int singleNumberMath(int[] nums) {
+		long sumOfSet = 0, sumOfNums = 0;
+		Set<Integer> set = new HashSet<>();
+		for (int num : nums) {
+			if (!set.contains(num)) {
+				set.add(num);
+				sumOfSet += num;
+			}
+			sumOfNums += num;
+		}
+		int result = (int) (2 * sumOfSet - sumOfNums);
+		return result;
+	}
+
+	// Hash Table
+	// Time complexity - O(n)
+	// Space complexity - O(n)
+	private static int singleNumberMap(int[] nums) {
+		Map<Integer, Integer> map = new HashMap<>();
+		for (int num : nums) {
+			map.put(num, map.getOrDefault(num, 0) + 1);
+		}
+		for (int num : nums) {
+			if (map.get(num) == 1) {
+				return num;
+			}
+		}
+		return 0;
+	}
+
+	// List Operation
+	// Time complexity - O(n^2), contains takes O(n) time and and for loop has O(n)
+	// time. This are multiplied to give O(n^2).
+	// Space complexity - O(n)
+	private static int singleNumberList(int[] nums) {
+		List<Integer> list = new ArrayList<>();
+		for (int num : nums) {
+			if (!list.contains(num)) {
+				list.add(num);
+			} else {
+				list.remove(num);
+			}
+		}
+		return list.get(0);
+	}
 }
