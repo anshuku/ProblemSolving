@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- * 1218. Longest Arithmetic Subsequence of Given Difference - Medium
+ * P1218. Longest Arithmetic Subsequence of Given Difference - Medium
  * 
  * Given an integer array arr and an integer difference, return the length of the 
  * longest subsequence in arr which is an arithmetic sequence such that the difference 
@@ -13,7 +13,7 @@ import java.util.Map;
  * A subsequence is a sequence that can be derived from arr by deleting some 
  * or no elements without changing the order of the remaining elements.
  * 
- * Approach - 
+ * Approach - DP, Map
  */
 public class P1218LongestArithmeticSubsequenceGivenDifference {
 

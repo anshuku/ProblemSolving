@@ -1,10 +1,14 @@
 package LeetCode.Strings;
 
 /*
- * Implement strStr()
+ * P28. Find the Index of the First Occurrence in a String - Easy
  * 
  * Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, 
  * or -1 if needle is not part of haystack.
+ * 
+ * Implement strStr()
+ * 
+ * Approach - KMP Algorithm | Iteration, substrings
  */
 public class P28FindIndexFirstOccurrenceString {
 
@@ -33,7 +37,7 @@ public class P28FindIndexFirstOccurrenceString {
 				j++;
 			}
 			if (j == m) {
-				return i-j;
+				return i - j;
 			} else if (i < n && haystack.charAt(i) != needle.charAt(j)) {
 				if (j > 0) {
 					j = lps[j - 1];

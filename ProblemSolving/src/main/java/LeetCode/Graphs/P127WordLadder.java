@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.Set;
 
 /*
+ * P127. Word Ladder - Hard
+ * 
  * A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words 
  * beginWord -> s1 -> s2 -> ... -> sk such that:
  * - Every adjacent pair of words differs by a single letter.
@@ -15,6 +17,8 @@ import java.util.Set;
  * - sk == endWord
  * Given two words, beginWord and endWord, and a dictionary wordList, return the number of words 
  * in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+ * 
+ * Approach - BFS, StringBuilder
  */
 public class P127WordLadder {
 
