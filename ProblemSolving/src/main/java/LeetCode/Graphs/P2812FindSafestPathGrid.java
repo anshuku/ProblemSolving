@@ -45,6 +45,7 @@ public class P2812FindSafestPathGrid {
 
 	// Optimized Time complexity
 	int[][] visit;
+
 	private int maximumSafenessFactorBSArrays(List<List<Integer>> grid) {
 		int n = grid.size();
 		if (n < 2 || grid.get(0).get(0) == 1 || grid.get(n - 1).get(n - 1) == 1) {
@@ -73,7 +74,7 @@ public class P2812FindSafestPathGrid {
 		if (hasPath(levels, level, 0, 0)) {
 			return level;
 		}
-		
+
 		for (int[] arr : levels) {
 			System.out.println("The levels changed is " + Arrays.toString(arr));
 		}

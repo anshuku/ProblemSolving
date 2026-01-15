@@ -1,4 +1,4 @@
-package LeetCode.BitManipulation;
+package LeetCode.Intervals;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -122,11 +122,11 @@ public class P435NonOverlappingIntervals {
 	// There are 3 cases from i = 1 to n-1 onwards:
 	// 1. Current interval doesn't overlap with prev's interval - update prev to i
 	// 2. Current interval overlaps and it's start < prev's interval start
-	//    In this case the current interval occupies more space hence 
-	//    remove the current interval by increasing count and keep prev.
+	// In this case the current interval occupies more space hence
+	// remove the current interval by increasing count and keep prev.
 	// 3. Current interval overlaps and it's start > prev's interval start
-	//    In this case the current interval occupies more space in right
-	//    remove the current interval by increasing count and keep prev.
+	// In this case the current interval occupies more space in right
+	// remove the current interval by increasing count and keep prev.
 	// Time complexity - O(nlogn) for sorting intervals.
 	// Space complexity - O(1) depending on the sorting logic.
 	private static int eraseOverlapIntervalsGreedyEnd(int[][] intervals) {
@@ -142,7 +142,7 @@ public class P435NonOverlappingIntervals {
 			} else {
 				prev = i;
 			}
-			
+
 			// Count to include
 //			if(intervals[i][0] >= intervals[prev][1]) {
 //				prev = i;
@@ -161,11 +161,11 @@ public class P435NonOverlappingIntervals {
 	// There are 3 cases from i = 1 to n-1 onwards:
 	// 1. Current interval is not overlapping with prev pointer - update prev to i
 	// 2. Ovelap and current interval's end < prev's interval end
-	//    In this case include the current interval by updating prev to i, And
-	//    Delete the prev's interval to accomodate more intervals, increase count by 1
+	// In this case include the current interval by updating prev to i, And
+	// Delete the prev's interval to accomodate more intervals, increase count by 1
 	// 3. Overlap and current interval's end > prev's interval end
-	//    In this case simply remove current interval and increase count by 1
-	//    No need to update prev pointer as we need to include it in future.
+	// In this case simply remove current interval and increase count by 1
+	// No need to update prev pointer as we need to include it in future.
 	// Time complexity - O(nlogn) for sorting intervals.
 	// Space complexity - O(1) depending on the sorting logic.
 	private static int eraseOverlapIntervalsGreedyStart(int[][] intervals) {
