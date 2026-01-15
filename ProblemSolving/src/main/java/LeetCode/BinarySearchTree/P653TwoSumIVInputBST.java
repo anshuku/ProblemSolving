@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 /*
+ * P653. Two Sum IV - Input is a BST - Easy
+ * 
  * Given the root of a binary search tree and an integer k, 
  * return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
+ * 
+ * Approach - DFS, Iteration
  * 
  * Time complexity - O(n)
  * Space complexity - O(n)

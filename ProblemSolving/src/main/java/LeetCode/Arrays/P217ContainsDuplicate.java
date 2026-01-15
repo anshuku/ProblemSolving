@@ -3,6 +3,14 @@ package LeetCode.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * P217. Contains Duplicate - Easy
+ * 
+ * Given an integer array nums, return true if any value appears at least 
+ * twice in the array, and return false if every element is distinct.
+ * 
+ * Approach - Set, comparision
+ */
 public class P217ContainsDuplicate {
 
 	public static void main(String[] args) {
