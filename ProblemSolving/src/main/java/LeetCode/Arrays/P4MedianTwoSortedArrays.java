@@ -8,7 +8,7 @@ package LeetCode.Arrays;
  * 
  * The overall run time complexity should be O(log (m+n)).
  * 
- * Approach - Iteration
+ * Approach - Iteration, Binary Search
  */
 public class P4MedianTwoSortedArrays {
 
