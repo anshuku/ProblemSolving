@@ -25,11 +25,11 @@ public class P300LongestIncreasingSubsequence {
 		int longestIncreasingSubseqBuild = lengthOfLISBuild(nums);
 		System.out.println("Build: The lengths of longest increasing subsequence is " + longestIncreasingSubseqBuild);
 
-		int longestIncreasingSubseqDP = lengthOfLIS(nums);
-		System.out.println("The lengths of longest increasing subsequence is " + longestIncreasingSubseqDP);
+		int longestIncreasingSubseqDP = lengthOfLISDP(nums);
+		System.out.println("DP: The lengths of longest increasing subsequence is " + longestIncreasingSubseqDP);
 
-		int longestIncreasingSubseqDP2 = longestIncreasingSubseqDP2(nums);
-		System.out.println("Build: The lengths of longest increasing subsequence is " + longestIncreasingSubseqDP2);
+		int longestIncreasingSubseqDP2 = lengthOfLISDP2(nums);
+		System.out.println("DP Build: The lengths of longest increasing subsequence is " + longestIncreasingSubseqDP2);
 	}
 
 	// Intelligently building a subsequence with Binary search
@@ -82,13 +82,13 @@ public class P300LongestIncreasingSubsequence {
 	// valid subsequence. For input 3,4,5,1, list 1,4,5 which isn't a subsequence.
 	// Time complexity - O(n^2), 1st half - 1,2,3,4,...,98,99
 	// 2nd half - 98,98,...98 - O((n/2)^2)
-	// Space complexity - O(n), when the input array is strictly increasing
+	// Space complexity - O(n), when the input array is strictly increasing.
 	private static int lengthOfLISBuild(int[] nums) {
 		int n = nums.length;
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(nums[0]);
 		for (int i = 1; i < n; i++) {
-			if (nums[i] > list.get(list.size() - 1)) {
+			if (nums[i] > list.get(list.size() - 1)) { // nums[i] > list.getLast()
 				list.add(nums[i]);
 			} else {
 				int j = 0;
@@ -107,11 +107,11 @@ public class P300LongestIncreasingSubsequence {
 	// Recurrence relation - dp[i], if nums[i] is larger than any of nums[i-1...]
 	// take the subsequence ending at that j and append the nums at that j (j<i).
 	// Need to maximize dp[i] so take max value of all the indices before i.
-	// dp[i] = max(dp[j]+1) if nums[j] < nums[i] and i > j.
+	// dp[i] = max(dp[j]+1) for all j, where nums[j] < nums[i] and j < i.
 	// Base case: Initialize dp with 1, all elements form increasing subsequences.
 	// Time complexity - O(n^2), 2 for loops 1+2+3...n-1
 	// Space complexity - O(n) for dp array.
-	public static int lengthOfLIS(int[] nums) {
+	public static int lengthOfLISDP(int[] nums) {
 		int n = nums.length;
 		int[] dp = new int[n];
 		int result = 1;
@@ -128,7 +128,7 @@ public class P300LongestIncreasingSubsequence {
 		return result;
 	}
 
-	private static int longestIncreasingSubseqDP2(int[] nums) {
+	private static int lengthOfLISDP2(int[] nums) {
 		int n = nums.length;
 		int[] dp = new int[n];
 		int result = 0;
