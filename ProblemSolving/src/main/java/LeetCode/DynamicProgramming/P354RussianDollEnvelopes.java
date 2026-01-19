@@ -46,7 +46,7 @@ public class P354RussianDollEnvelopes {
 	// gives correct result: {5,4,3,3}. This ensures two envelopes which are equal
 	// in first dimension can't be put into each other.
 	// Time complexity - O(n*logn), both sorting the array and finding the LIS
-	// via binary serach can be done in n*logn time.
+	// via binary search can be done in n*logn time.
 	// Space complexity - O(n) for storing the LIS list.
 	private static int maxEnvelopesList(int[][] envelopes) {
 		Arrays.sort(envelopes, (a, b) -> a[0] - b[0] != 0 ? a[0] - b[0] : b[1] - a[1]);
@@ -102,5 +102,4 @@ public class P354RussianDollEnvelopes {
 		}
 		return maxCount;
 	}
-
 }
