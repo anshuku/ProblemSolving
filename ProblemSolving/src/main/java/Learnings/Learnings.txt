@@ -1,2 +1,40 @@
 Integer[][] dp is faster than int[][] dp in case there are lots of 0s stored as answer to subproblems.
 Use null instead of 0 to check conditions(if).
+
+
+int index = Collections.binarySearch(list, nums[i]);
+if (index < 0) {
+	index = -(index + 1);
+}
+int oldVal = list.set(index, nums[i]);
+int start = 0;
+int end = list.size() - 1;
+
+while (start <= end) {
+	int mid = start + (end - start) / 2;
+	if (nums[i] <= list.get(mid)) {
+		end = mid - 1;
+	} else {
+		start = mid + 1;
+	}
+}
+int oldVal = list.set(start, nums[i]);
+
+
+To sort an List containing int[] based on 1st index.
+List<int[]> list = new ArrayList<>();
+list.sort(Compartor.comparingInt(a -> a[0]));
+Example: 
+	List<int[]> spellsList = new ArrayList<>();
+	for (int i = 0; i < n; i++) {
+		spellsList.add(new int[] { spells[i], i });
+	}
+	spellsList.sort(Comparator.comparingInt(a -> a[0]));
+
+
+Sorting a 2D array with a[0].length = 2 can be done in O(n*logn) time
+If we want to sort the array based on index=0 in ascending order and then for index=1 in descending order
+Arrays.sort(envelopes, (a, b) -> a[0] - b[0] != 0 ? a[0] - b[0] : b[1] - a[1]);
+Arrays.sort(envelopes, Comparator.comparingInt((int[] a) -> a[0]).thenComparing((a, b) -> Integer.compare(b[1], a[1])));
+
+

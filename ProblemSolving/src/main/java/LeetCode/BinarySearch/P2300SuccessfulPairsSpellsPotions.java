@@ -1,6 +1,9 @@
 package LeetCode.BinarySearch;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /*
  * P2300. Successful Pairs of Spells and Potions - Medium
@@ -15,7 +18,7 @@ import java.util.Arrays;
  * Return an integer array pairs of length n where pairs[i] is the number of potions that 
  * will form a successful pair with the ith spell.
  * 
- * Approach - Sorting, Binary search
+ * Approach - Sorting, Binary search, 2 Pointers
  */
 public class P2300SuccessfulPairsSpellsPotions {
 
@@ -47,6 +50,9 @@ public class P2300SuccessfulPairsSpellsPotions {
 		int[] pairsSortBinarySearch = successfulPairsSortBS(spells, potions, success);
 		System.out.println("Sort Binary Search: The possible pairs are " + Arrays.toString(pairsSortBinarySearch));
 
+		int[] pairsSort2Pointers = successfulPairsSort2P(spells, potions, success);
+		System.out.println("Sort 2 Pointers: The possible pairs are " + Arrays.toString(pairsSort2Pointers));
+
 		int[] pairsSortBinarySearchExact = successfulPairsSortBSExact(spells, potions, success);
 		System.out.println(
 				"Sort Binary Search exact: The possible pairs are " + Arrays.toString(pairsSortBinarySearchExact));
@@ -57,7 +63,6 @@ public class P2300SuccessfulPairsSpellsPotions {
 
 	private static int[] successfulPairsFrequency(int[] spells, int[] potions, long success) {
 		int n = spells.length;
-		int m = potions.length;
 		int max = 0;
 		for (int p : potions) {
 			if (max < p) {
@@ -82,6 +87,20 @@ public class P2300SuccessfulPairsSpellsPotions {
 		return pairs;
 	}
 
+	// Binary search + Sorting
+	// For a given spell, say spell * a = success. So for all x, where x >= a, spell
+	// * x will be >= success. If we know the minPotion in potions array, whose
+	// product with a given spell is >= success, then all potions >= minPotions also
+	// forms successful pairs with it. Now, spell * minPotion >= success
+	// minPotion >= success/spell, minPotion = ceil(success / spell). To use Binary
+	// search we sort potions array and then search the 1st index = index of
+	// minPotion or the element just > minPortion.
+	// Time complexity - O((m+n)*logm), where n is length of spells array and m is
+	// number of elements in potions array. Sorting potions array takes O(m*logm)
+	// time. Then each element of spells array we perform binary search which takes
+	// O(logm) time. For n element it takes O(nlogm). Overall O(mlogm + nlogm)
+	// Space complexity - O(logm), in Java Arrays.sort() is implemented using a
+	// variant of Quick Sort Algorithm which takes O(logm) time.
 	private static int[] successfulPairsSortBS(int[] spells, int[] potions, long success) {
 		int n = spells.length;
 		int m = potions.length;
@@ -109,6 +128,48 @@ public class P2300SuccessfulPairsSpellsPotions {
 			pairs[i] = m - left;
 		}
 
+		return pairs;
+	}
+
+	// 2 Pointers + Sorting
+	// Say, for spell = a and minPotion = b, we've spell*minPotion = success.
+	// For spell>a, the minimum required potion is minPotion <= b(result>=success)
+	// So, if spells and potions are sorted in increasing order, and we know where
+	// the minPotion for ith spell is present in potions array, then minPotion for
+	// (i+1)th spell will be present at the same or smaller index than ith spell in
+	// potions. We start with 2 pointers, 1 pointing to the smallest spell and other
+	// pointing to the largest potion. If the product of current spell and potion is
+	// >= success, then we keep on decreasing 2nd pointer to point to a smaller
+	// potion. Thus, we will have the 2nd pointer in index given by minPotion and we
+	// can count the number of potions that form the successful pairs with the
+	// current spell based on its index.
+	// Algo: We create a list of pairs sortedSpells with 1st element being spell
+	// strength and 2nd element being its original index in spells array. Sort the
+	// sortedSpells and potions arrays in ascending order. We initialize potionIndex
+	// = potions.length - 1, to keep track of index of current potion in potions.
+	// For each spell and its original index in the sortedSpells list: While we
+	// haven't run out of potions and the product of the current spell strength and
+	// potion at potionIndex >= success, decrement potionIndex by 1. We stop at
+	// minPotion for current spell. Calculate the number of successful pairs for
+	// current spell as m - (potionIndex + 1) and store the result at pairs[index].
+	private static int[] successfulPairsSort2P(int[] spells, int[] potions, long success) {
+		int n = spells.length;
+		int m = potions.length;
+		List<int[]> spellsList = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			spellsList.add(new int[] { spells[i], i });
+		}
+		spellsList.sort(Comparator.comparingInt(a -> a[0]));
+		Arrays.sort(potions);
+		int[] pairs = new int[n];
+		int potionIndex = m - 1;
+		// For each spell we find the respective minPotion index.
+		for (int[] spell : spellsList) {
+			while (potionIndex >= 0 && (long) spell[0] * potions[potionIndex] >= success) {
+				potionIndex--;
+			}
+			pairs[spell[1]] = m - potionIndex - 1;
+		}
 		return pairs;
 	}
 
