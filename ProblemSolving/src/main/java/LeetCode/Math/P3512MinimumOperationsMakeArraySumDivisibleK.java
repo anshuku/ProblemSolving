@@ -27,6 +27,10 @@ public class P3512MinimumOperationsMakeArraySumDivisibleK {
 		System.out.println("The minimum number of operations required is: " + minOps);
 	}
 
+	// Math
+	// The sum of elements should be divisble by k. Each operation can only decrease
+	// an element x in the array by 1, which reduces total sum by 1 each time, at
+	// least sum mod k reductions are needed to make sum divisible by k.
 	public static int minOperations(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
