@@ -1,7 +1,7 @@
 Integer[][] dp is faster than int[][] dp in case there are lots of 0s stored as answer to subproblems.
 Use null instead of 0 to check conditions(if).
 
-s
+
 int index = Collections.binarySearch(list, nums[i]);
 if (index < 0) {
 	index = -(index + 1);
