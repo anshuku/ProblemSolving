@@ -38,3 +38,15 @@ Arrays.sort(envelopes, (a, b) -> a[0] - b[0] != 0 ? a[0] - b[0] : b[1] - a[1]);
 Arrays.sort(envelopes, Comparator.comparingInt((int[] a) -> a[0]).thenComparing((a, b) -> Integer.compare(b[1], a[1])));
 
 
+BFS
+	 A breadth-first search algo can be used to find the shortest path in an
+	 unweighted graph. For BFS, the 1st time a node is reached during the
+	 traversal, it was reached in minimum possible steps from the source. The path
+	 used in BFS traversal always has the least number of edges. The BFS algorithm
+	 does a level-wise iteration which finds all paths that 1 edge away from
+	 source node, followed by all paths that are 2 edges away from the source
+	 node, and so on. This allows BFS to find the shortest path from source to
+	 other nodes.
+	 
+
+
