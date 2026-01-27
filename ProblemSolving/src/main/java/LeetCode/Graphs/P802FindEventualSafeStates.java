@@ -238,7 +238,7 @@ public class P802FindEventualSafeStates {
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			if (safe[i]) {
+			if (safe[i]) { // if (indegree[i] == 0) also works
 				safeNodes.add(i);
 			}
 		}
