@@ -48,5 +48,6 @@ BFS
 	 node, and so on. This allows BFS to find the shortest path from source to
 	 other nodes.
 	 
-
+In BFS and DFS we don't need to keep track of the nodes traversed when the structure being 
+traversed over is a directed tree without any cycles. Hence, a node is never visited twice.
 
