@@ -39,6 +39,10 @@ Arrays.sort(envelopes, Comparator.comparingInt((int[] a) -> a[0]).thenComparing(
 
 
 BFS
+An algorithm for traversing or searching a graph. It traverses in a level-wise manner, i.e., all
+the nodes at the present level(say l) are explored before moving on to the nodes at the next levt(l+1),
+where a level's number is the distance from a starting node. It's implemented with a queue.
+
 	 A breadth-first search algo can be used to find the shortest path in an
 	 unweighted graph. For BFS, the 1st time a node is reached during the
 	 traversal, it was reached in minimum possible steps from the source. The path
@@ -50,4 +54,14 @@ BFS
 	 
 In BFS and DFS we don't need to keep track of the nodes traversed when the structure being 
 traversed over is a directed tree without any cycles. Hence, a node is never visited twice.
+
+
+Graph terminologies:
+Child: A node that is 1 edge away further away from a given node in a rooted tree. 
+The given node for the children node is called the parent.
+Descendants: The descendants of a node are children, children of children, and so on.
+Subtree: A subtree of a node T is a tree S consisting of node T and all of its descendants
+in T. The subtree of root node is entire tree.
+
+
 
