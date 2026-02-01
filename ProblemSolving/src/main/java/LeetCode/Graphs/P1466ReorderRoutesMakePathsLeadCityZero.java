@@ -163,8 +163,101 @@ public class P1466ReorderRoutesMakePathsLeadCityZero {
 				reorderCount += dfs(adjList, visited, Math.abs(to));
 			}
 		}
-
 		return reorderCount;
+	}
+
+	private static int minReorderMapArr(int n, int[][] connections) {
+		Map<Integer, List<int[]>> adj = new HashMap<>();
+		for (int[] c : connections) {
+			adj.computeIfAbsent(c[0], k -> new ArrayList<>()).add(new int[] { c[1], 1 });
+			adj.computeIfAbsent(c[1], k -> new ArrayList<>()).add(new int[] { c[0], 0 });
+		}
+		return dfsIntArr(adj, 0, -1);
+	}
+
+	private static int dfsIntArr(Map<Integer, List<int[]>> adj, int city, int parent) {
+//		if (!adj.containsKey(city)) {
+//			return 0;
+//		}
+		int count = 0;
+		for (int[] neighbor : adj.get(city)) {
+			if (neighbor[0] != parent) {
+				count += neighbor[1];
+				count += dfsIntArr(adj, neighbor[0], city);
+			}
+		}
+		return count;
+	}
+
+	// DFS
+	// We bring everyone to node 0: a graph is a tree rooted at node 0. To move from
+	// any node to the root, all edges must be directed from a child to its parent.
+	// If there is an edge from parent node to it's child node, no node in the
+	// subtree of the child can reach the root node. The edge must be flipped as
+	// there is only 1 way to travel between cities. So, we need to count the number
+	// of edges in a tree rooted at node 0 that are directed from parent to child.
+	// We traverse the entire tree via DFS. Once we get an unvisited node, we'll
+	// take 1 of its neighbor nodes(if exists) as the next node on this branch.
+	// Recursively call the function to take the next node as the starting node and
+	// solve the subproblem. Here, the edges are directed. To count the number of
+	// edges that are directed from a parent to its child node, we must traverse the
+	// entire tree. If there is an edge from a child -> parent, we'll be unable to
+	// reach the child from parent. To traverse the entire tree, we must traverse
+	// from node 0 to all of the nodes in any case which is possible if the
+	// edges are undirected. For this, we add an opposite edge from node b to node a
+	// (artifical edge) for every given edge in connections from node a to node b
+	// (original edge). If we use 'artifical' edge to move from the parent node to
+	// the child node, it mean original edge is directed from child to parent node
+	// so we don't flip the node. If we use original edge to move, it means we need
+	// to flip the edge. Whenever we find such edge, we increment counter by 1.
+	// To differentiate original and artificial edge we can use booleans, specific
+	// numbers etc. We associate an extra value with each edge: 1 for original and 0
+	// for artificial. We use count variable to count number of edges to be flipped.
+	// We start DFS from root 0 and go way down the tree(parent to child). If we get
+	// an original edge during the traversal, we increase the count by 1 and keep it
+	// same for artifical edge. We combine these 2 operations and perform count +=
+	// sign. Algo: Initialize count as number of edges that must be flipped. Create
+	// an adjacency list adj that contains a list of pairs of integers such that
+	// adj[node] contains all the neighbors of node in the form of (neighbor, sign).
+	// Start a DFS: We use a dfs to perform the traversal. For each call, pass node,
+	// parent, adj as the params. We start with node 0 and parent as -1. Iterate
+	// over all the children of the node(nodes that share an edge) using adj[node].
+	// For every (child, sign) in adj[node], if cild = parent, we'll not visit it
+	// again. If child =/= parent, we perform count+= sign and recursively call dfs
+	// with node = child and parent = node.
+	// Time complexity - O(n), n = number of nodes, the adjacency list is
+	// initialized in O(n) time. The dfs function visits each node once - O(n).
+	// For undirected edges, each edge can only be visited twice(nodes at end) -
+	// O(e). Since, the resulting graph is a tree, there are n-1 undirected edges.
+	// So, O(n+e) = O(n).
+	// Space complexity - the adjacency list is built takes O(n) space.
+	// The recursion stack used by dfs function can have no more than n elements.
+	private static int minReorderMap(int n, int[][] connections) {
+		Map<Integer, List<List<Integer>>> adjList = new HashMap<>();
+		for (int[] c : connections) {
+			// Returns the value from the mapping function to use add function
+			// original edge
+			adjList.computeIfAbsent(c[0], i -> new ArrayList<List<Integer>>()).add(Arrays.asList(c[1], 1));
+			// artificial edge for traversing the nodes
+			adjList.computeIfAbsent(c[1], i -> new ArrayList<List<Integer>>()).add(Arrays.asList(c[0], 0));
+		}
+		dfs(adjList, 0, -1);
+		return count;
+	}
+
+	private static void dfs(Map<Integer, List<List<Integer>>> adjList, int node, int parent) {
+		// Below code is redundant
+//		if (!adjList.containsKey(node)) {
+//			return;
+//		}
+		for (List<Integer> list : adjList.get(node)) {
+			int neighbour = list.get(0);
+			int sign = list.get(1);
+			if (parent != neighbour) {
+				count += sign;
+				dfs(adjList, neighbour, node);
+			}
+		}
 	}
 
 	private static int minReorderQueueArr(int n, int[][] connections) {
@@ -258,100 +351,6 @@ public class P1466ReorderRoutesMakePathsLeadCityZero {
 			}
 
 		}
-	}
-
-	// DFS
-	// We bring everyone to node 0: a graph is a tree rooted at node 0. To move from
-	// any node to the root, all edges must be directed from a child to its parent.
-	// If there is an edge from parent node to it's child node, no node in the
-	// subtree of the child can reach the root node. The edge must be flipped as
-	// there is only 1 way to travel between cities. So, we need to count the number
-	// of edges in a tree rooted at node 0 that are directed from parent to child.
-	// We traverse the entire tree via DFS. Once we get an unvisited node, we'll
-	// take 1 of its neighbor nodes(if exists) as the next node on this branch.
-	// Recursively call the function to take the next node as the starting node and
-	// solve the subproblem. Here, the edges are directed. To count the number of
-	// edges that are directed from a parent to its child node, we must traverse the
-	// entire tree. If there is an edge from a child -> parent, we'll be unable to
-	// reach the child from parent. To traverse the entire tree, we must traverse
-	// from node 0 to all of the nodes in any case which is possible if the
-	// edges are undirected. For this, we add an opposite edge from node b to node a
-	// (artifical edge) for every given edge in connections from node a to node b
-	// (original edge). If we use 'artifical' edge to move from the parent node to
-	// the child node, it mean original edge is directed from child to parent node
-	// so we don't flip the node. If we use original edge to move, it means we need
-	// to flip the edge. Whenever we find such edge, we increment counter by 1.
-	// To differentiate original and artificial edge we can use booleans, specific
-	// numbers etc. We associate an extra value with each edge: 1 for original and 0
-	// for artificial. We use count variable to count number of edges to be flipped.
-	// We start DFS from root 0 and go way down the tree(parent to child). If we get
-	// an original edge during the traversal, we increase the count by 1 and keep it
-	// same for artifical edge. We combine these 2 operations and perform count +=
-	// sign. Algo: Initialize count as number of edges that must be flipped. Create
-	// an adjacency list adj that contains a list of pairs of integers such that
-	// adj[node] contains all the neighbors of node in the form of (neighbor, sign).
-	// Start a DFS: We use a dfs to perform the traversal. For each call, pass node,
-	// parent, adj as the params. We start with node 0 and parent as -1. Iterate
-	// over all the children of the node(nodes that share an edge) using adj[node].
-	// For every (child, sign) in adj[node], if cild = parent, we'll not visit it
-	// again. If child =/= parent, we perform count+= sign and recursively call dfs
-	// with node = child and parent = node.
-	// Time complexity - O(n), n = number of nodes, the adjacency list is
-	// initialized in O(n) time. The dfs function visits each node once - O(n).
-	// For undirected edges, each edge can only be visited twice(nodes at end) -
-	// O(e). Since, the resulting graph is a tree, there are n-1 undirected edges.
-	// So, O(n+e) = O(n).
-	// Space complexity - the adjacency list is built takes O(n) space.
-	// The recursion stack used by dfs function can have no more than n elements.
-	private static int minReorderMap(int n, int[][] connections) {
-		Map<Integer, List<List<Integer>>> adjList = new HashMap<>();
-		for (int[] c : connections) {
-			// Returns the value from the mapping function to use add function
-			// original edge
-			adjList.computeIfAbsent(c[0], i -> new ArrayList<List<Integer>>()).add(Arrays.asList(c[1], 1));
-			// artificial edge for traversing the nodes
-			adjList.computeIfAbsent(c[1], i -> new ArrayList<List<Integer>>()).add(Arrays.asList(c[0], 0));
-		}
-		dfs(adjList, 0, -1);
-		return count;
-	}
-
-	private static void dfs(Map<Integer, List<List<Integer>>> adjList, int node, int parent) {
-		// Below code is redundant
-//		if (!adjList.containsKey(node)) {
-//			return;
-//		}
-		for (List<Integer> list : adjList.get(node)) {
-			int neighbour = list.get(0);
-			int sign = list.get(1);
-			if (parent != neighbour) {
-				count += sign;
-				dfs(adjList, neighbour, node);
-			}
-		}
-	}
-
-	private static int minReorderMapArr(int n, int[][] connections) {
-		Map<Integer, List<int[]>> adj = new HashMap<>();
-		for (int[] c : connections) {
-			adj.computeIfAbsent(c[0], k -> new ArrayList<>()).add(new int[] { c[1], 1 });
-			adj.computeIfAbsent(c[1], k -> new ArrayList<>()).add(new int[] { c[0], 0 });
-		}
-		return dfsIntArr(adj, 0, -1);
-	}
-
-	private static int dfsIntArr(Map<Integer, List<int[]>> adj, int city, int parent) {
-//		if (!adj.containsKey(city)) {
-//			return 0;
-//		}
-		int count = 0;
-		for (int[] neighbor : adj.get(city)) {
-			if (neighbor[0] != parent) {
-				count += neighbor[1];
-				count += dfsIntArr(adj, neighbor[0], city);
-			}
-		}
-		return count;
 	}
 
 }
