@@ -64,4 +64,13 @@ Subtree: A subtree of a node T is a tree S consisting of node T and all of its d
 in T. The subtree of root node is entire tree.
 
 
+Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, graph = [[1,2],[3],[3],[]]
+graph[i][j] == i, means there is a self loop.
+
+Backtracking algorithm
+Backtracking is a general algorithm that incrementally builds candidates to the solutions,
+and abandons a candidate ("backtrack") as soon as it determines that the candidate cannot
+lead to a valid solution.
+When there is path exploration we can apply Backtracking algorithm.
+
 
