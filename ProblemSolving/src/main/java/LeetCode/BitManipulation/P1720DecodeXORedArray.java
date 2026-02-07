@@ -34,6 +34,11 @@ public class P1720DecodeXORedArray {
 	// 1 0 2 1 | 1 0 10  1
 	//   6 2 7 3 |     110 10 111  11
 	// 4 2 0 7 4 | 100  10  0 111 100  
+	// For each element we have A[i] = res[i] ^ res[i+1]
+	// A[i] ^ A[i] ^ res[i+1] = res[i] ^ A[i] ^ res[i+1]
+	// res[i+1] = res[i] ^ A[i]
+	// Time complexity - O(n)
+	// Space complexity - O(1)
 	public static int[] decode(int[] encoded, int first) {
 		int n = encoded.length;
 		int[] result = new int[n + 1];
