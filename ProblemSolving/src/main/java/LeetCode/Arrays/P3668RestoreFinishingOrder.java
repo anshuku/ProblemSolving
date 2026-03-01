@@ -30,7 +30,7 @@ public class P3668RestoreFinishingOrder {
 		System.out.println("TSet: he array containing friends IDs in finishing order: " + Arrays.toString(finishSet));
 	}
 
-	// Time complexity - O(n)
+	// Time complexity - O(n*m)
 	// Space complexity - O(1)
 	private static int[] recoverOrderArray(int[] order, int[] friends) {
 		int[] finish = new int[friends.length];
@@ -45,7 +45,7 @@ public class P3668RestoreFinishingOrder {
 		return finish;
 	}
 
-	// Time complexity - O(n)
+	// Time complexity - O(n + m)
 	// Space complexity - O(n)
 	public static int[] recoverOrderSet(int[] order, int[] friends) {
 		int[] finish = new int[friends.length];
