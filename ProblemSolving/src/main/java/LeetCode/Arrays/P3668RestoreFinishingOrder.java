@@ -30,6 +30,9 @@ public class P3668RestoreFinishingOrder {
 		System.out.println("TSet: he array containing friends IDs in finishing order: " + Arrays.toString(finishSet));
 	}
 
+	// We iterate through order and check if order[i] is present in friends, if it's
+	// present we add it to result then break the inner loop and check for next
+	// order.
 	// Time complexity - O(n*m)
 	// Space complexity - O(1)
 	private static int[] recoverOrderArray(int[] order, int[] friends) {
@@ -39,6 +42,7 @@ public class P3668RestoreFinishingOrder {
 			for (int f : friends) {
 				if (o == f) {
 					finish[i++] = o;
+					break;
 				}
 			}
 		}
