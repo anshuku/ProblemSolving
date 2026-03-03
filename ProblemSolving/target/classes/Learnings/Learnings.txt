@@ -67,10 +67,41 @@ in T. The subtree of root node is entire tree.
 Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, graph = [[1,2],[3],[3],[]]
 graph[i][j] == i, means there is a self loop.
 
+
 Backtracking algorithm
 Backtracking is a general algorithm that incrementally builds candidates to the solutions,
 and abandons a candidate ("backtrack") as soon as it determines that the candidate cannot
 lead to a valid solution.
 When there is path exploration we can apply Backtracking algorithm.
+
+
+Bridge are edges, if removed can make the graph disconnected. In graph, a cut is a
+partition of the vertices of a graph into 2 disjoint subsets. Any cut determines a 
+cut-set, the set of edges that've 1 endpoint in each subset of the partition.
+
+
+Undirected Graph:
+The edges belonging to a cycle couldn't be a critical connection. As removing any 1 
+of the edges doesn't change the connectivity between the nodes in a cycle. An edge 
+is a criticial connection, if and only if it's not in a cycle. If there were multiple ways, 
+then our edge would be a part of the cycle as this is an undirected graph. Thus, edges not
+belonging to any cycle end up being a cricitical connection for the graph. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
