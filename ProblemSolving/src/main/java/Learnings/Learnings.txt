@@ -87,9 +87,13 @@ is a criticial connection, if and only if it's not in a cycle. If there were mul
 then our edge would be a part of the cycle as this is an undirected graph. Thus, edges not
 belonging to any cycle end up being a cricitical connection for the graph. 
 
+Each character has an integer representation called its ASCII value. For example, a has 
+an ASCII value of 97, b is 98, and so on until z, which is 122. We can map each character 
+to an index from 0 to 25 by subtracting the ASCII value of a from the character's ASCII value. 
+For example, c maps to index 2 because the difference between the ASCII values of c (99) and a (97) is 2.
 
-
-
+Wit this we can loop through each character in every word 
+and check in constant time whether that character is allowed.
 
 
 

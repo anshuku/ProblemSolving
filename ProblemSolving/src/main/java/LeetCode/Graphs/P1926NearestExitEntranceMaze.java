@@ -207,24 +207,61 @@ public class P1926NearestExitEntranceMaze {
 		return x >= 0 && x < m && y >= 0 && y < n;
 	}
 
+	// BFS
+	// For finding the shortest path in a matrix, BFS can be used. Here DFS will not
+	// guarantee to find the shortest path, as it'll explore the matrix as much as
+	// possible before moving on to another branch. In BFS, we explore cells by the
+	// order of their distance from the start position, so whenever we reach an exit
+	// cell, we're guaranteed that it's the closest exist. We will first visit the
+	// cell with a distance of 0, then move on to all he cells with distance 1, 2...
+	// We use a queue to store all the cells to be visited as it involves First In,
+	// First Out(FIFO) order. It allows one to explore all the cells with distance d
+	// which is stored previously, before move to cells with larger distance d+1.
+	// To prevent revisiting same cells, we mark the unvisited neighbor cell as
+	// visited before adding it to queue. We skip these visited cells during further
+	// searches. So, each empty cell will be added to the queue at most once. Since
+	// the input has different characters for empty cells(.) and walls(+), we can
+	// mark the cells to be visited as +.
+	// Algo:
+	// Initialize an empty queue to store all the nodes to be visited. Add entrance
+	// and its distance 0 to queue and mark entrance as visited. While we don't
+	// reach the exit and queue still has cells, pop the 1st cell. If the distance
+	// from entrance is curr. We check its neighboring cells in all 4 directions, if
+	// it has an unvisited neighbor cell: > If this neighbor cell is an exit, return
+	// its distance from the start position, curr + 1, as the nearest distance.
+	// Otherwise, we mark it as visited, and add it to queue along with its distance
+	// curr + 1. At end if there is no exit, return -1.
+	// Time complexity - O(m*n), where m, n are size of maze. For each visited cell,
+	// we add it queue and pop it once, which takes contant time as queue operation
+	// is O(1). For each cell in queue, we marking it as visited, and check if it
+	// has any unvisited neighbor in all 4 directions in constant time. In worst
+	// case, we may have to visit O(m*n), before iteration stops.
+	// Space complexity - O(max(m*n)), we can mark input matrix in-place as visited
+	// which requires constant space. For storing cells in queue, in worst-case
+	// there may be O(m+n) cells stored in queue. Overall it's O(m+n) + O(max(m,n)).
 	private static int nearestExitFor(char[][] maze, int[] entrance) {
 		int steps = 0;
 		Queue<int[]> queue = new LinkedList<>();
+		// Start BFS from the entrance, and use a queue to store all the cells to be
+		// visited.
 		queue.offer(entrance);
 		int m = maze.length;
 		int n = maze[0].length;
 
 		boolean[][] visited = new boolean[m][n];
+		// Mark the entrance as visited as it's not an exit.
 		visited[entrance[0]][entrance[1]] = true;
 
 		while (!queue.isEmpty()) {
 			int size = queue.size();
 			steps++;
+			// For current cell, check its 4 neighbor cells.
 			for (int i = 0; i < size; i++) {
 				int[] cell = queue.poll();
 				for (int[] dir : direction) {
 					int xDir = cell[0] + dir[0];
 					int yDir = cell[1] + dir[1];
+					// If there exists anunvisited empty neighbor
 					if (isValidCell(xDir, yDir, m, n) && !visited[xDir][yDir] && maze[xDir][yDir] == '.') {
 						if (xDir == 0 || xDir == m - 1 || yDir == 0 || yDir == n - 1) {
 							return steps;
