@@ -26,15 +26,27 @@ public class P1926NearestExitEntranceMaze {
 
 	public static void main(String[] args) {
 		char[][] maze = { { '+', '+', '.', '+' }, { '.', '.', '.', '+' }, { '+', '+', '+', '.' } };
-		char[][] maze1 = maze.clone();
+		char[][] maze1 = new char[maze.length][];
+		int i = 0;
+		for (char[] arr : maze) {
+			maze1[i++] = arr.clone();
+		}
 		int[] entrance = { 1, 2 };
 
 //		char[][] maze = { { '+', '+', '+' }, { '.', '.', '.' }, { '+', '+', '+' } };
-//		char[][] maze1 = maze.clone();
+//		char[][] maze1 = new char[maze.length][];
+//		int i = 0;
+//		for (char[] arr : maze) {
+//			maze1[i++] = arr.clone();
+//		}
 //		int[] entrance = { 1, 0 };
 
 //		char[][] maze = { { '.', '+' } };
-//		char[][] maze1 = maze.clone();
+//		char[][] maze1 = new char[maze.length][];
+//		int i = 0;
+//		for (char[] arr : maze) {
+//			maze1[i++] = arr.clone();
+//		}
 //		int[] entrance = { 0, 0 };
 
 		int stepsWhileSelfArr = nearestExitWhileSelfArr(maze, entrance);
