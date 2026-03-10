@@ -95,9 +95,10 @@ For example, c maps to index 2 because the difference between the ASCII values o
 Wit this we can loop through each character in every word 
 and check in constant time whether that character is allowed.
 
+The general time complexity of DFS and BFS is O(V+E), where  V stands for the number of 
+vertices and E for number of edges.
 
-
-
+The general space complexity of DFS and BFS is O(V).
 
 
 
