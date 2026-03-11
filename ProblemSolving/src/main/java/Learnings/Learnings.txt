@@ -101,6 +101,13 @@ vertices and E for number of edges.
 The general space complexity of DFS and BFS is O(V).
 
 
+Instead of below:
+Set<String> geneBank = new HashSet<>();
+for (String gene : bank) {
+	geneBank.add(gene);
+}
+One can use this:
+Set<String> geneBank = new HashSet<>(Arrays.asList(bank));
 
 
 
