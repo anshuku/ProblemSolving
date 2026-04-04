@@ -117,10 +117,21 @@ For DP questions, solving and fully understanding a DP problem is a 4-step proce
 4. Apply final tricks to reduce the time / memory complexity.
 
 
+We turn off(set to 0) the righmost 1-bit: x & (x - 1)
+
+The power of 2 in binary representation is one 1-bit, followed by some zeros.
+A number which is not a power of 2, has more than one 1-bit in its binary representation.
+The number 0 has zero 1-bit.
+
+We do x & (-x) to keep the rightmost 1-bit and to set all the other bits to 0. 
+For the power of 2, it would result in x itself.
 
 
-
-
+x & (x - 1) is a way to set the rightmost 1-bit to 0. To subtract 1 means to
+change the rightmost 1-bit to 0 and set all the lower bits to 1. With AND
+operator: the rightmost 1-bit will be turned off because 1 & 0 == 0, and all
+the lower bits as well 0 & 1 == 0. Now power of 2 has just one 1-bit. x & (x - 1) 
+sets this 1-bit to 0, and hence we need to check if result is 0 x & (x - 1) == 0.
 
 
 
