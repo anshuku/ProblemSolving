@@ -75,7 +75,14 @@ public class P401BinaryWatch {
 			int h = i >> 6; // right 6 bits are removed and gives upper 4 bits
 			int m = i & 63; // left 4 bits are removed and gives lower 6 bits
 			if (h < 12 && m < 60 && Integer.bitCount(i) == turnedOn) { // Can check number of set bits == turnedOn early
-				result.add(h + ":" + (m < 10 ? "0" : "") + m);
+				StringBuilder sb = new StringBuilder();
+				sb.append(h).append(":");
+				if (m < 10) {
+					sb.append("0");
+				}
+				sb.append(m);
+				result.add(sb.toString());
+//				result.add(h + ":" + (m < 10 ? "0" : "") + m);
 			}
 		}
 		return result;
