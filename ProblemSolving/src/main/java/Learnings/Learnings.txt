@@ -134,10 +134,14 @@ the lower bits as well 0 & 1 == 0. Now power of 2 has just one 1-bit. x & (x - 1
 sets this 1-bit to 0, and hence we need to check if result is 0 x & (x - 1) == 0.
 
 
+Below is incorrect as StringBuilder can't accept integer h to append in constructor.
+Here integer h won't be appended but will act as capacity for StringBuilder.
+StringBuilder sb = new StringBuilder(h);
+sb.append(":");
 
-
-
-
+Below is correct as StringBuilder can't accept integer h.
+StringBuilder sb = new StringBuilder();
+sb.append(h).append(":");
 
 
 
