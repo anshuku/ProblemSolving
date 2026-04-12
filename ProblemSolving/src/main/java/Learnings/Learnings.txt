@@ -72,6 +72,11 @@ Backtracking algorithm
 Backtracking is a general algorithm that incrementally builds candidates to the solutions,
 and abandons a candidate ("backtrack") as soon as it determines that the candidate cannot
 lead to a valid solution.
+Backtracking is an algorithm for finding all solutions by exploring all potential candidates. 
+If the solution candidate turns out to be not a solution (or at least not the last one), 
+the backtracking algorithm discards it by making some changes on the previous step, 
+i.e. backtracks and then tries again. 
+
 When there is path exploration we can apply Backtracking algorithm.
 
 
@@ -144,6 +149,18 @@ StringBuilder sb = new StringBuilder();
 sb.append(h).append(":");
 
 
+Subsets' solution space is quite large:  2^n since each element could be absent or present.
+Similary for permutations: n! and combinations: C (k n) = n!/[(n-k)!*k!] are solution space.
+As they've exponential solution space, it's tricky to ensure that the generated solutions 
+are complete and non-redundant. For this clear and easy-to-reason strategy are:
+Iterative, Recursion/Backtracking, Lexicographic generation where we map binary bitmasks
+and the corresponding permutations/combinations/subsets. Last one is good for interviews
+as we simplify the problem to binary numbers generation and it's easy to implement and 
+verify that no solution is missing. It also generates lexicographic sorted output for
+sorted inputs.
+
+For a given number, it could be present or absent(binary choice) in a subset
+solution. As a result, for N numbers, we'd have total 2^n choices(solutions).
 
 
 
