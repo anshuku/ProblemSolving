@@ -163,6 +163,29 @@ For a given number, it could be present or absent(binary choice) in a subset
 solution. As a result, for N numbers, we'd have total 2^n choices(solutions).
 
 
-
-
+Bidirectional BFS - faster! why?
+Bidirectional BFS is faster, here the steps are not cheaper, it's due to
+exploring far fewer levels of the search tree. Model the search as a tree.
+Average branching factor = b (each word yields ~b valid next words)
+Shortest path length = d. In Single-direction BFS, one expand level by level
+from the start: Total nodes visited: 1+b+b^2+...+b^d ~ (b^(d+1) - 1)/(b-1)
+~ theta(b^d). Here the work is dominated by the last level = b^d.
+Bidirectional BFS: We run 2 BFS waves: One from the start and One from the
+end. They They meet roughly in the middle, after d/2 level each.
+Each side explores: 1+b+b^2+...+b^(d/2) ~ (b^(d/2+1) - 1)/(b-1) ~
+theta(b^(d/2)). Total work: theta(b^(d/2)) + theta(b^(d/2)) =
+theta(2*b^(d/2)). Comparing the 2: taking the ratio b^d/2*b^(d/2) = b^(d/2)/2
+So the speedup factor is roughly b^(d/2)/2. Why this is good, as the
+exponential growth is key: depth d = 10, branching factor b = 10. Single BFS:
+10^10 = 10000000000. Bi-BFS: 2*10^5 = 200000. This is 50000x reduction.
+Hence, even though it seems similar at the micro level in BI-BFS like same
+neighbor generation/checks. But the optimization is at macro-level. One
+avoids exploring deep exponential layers. One can cut depth from d -> d/2.
+For word ladder: each word generates upto 26*L candidates. Effective
+branching factor b is smaller due to dictionary filtering, but still > 1.
+So, single BFS -> explores many invalid layers before reaching end word.
+Bidirectional BFS -> meets early, prunes half the depth. Bidirectional BFS
+doesn't reduce cost per node. It reduces the number of nodes explored
+exponentially. Work drops from b^d to 2*b^(d/2). It's a optimization for
+shortest-path problems on implicit graphs like word ladder.
 
