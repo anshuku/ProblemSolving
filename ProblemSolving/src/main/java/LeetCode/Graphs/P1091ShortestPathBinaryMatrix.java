@@ -191,6 +191,29 @@ public class P1091ShortestPathBinaryMatrix {
 	}
 
 	// A-Star Approach
+	// A* expands towards the goal and uses a heuristic to guide the search.
+	// Heuristic is a function that estimates - how far the cell is from the goal.
+	// It helps when the grid is huge and heuristic is strong and admissible.
+	// Whem grid is small, the overhead of maintaining a PriorityQueue + heuristic
+	// calculation costs more than it saves. It's helpful when grid is large, target
+	// is far away, many dead end exist. A* explores only a narrow corridor toward
+	// the goal but BFS explores almost everything.
+	// Here h(x, y) = max(|x - targetX|, |y - targetY|): Chebyshev distance as
+	// diagonal moves are allowed. A heuristic is admissible if: it never
+	// overestimates the true shortest path. h(n) <= actual shortest distance to
+	// goal. Example(admissible) - Grid with diagonal moves: Start(0,0) -> End (4,4)
+	// Shortest path = 4 (diagonal moces). Heuristic h = max(|4-0|, |4-0|) = 4
+	// It never overestimates -> admissible. Example(not admissible) - h = |dx|+|dy|
+	// For diagonal movement: h = 8 but actual = 4 which is overestimation which
+	// brakes A* optimality. Strong heuristic means very close to the actual
+	// shortest distance. For BFS h = 0 which is worst value but best for it. Strong
+	// heuristic = fewer unnecessary nodes explored.
+	// Word ladder is good example where A* can be used, as it saves massibe work to
+	// create huge dictionary via BFS. A*focuses on words closer to target. The
+	// heuristic is admissible as each step changes only 1 character, so minimum
+	// steps >= number of mismatches. The heuristic is strong as it directly
+	// correlates with remaining steps, guides search toward target efficiently.
+	// Admissible -> guarantees correctness and Strong -> improves performance.
 	// Time complexity - O(nlogn), where n is number of cells. Adding and removing
 	// items from a priority queue is O(logn), as opposed to O(1) in BFS. Given that
 	// we add/remove upto O(N) items, time taken is O(nlogn).
