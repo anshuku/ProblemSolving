@@ -29,8 +29,8 @@ public class P1091ShortestPathBinaryMatrix {
 
 	public static void main(String[] args) {
 //		int[][] grid = { { 0, 1 }, { 1, 0 } };
-//		int[][] grid = { { 0, 0, 0 }, { 1, 1, 0 }, { 1, 1, 0 } };
-		int[][] grid = { { 0 } };
+		int[][] grid = { { 0, 0, 0 }, { 1, 1, 0 }, { 1, 1, 0 } };
+//		int[][] grid = { { 0 } };
 //		int[][] grid = { { 0, 0, 0, 0, 1 }, { 1, 0, 0, 0, 0 }, { 0, 1, 0, 1, 0 }, { 0, 0, 0, 1, 1 },
 //				{ 0, 0, 0, 1, 0 } };
 
@@ -187,7 +187,7 @@ public class P1091ShortestPathBinaryMatrix {
 			}
 			level++;
 		}
-		return 0;
+		return -1;
 	}
 
 	private static boolean isValid(int x, int y, int n) {
