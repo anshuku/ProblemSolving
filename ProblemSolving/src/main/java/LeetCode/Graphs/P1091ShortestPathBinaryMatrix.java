@@ -222,7 +222,7 @@ public class P1091ShortestPathBinaryMatrix {
 		return -1;
 	}
 
-	// BFS with Set instead of a Queue and withcout a visited array
+	// BFS with Set instead of a Queue and without a visited array
 	private static int shortestPathBinaryMatrixSet(int[][] grid) {
 		int n = grid.length;
 
@@ -287,11 +287,18 @@ public class P1091ShortestPathBinaryMatrix {
 	// Strong heuristic means very close to the actual shortest distance. For BFS, h
 	// = 0 which is worst value but best for it. Strong heuristic = fewer
 	// unnecessary nodes explored.
-	// Word ladder is good example where A* can be used, as it saves massive work to
-	// create huge dictionary via BFS. A*focuses on words closer to target. The
-	// heuristic is admissible as each step changes only 1 character, so minimum
-	// steps >= number of mismatches. The heuristic is strong as it directly
-	// correlates with remaining steps, guides search toward target efficiently.
+	// Word ladder is good example where A* can be used. BFS in word ladder explores
+	// all possible words level by level. A* focuses on words closer to target. it
+	// saves massive work to create huge dictionary via BFS.
+	// Transform "hit" -> "cog". Weak heuristic in case of BFS where h(word) = 0.
+	// Better heuristic, h(word) = number of differing characters from target from
+	// given (transformed) word. target = "cog", hit -> differs in 3 positions ->
+	// h = 3 | hot -> differs in 2 -> h = 2 | hog -> differs in 1 -> h = 0 | cog ->
+	// differs in 0 -> h = 0.
+	// The heuristic is admissible as each step changes only 1 character, so minimum
+	// steps >= number of mismatches(less mismatches). It never overestimates.
+	// The heuristic is strong as it directly correlates with remaining steps,
+	// guides search toward target efficiently.
 	// Admissible -> guarantees correctness and Strong -> improves performance.
 	// We can use BFS for small inputs(n<=100) but for large inputs, prefer A*.
 	// Time complexity - O(nlogn), where n is number of cells. Adding and removing
