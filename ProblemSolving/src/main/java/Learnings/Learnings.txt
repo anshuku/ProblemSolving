@@ -248,4 +248,11 @@ To optimze the time further to O(n) - It can be found that there will be at
 most 3 unique estimates on the priority queue at 1 time, so we can maintain 3
 lists instead of a priority queue. Adding or removing from lists is O(1).
 
-
+Summary: 
+When to use BFS over A* and Dijkstra over A* to find the shortest paths:
+1) 1 source and 1 destination - Use A* search algo for unweighted as well as weighted graphs.
+2) 1 source, all destination - 
+> Use BFS for Unweighted Graphs
+> Use Dijkstra for Weighted Graphs without negative weights
+> Use Bellman Ford for Weighted Graphs with negative weights
+3) Between every pair of nodes - Floyd-Warshall, Johnson's algorithm.
