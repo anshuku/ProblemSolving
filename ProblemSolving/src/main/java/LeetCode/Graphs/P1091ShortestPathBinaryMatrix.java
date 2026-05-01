@@ -40,7 +40,15 @@ public class P1091ShortestPathBinaryMatrix {
 		for (int[] arr : grid) {
 			System.arraycopy(arr, 0, grid2[i++], 0, n);
 		}
+		int shortestPathBiBFS = shortestPathBinaryMatrixBiBFS(grid);
+		System.out.println("Bidirectional BFS: The shortest path length in the binary matrix: " + shortestPathBiBFS);
 
+		grid = grid2;
+		grid2 = new int[n][n];
+		i = 0;
+		for (int[] arr : grid) {
+			System.arraycopy(arr, 0, grid2[i++], 0, n);
+		}
 		int shortestPathOverwrite = shortestPathBinaryMatrixOverwrite(grid);
 		System.out.println("Overwrite: The shortest path length in the binary matrix: " + shortestPathOverwrite);
 
@@ -67,45 +75,68 @@ public class P1091ShortestPathBinaryMatrix {
 		System.out.println("A Star: The shortest path length in the binary matrix: " + shortestPathAStar);
 	}
 
-	private static int shortestPathBinaryMatrixSet(int[][] grid) {
+	// Bidirectional BFS
+	private static int shortestPathBinaryMatrixBiBFS(int[][] grid) {
 		int n = grid.length;
 
-		if (grid[0][0] != 0 && grid[n - 1][n - 1] != 0) {
+		if (grid[0][0] != 0 || grid[n - 1][n - 1] != 0) {
 			return -1;
 		}
 		if (n == 1) {
 			return 1;
 		}
 
-		Set<int[]> set = new HashSet<>();
-		set.add(new int[] { 0, 0 });
+		Queue<int[]> beginQueue = new LinkedList<>();
+		beginQueue.offer(new int[] { 0, 0 });
 
-		grid[0][0] = 1;
+		Queue<int[]> endQueue = new LinkedList<>();
+		endQueue.offer(new int[] { n - 1, n - 1 });
+
+		boolean[][] beginVisited = new boolean[n][n];
+		beginVisited[0][0] = true;
+
+		boolean[][] endVisited = new boolean[n][n];
+		endVisited[n - 1][n - 1] = true;
+
 		int distance = 1;
-		while (!set.isEmpty()) {
-			Set<int[]> nextLevelSet = new HashSet<>();
+		while (!beginQueue.isEmpty() && !endQueue.isEmpty()) {
+			if (beginQueue.size() > endQueue.size()) {
+				Queue<int[]> tempQueue = beginQueue;
+				beginQueue = endQueue;
+				endQueue = tempQueue;
 
-			for (int[] cell : set) {
+				boolean[][] tempVisited = beginVisited;
+				beginVisited = endVisited;
+				endVisited = tempVisited;
+			}
+
+			int size = beginQueue.size();
+
+			while (size-- > 0) {
+				int[] cell = beginQueue.poll();
 
 				for (int[] dir : direction) {
-					int xDir = cell[0] + dir[0];
-					int yDir = cell[1] + dir[1];
+					int x = cell[0] + dir[0];
+					int y = cell[1] + dir[1];
 
-					if (isValid(xDir, yDir, n) && grid[xDir][yDir] == 0) {
-						if (xDir == n - 1 && yDir == n - 1) {
+					if (isValid(x, y, n) && grid[x][y] == 0) {
+						if (endVisited[x][y]) {
 							return distance + 1;
 						}
-						grid[xDir][yDir] = 1;
-						nextLevelSet.add(new int[] { xDir, yDir });
+						if (!beginVisited[x][y]) {
+							beginQueue.offer(new int[] { x, y });
+							beginVisited[x][y] = true;
+						}
 					}
 				}
 			}
-			set = nextLevelSet;
 			distance++;
 		}
+
 		return -1;
 	}
 
+	// BFS without visited
 	private static int shortestPathBinaryMatrixOverwrite(int[][] grid) {
 		int n = grid.length;
 
@@ -144,6 +175,7 @@ public class P1091ShortestPathBinaryMatrix {
 		return -1;
 	}
 
+	// BFS with visited
 	public static int shortestPathBinaryMatrixVisited(int[][] grid) {
 		int n = grid.length;
 
@@ -190,6 +222,46 @@ public class P1091ShortestPathBinaryMatrix {
 		return -1;
 	}
 
+	// BFS with Set instead of a Queue and withcout a visited array
+	private static int shortestPathBinaryMatrixSet(int[][] grid) {
+		int n = grid.length;
+
+		if (grid[0][0] != 0 && grid[n - 1][n - 1] != 0) {
+			return -1;
+		}
+		if (n == 1) {
+			return 1;
+		}
+
+		Set<int[]> set = new HashSet<>();
+		set.add(new int[] { 0, 0 });
+
+		grid[0][0] = 1;
+		int distance = 1;
+		while (!set.isEmpty()) {
+			Set<int[]> nextLevelSet = new HashSet<>();
+
+			for (int[] cell : set) {
+
+				for (int[] dir : direction) {
+					int xDir = cell[0] + dir[0];
+					int yDir = cell[1] + dir[1];
+
+					if (isValid(xDir, yDir, n) && grid[xDir][yDir] == 0) {
+						if (xDir == n - 1 && yDir == n - 1) {
+							return distance + 1;
+						}
+						grid[xDir][yDir] = 1;
+						nextLevelSet.add(new int[] { xDir, yDir });
+					}
+				}
+			}
+			set = nextLevelSet;
+			distance++;
+		}
+		return -1;
+	}
+
 	private static boolean isValid(int x, int y, int n) {
 		return x >= 0 && x < n && y >= 0 && y < n;
 	}
@@ -205,8 +277,7 @@ public class P1091ShortestPathBinaryMatrix {
 	// Here h(x, y) = max(|x - targetX|, |y - targetY|): Chebyshev distance as
 	// diagonal moves are allowed. We can cover smaller distance within the larger
 	// one by moving diagonally.
-	// A heuristic is admissible if: it never overestimates the
-	// true shortest path.
+	// A heuristic is admissible if: it never overestimates the true shortest path.
 	// h(n) <= actual shortest distance to goal. Example(admissible) - Grid with
 	// diagonal moves: Start(0,0) -> End (4,4) Shortest path = 4 (diagonal moves).
 	// Heuristic h = max(|4-0|, |4-0|) = 4. It never overestimates -> admissible.
@@ -284,7 +355,7 @@ public class P1091ShortestPathBinaryMatrix {
 
 	// Best-case estimate to the end is simply max of rows and columns left to
 	// traverse. Here n-1 as index starts from 0.
-	// Each estimate(of total distance) value tier(x) of member are identified
+	// Each estimate(of total distance) value of tier(x) for members are identified
 	// earlier before estimating estimates of x+1. Algo identifies all cells that
 	// share same estimate. The order that A* visits cells is in order of the best
 	// possible estimate that could be assigned to it and explores cells in
