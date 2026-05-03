@@ -214,13 +214,22 @@ Strong heuristic means very close to the actual shortest distance. For BFS, h
 = 0 which is worst value but best for it. Strong heuristic = fewer
 unnecessary nodes explored.
 
-Word ladder is good example where A* can be used, as it saves massive work to
-create huge dictionary via BFS. A*focuses on words closer to target. The
-heuristic is admissible as each step changes only 1 character, so minimum
-steps >= number of mismatches. The heuristic is strong as it directly
-correlates with remaining steps, guides search toward target efficiently.
-Admissible -> guarantees correctness and Strong -> improves performance.
+Word ladder is good example where A* can be used. BFS in word ladder explores
+all possible words level by level. A* focuses on words closer to target. it
+saves massive work to create huge dictionary via BFS.
+Transform "hit" -> "cog". Weak heuristic in case of BFS where h(word) = 0.
+Better heuristic, h(word) = number of differing characters from target from
+given (transformed) word. target = "cog", hit -> differs in 3 positions ->
+h = 3 | hot -> differs in 2 -> h = 2 | hog -> differs in 1 -> h = 0 | cog ->
+iffers in 0 -> h = 0.
 
+The heuristic is admissible as each step changes only 1 character, so minimum
+steps >= number of mismatches(less mismatches). It never overestimates.
+
+The heuristic is strong as it directly correlates with remaining steps,
+guides search toward target efficiently.
+
+Admissible -> guarantees correctness and Strong -> improves performance.
 We can use BFS for small inputs(n<=100) but for large inputs, prefer A*.
 
 We assign an estimate(of total distance) to each cell. 
@@ -239,4 +248,11 @@ To optimze the time further to O(n) - It can be found that there will be at
 most 3 unique estimates on the priority queue at 1 time, so we can maintain 3
 lists instead of a priority queue. Adding or removing from lists is O(1).
 
-
+Summary: 
+When to use BFS over A* and Dijkstra over A* to find the shortest paths:
+1) 1 source and 1 destination - Use A* search algo for unweighted as well as weighted graphs.
+2) 1 source, all destination - 
+> Use BFS for Unweighted Graphs
+> Use Dijkstra for Weighted Graphs without negative weights
+> Use Bellman Ford for Weighted Graphs with negative weights
+3) Between every pair of nodes - Floyd-Warshall, Johnson's algorithm.
