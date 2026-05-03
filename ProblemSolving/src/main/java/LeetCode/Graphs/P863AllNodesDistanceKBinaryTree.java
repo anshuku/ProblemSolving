@@ -247,9 +247,14 @@ public class P863AllNodesDistanceKBinaryTree {
 		if (node != null && parent != null) {
 			graph.computeIfAbsent(parent.val, k -> new ArrayList<>()).add(node.val);
 			graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(parent.val);
+//			int curVal = node.val, parentVal = parent.val;
+//			graph.putIfAbsent(curVal, new ArrayList<>());
+//			graph.putIfAbsent(parentVal, new ArrayList<>());
+//			graph.get(curVal).add(parentVal);
+//			graph.get(parentVal).add(curVal);
 		}
 
-		if (node.left != null) {
+		if (node.left != null) { // if (node != null && node.left != null)
 			buildGraph(node.left, node);
 		}
 		if (node.right != null) {
