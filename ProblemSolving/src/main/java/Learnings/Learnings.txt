@@ -256,3 +256,10 @@ When to use BFS over A* and Dijkstra over A* to find the shortest paths:
 > Use Dijkstra for Weighted Graphs without negative weights
 > Use Bellman Ford for Weighted Graphs with negative weights
 3) Between every pair of nodes - Floyd-Warshall, Johnson's algorithm.
+
+
+Map<Integer, Set<Pair<K,V>>> visited is preferred over Map<Integer, Set<int[]>> visited
+
+
+
+
