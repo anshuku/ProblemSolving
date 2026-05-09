@@ -258,7 +258,56 @@ When to use BFS over A* and Dijkstra over A* to find the shortest paths:
 3) Between every pair of nodes - Floyd-Warshall, Johnson's algorithm.
 
 
-Map<Integer, Set<Pair<K,V>>> visited is preferred over Map<Integer, Set<int[]>> visited
+In case of BFS with Key holding state:
+BFS with key holding state: visited Map of keyMask and Set<Pair<Coordinates>>
+One can use Pair from library or a class Pair with proper equals()/hashCode()
+In case of int[], both adding the array values and checking presence of int[]
+has issues. In Java, arrays int[] use reference equality, not value equality.
+So new int[]{1,2} != new int[]{1,2}. This means contains() will always return
+false. This leads to same state being revisited. BFS explodes -> TLE or wrong
+traversal. Pair<> fixes it, as it implements value - based equality. This
+makes contains() to work properly. We can revisit a key cell, if I already
+have the key, as we may visit that cell with a different path. This path
+might lead to new areas. Picking key again is useless but stepping on that
+cell is allowed. Better to use boolean[][][] visited = new boolean[m][n][64].
+This is faster, no hashing bugs, no equality issues. The real state is:
+(x,y,keyMask). Here with Map<keyMask, Set<(x,y)>>, it works only if equality
+works perfectly. Also, Map + Set<Pair> is correct but practically slow as
+there is a Hashing overhead. Every operation: contains(new Pair(x,y)) does:
+> Object Creation > Hash Computation > equals comparision. Also, there is
+Memory fragmentation: Many small HashSets which leads to poor cache locality.
+In Worst-case explosion for ["@abcdeABCDEFf"], Linear grid, but 6 keys -> 64
+key states. Each cell revisited with many masks. So operations become:
+O(m*n*2^k*hash_cost). boolean[][][] array is better as we have O(1) lookup,
+no hashing, no object creation, contiguous memory -> CPU cache friendly.
+	 
+Map<Integer, Set<Pair<K,V>>> visited is always preferred over incorrect Map<Integer, Set<int[]>> visited
+as Map<Integer, Set<int[]>> can't be used as it does reference check instead of value. 
+visited.contains(keyMask) is only for BFS with key state equals keyMask. visited[key-holding states] 
+represents all the visited cells with this key-holding state.
+
+
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a); // Descending order
+PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // Default ascending order
+(a, b) -> b - a can fail due to Integer Overflow.
+It can fail if the values are near Integer.MAX_VALUE or Integer.MIN_VALUE.
+Better to use Integer.compare(b, a)
+
+maxHeap = new PriorityQueue<>((a, b) -> b - a);
+minHeap = new PriorityQueue<>((a, b) -> a - b);
+
+maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b, a));// slower than (a, b) -> b - a
+minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a, b));
+
+maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // slower than Integer.compare(b, a)
+minHeap = new PriorityQueue<>();
+
+// Fastest
+maxHeap = new PriorityQueue<>((a, b) -> b - a); 
+minHeap = new PriorityQueue<>(); // Default behavior is ascending order
+
+
+
 
 
 
