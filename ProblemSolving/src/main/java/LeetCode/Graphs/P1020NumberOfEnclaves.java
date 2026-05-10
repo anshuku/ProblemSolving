@@ -175,7 +175,7 @@ public class P1020NumberOfEnclaves {
 		if (!isValid(i, j, m, n) || visited[i][j]) {
 			return;
 		}
-		visited[i][j] = true;
+		visited[i][j] = true; // grid[i][j] = 0 can remove use of visited
 
 		for (int[] dir : direction) {
 			int x = i + dir[0];
