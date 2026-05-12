@@ -9,6 +9,8 @@ import java.util.Stack;
  * the width of each bar is 1, return the area of the largest rectangle in the histogram.
  * 
  * Approach - Stack, Divide and Conquer: DP
+ * 
+ * Documentation pending
  */
 public class P84LargestRectangleInHistogram {
 
