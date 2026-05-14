@@ -48,6 +48,9 @@ public class P1020NumberOfEnclaves {
 	}
 
 	// BFS
+	// We iterate the boundary of the grid and check if there is any land. From
+	// there we start a BFS as mark all the land cell as visited. These land cells
+	// are not enclaves. At the end we check for land cells which are not visited.
 	// Time complexity - O(m*n), where m and n are the number or rows and columns in
 	// the given grid. Initializing visited array takes O(m*n) time. Iterating over
 	// the boundary and finding unvisited land cells to perform BFS traversal takes

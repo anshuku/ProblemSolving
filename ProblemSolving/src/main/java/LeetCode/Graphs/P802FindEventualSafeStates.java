@@ -61,7 +61,7 @@ public class P802FindEventualSafeStates {
 	// all of the nodes that led to this cycle as unsafe. To find cycle, we must
 	// find the back edge connecting a node to one of its ancestors while traversing
 	// nodes in the DFS manner. To find whether or not a node's negihbor is an
-	// ancestor: If the neighborinh node has not yet been visited, it can't be an
+	// ancestor: If the neighboring node has not yet been visited, it can't be an
 	// ancestor(it's child). If neighboring node is visited, it may or may not be an
 	// ancestor. If the neighboring node is an ancestor or there is a back edge, it
 	// means that we visited this ancestor node 1st in DFS traversal, then visited
@@ -75,14 +75,14 @@ public class P802FindEventualSafeStates {
 	// function's recursion call stack for DFS. The nodes in the stack stores the
 	// current path. There is a cycle in the graph if a node is reached that is
 	// already in the recursion stack. We use boolean array inStack of length n to
-	// track whcih nodes are in call stack to check if a node exists in O(1). This
+	// track which nodes are in call stack to check if a node exists in O(1). This
 	// inStack array emulates call stack of computer to execute recursion. We mark
 	// an unvisited node in inStack when we make a recursive call to it and unmark
 	// it when we return from that call. After identifying the cycle, we check for
 	// unsafe nodes. When we get a cycle, all of the nodes in the recursion stack
 	// either form or lead to a cycle. If we start a DFS traversal from node 1 in a
 	// graph 1->2->3->4->2, nodes 2,3,4 forms cycle. Here node 1 was also in stack,
-	// so all the nodes in the recursion stack are unsafe as the form or lead to a
+	// so all the nodes in the recursion stack are unsafe as they form or lead to a
 	// loop. inStack array is used to detect cycles as well as to store the unsafe
 	// nodes. We don't unmark any of unsafe ndoes from inStack to keep track of
 	// them. When any node has an outgoing edge to any of the unsafe nodes, we can
@@ -94,25 +94,25 @@ public class P802FindEventualSafeStates {
 	// if we've explored all of its branches and no branch leads to an unsafe node.
 	// Algorithm: We use the input graph as adjacency list adj. We use boolean
 	// arrays visit and inStack. The visit array keeps track of visited nodes and
-	// inStack keeps track of nodes that ar currently in ongoing DFS - helps
-	// detecing cycle and unsafe nodes. FOr each node we begin a DFS traversal and
+	// inStack keeps track of nodes that are currently in ongoing DFS - helps
+	// detecing cycle and unsafe nodes. For each node we begin a DFS traversal and
 	// it returns a boolean indicating whether node is unsafe. We perform following:
-	// If node is already present in inStack, either we jyst got a cycle or a
+	// If node is already present in inStack, either we just got a cycle or a
 	// previoulsy detected unsafe node. We return true as the node is unsafe.
 	// If node is already visited(but not in inStack), we return false as we already
-	// vistied this node and didn;t find it as unsage node and it's safe. We mark
+	// visited this node and didn't find it as unsafe node and it's safe. We mark
 	// node as visited and also in inStack. We iterate over the outgoing edges of
 	// node and for each neighbor, we recursively call dfs. If we get a cycle from
-	// neighbor(or if it's previouslt detected unsafe node), return true without
+	// neighbor(or if it's previously detected unsafe node), return true without
 	// unmarking node in inStack. After processing all the outgoing edges of node,
 	// we mark inStack[node] = false to mark node as safe. We return false. At end
-	// of dfs for all nodes we create answer safeNodes and add all the odes with
+	// of dfs for all nodes we create answer safeNodes and add all the nodes with
 	// inStack[node] = false.
 	// Time complexity - O(m+n), where n = number of nodes and m = number of edges
 	// in the graph. Array visited and inStack takes O(n). The dfs function handles
 	// each node once - O(n) time. From each node, we iterate all the outgoing edges
 	// which further takes O(m) time to iterate all the edges as there are total m
-	// edges. Iterating over all the ndoes to push safe nodes into safeNodes - O(n).
+	// edges. Iterating over all the nodes to push safe nodes into safeNodes - O(n).
 	// Space complexity - O(n), the visit and inStack arrays takes O(n). The
 	// recursion call stack used by dfs can have no more than n elements in worst
 	// case.
@@ -192,8 +192,8 @@ public class P802FindEventualSafeStates {
 	// indegree = 0. Use boolean array: safe of size = n to track the safe nodes in
 	// the graph. While the queue is not empty: Dequeue the 1st node from queue and
 	// mark the node as safe. For each neighbor(nodes that have an incoming edge
-	// from node in adj) of node, we decrement indegreepneighbor] by 1 to delete the
-	// node -> neighbor edge. If indegree[neighbor[ == 0, it means that neighbor is
+	// from node in adj) of node, we decrement indegree[neighbor] by 1 to delete the
+	// node -> neighbor edge. If indegree[neighbor] == 0, it means that neighbor is
 	// leaf node so we push it to queue. At end of this while loop we use safeNodes
 	// to add all the nodes which are marked safe.
 	// Time complexity - O(m+n), where n = number of nodes and m = number of edges
