@@ -307,8 +307,8 @@ maxHeap = new PriorityQueue<>((a, b) -> b - a);
 minHeap = new PriorityQueue<>(); // Default behavior is ascending order
 
 
-
-
+In Graph Theory, we say the outdegree of a vertex is the number of direct edges going out of it.
+We say that the indegree of a vertex is the number of directed edges going into it.
 
 
 
