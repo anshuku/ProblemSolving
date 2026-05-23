@@ -311,4 +311,16 @@ In Graph Theory, we say the outdegree of a vertex is the number of direct edges 
 We say that the indegree of a vertex is the number of directed edges going into it.
 
 
+A graph is bipartite if the nodes can be partitioned into two independent sets 
+A and B such that every edge in the graph connects a node in set A and a node in set B.
+A graph is bipartite if we can split its nodes into 2 groups such that no two adjacent nodes 
+belong to the same group. This is equivalent to being able to colour the graph using only 
+2 colours so that every edge connects differently coloured nodes. The key idea is: 
+We try to colour the graph via dfs and If at any point a neighbor already has the same colour -> not bipartite.
+
+
+
+
+
+
 
