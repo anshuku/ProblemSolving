@@ -56,6 +56,7 @@ public class P785IsGraphBipartite {
 	// array.
 	private static boolean isBipartiteDfs(int[][] graph) {
 		int n = graph.length;
+		// Acts as visited array as well
 		int[] colours = new int[n];
 		Arrays.fill(colours, -1);
 
@@ -102,6 +103,7 @@ public class P785IsGraphBipartite {
 	// Space complexity - O(n), for colours array and stack space.
 	public static boolean isBipartiteStack(int[][] graph) {
 		int n = graph.length;
+		// Acts as visited array as well
 		int[] colour = new int[n];
 		Arrays.fill(colour, -1);
 
