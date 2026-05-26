@@ -89,11 +89,11 @@ public class P721AccountsMerge {
 //				Arrays.asList("Hanzo", "Hanzo3@m.co", "Hanzo1@m.co", "Hanzo0@m.co"),
 //				Arrays.asList("Fern", "Fern5@m.co", "Fern1@m.co", "Fern0@m.co"));
 
-		List<List<String>> mergedAccountsDFS = accountsMergeDFS(accounts);
-		System.out.println("DFS: The merged accounts are: " + mergedAccountsDFS);
-
 		List<List<String>> mergedAccountsUnionFind = accountsMergeUnionFind(accounts);
 		System.out.println("Union Find: The merged accounts are: " + mergedAccountsUnionFind);
+
+		List<List<String>> mergedAccountsDFS = accountsMergeDFS(accounts);
+		System.out.println("DFS: The merged accounts are: " + mergedAccountsDFS);
 	}
 
 	// Disjoint Set Union
