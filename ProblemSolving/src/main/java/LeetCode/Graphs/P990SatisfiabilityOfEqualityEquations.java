@@ -55,7 +55,6 @@ public class P990SatisfiabilityOfEqualityEquations {
 
 		boolean isPossibleDFS = equationsPossibleDFS(equations);
 		System.out.println("DFS: The equations are possible to be satisfied? " + isPossibleDFS);
-
 	}
 
 	// UnionFind
@@ -122,8 +121,6 @@ public class P990SatisfiabilityOfEqualityEquations {
 	// However, we can reduce it to O(|Σ|) or O(1), if we apply a hash set instead
 	// of a list as graph[i] to guarnatee all vertices in graph[i] are unique.
 	public static boolean equationsPossibleDFS(String[] equations) {
-		int n = equations.length;
-
 		List<Integer>[] graph = new ArrayList[26];
 		for (String equation : equations) {
 			char[] eqn = equation.toCharArray();
