@@ -319,8 +319,20 @@ belong to the same group. This is equivalent to being able to colour the graph u
 We try to colour the graph via dfs and If at any point a neighbor already has the same colour -> not bipartite.
 
 
+A disjoint-set data structure also called a union-find data
+structure or merge-find set, is a data structure that stores a collection of
+disjoint (non-overlapping) sets. Equivalently, it stores a partition of a set
+into disjoint subsets. It provides operations for adding new sets, merging
+sets (replacing them by their union), and finding a representative member of
+a set. It implements 2 useful operations:
+1. Find: Determine which subset a particular element is in. It can be used to
+determine if 2 elements are in the same subset.
+2. Union: Join 2 subsets into a single subset.
 
-
-
+For T operations, the amortized time complexity of the union-find algorithm 
+(using path compression with union by rank) is  O(alpha(T)). Here, alpha(T), 
+is the inverse Ackermann function that grows so slowly that it doesn't exceed 
+4 for all reasonable T(approx T < 10 ^ 600). Because the function grows so slowly, 
+we consider it to be O(1).
 
 
