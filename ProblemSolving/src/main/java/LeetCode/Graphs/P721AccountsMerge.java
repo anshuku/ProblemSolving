@@ -124,12 +124,12 @@ public class P721AccountsMerge {
 
 				// If it's the 1st time for the email, then assign the component group as the
 				// account index.
-				if (emailGroup.containsKey(email)) {
-					dsu.unionBySize(i, emailGroup.get(email));
+				if (!emailGroup.containsKey(email)) {
+					emailGroup.put(email, i);
 				} else {
 					// If we've seen this email before, then union this group with the previous
 					// group of the email.
-					emailGroup.put(email, i);
+					dsu.unionBySize(i, emailGroup.get(email));
 				}
 			}
 		}
@@ -266,4 +266,5 @@ public class P721AccountsMerge {
 		}
 
 	}
+
 }
