@@ -336,3 +336,67 @@ is the inverse Ackermann function that grows so slowly that it doesn't exceed
 we consider it to be O(1).
 
 
+Kahn's Algorithm - Topological sorting:
+A topological sort/ordering of directed graph is a linear ordering of its vertices such that
+for every directed edge u -> v from vertex u to vertex v, u comes before v in the ordering.
+
+In a directed acyclic graph, we can use Kahn's algorithm to get the toplogical ordering.
+Kahn's algo works by keeping a track of the number of incoming edges into each node(indegree).
+It works by repeatedly visiting the nodes with an indegree of 0 and deleting all the edges
+associated with it leading to a decrement of indegree for the nodes whose incoming edges are deleted.
+This is continued until no elements with 0 indegree can be found.
+
+The advantage of using Kahn's algo is that is also aids in the detection of graph cycles.
+
+
+DFS: Directed Graph cycle detection
+We can also use a DFS traversal to detect a cycle in a directed graph. In DFS, we use a recursive
+function to explore nodes as far as possible along each branch. Upon reaching the end of a branch,
+we backtrack to the previous node and continue exploring the next branches. Once we encounter an
+unvisited node, we will take one of its neighbor nodes (if exists) as the next node on this branch.
+Recursively call the function to take the next node as the 'starting node' and solve the subproblem.
+
+A node remains in the DFS recursion stack until all of its branches (all nodes in its subtree) have 
+not been explored. When we've examined all of a node's branches, i.e., visited all of the nodes in 
+its subtree, the node is removed from the DFS recursive stack. 
+
+If the graph has a cycle, we must have a back edge connecting a node to one of its ancestors while 
+traversing nodes in the DFS manner. To establish whether or not a node's neighbor is an ancestor when 
+navigating from one node to another: If the neighboring node has not yet been visited, it cannot be
+an ancestor (it is a child node). Otherwise, if a neighboring node is visited, it may or may not be an 
+ancestor. If the neighboring node is an ancestor, i.e. there is a back edge, it means that we visited
+this ancestor node first in the DFS traversal, then visited and explored some other nodes, and eventually
+visited a node that connects back to the ancestor node. As we're still exploring the ancestor node's
+subtree while iterating over this path, hence this node must be in the current DFS recursive stack.
+
+However, if a neighboring node is visited but not in the recursion stack, it signifies we've previously
+explored that node in a different branch, and it does not form a cycle in the current branch.
+
+As a result, to detect the cycle we must keep track of the visited nodes (like in a normal DFS) and also
+the nodes in the function's recursion call stack for DFS traversal. The nodes in the stack store the 
+current path that we're on. There is a cycle in the graph if a node is reached that is already in the 
+recursion stack. We uses a boolean array of length n to track which nodes are in the call stack so we
+can check if a node exists in O(1).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
