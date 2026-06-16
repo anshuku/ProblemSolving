@@ -107,7 +107,7 @@ public class P207CourseSchedule {
 	// The dfs function returns a boolean indicating whether there is a cycle in the
 	// graph.
 	private static boolean dfs(int node, boolean[] visited, boolean[] inStack, List<Integer>[] adjList) {
-		// If the node is already in the stack, we've a cycle.
+		// If the node is already in the stack, we've a cycle / back edge.
 		if (inStack[node]) {
 			return true;
 		}
