@@ -378,12 +378,27 @@ current path that we're on. There is a cycle in the graph if a node is reached t
 recursion stack. We uses a boolean array of length n to track which nodes are in the call stack so we
 can check if a node exists in O(1).
 
+An important thing to note about toplogically sorted order is that there won't be just one ordering 
+of nodes(courses). There can different orderings.
 
 
+Sort the list in descending order
+Collections.sort(list, Comparator.reverseOrder());
+list.sort(Comparator.reverseOrder());
 
 
+Reverse the list
+Collections.reverse(courses);
 
 
+Convert a list to primitive int
+int[] newArr = list.stream().mapToInt(Integer::intValue).toArray();
+
+
+Convert a list to Object Reference types(String / Integer)
+String[] newStrArr = list.toArray(new String[0]); // new String[list.size(0] is legacy and it maybe slower/not JVM optimized.
+String[] newStrArr = list.toArray(String[]::new);
+list.toArray() returns Object[], attempting to directly cast (String[]) list.toArray() throws ClassCastException at runtime.
 
 
 
