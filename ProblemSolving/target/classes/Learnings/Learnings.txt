@@ -401,12 +401,26 @@ String[] newStrArr = list.toArray(String[]::new);
 list.toArray() returns Object[], attempting to directly cast (String[]) list.toArray() throws ClassCastException at runtime.
 
 
+For -1, The trick is not to think of -1 and empty groups as special cases. Instead, normalize the input first, 
+then solve a cleaner problem. 
+For "A group can have no item belonging to it" can be handled via map.getOrDefault(index, new ArrayList<>())
 
 
-
-
-
-
+A useful pattern during intervies: When one sees: Special value, -1, null, empty, unassigned. 
+Ask: Can I transform it into a normal value before solving? This is called input normalization. 
+For graph problems: -1 = parent. -> creates virtual root. Interval problems: null boundary replace with +- Inf
+(Integer.MAX_VALUE). For this problem we create singleton group. Then we only solve one version 
+of the problem. The interview thought process. Ideally, within the first few minutes: 
+Step 1: Notice: Item belong to groups. Dependencies exist between items. There are 2 levels: Items, Groups. 
+Step 2: Notice group = -1, Ask: Can I pretend every item belongs to a group?
+Answer: Yes. Create a group for every -1 item. Now: Every item belongs to exactly one group. 
+Step 3: Notice: item dependency crossing groups implies group dependency. Example: item A -> item B. 
+group(A) = 0 and group(B) = 2, therefore group0 -> group2. 
+Step 4: Now the problem naturally decomposes into: Topological sort items, Topological sort groups, Merge. 
+At this point, one can get the solution. The biggest insight of the entire problem is not the toplogical sort 
+as most candidates know Kahn's algorithm. The biggest insight is: Convert every -1 item into its own singleton group, 
+so the entire problem becomes "every item belongs to exactly one group". This removes nearly all 
+special-case complexity.
 
 
 
