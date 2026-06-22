@@ -348,6 +348,10 @@ This is continued until no elements with 0 indegree can be found.
 
 The advantage of using Kahn's algo is that is also aids in the detection of graph cycles.
 
+When we perform Kahn's algorithm on directed graph having a cycle. We can see that if there is a cycle,
+the indegree of nodes in the cycle cannot be set to 0 due to cyclic dependency. We are unable to visit
+the cycle's nodes. So, if the number of visited nodes < total number of nodes in the graph, we've a cycle.
+
 
 DFS: Directed Graph cycle detection
 We can also use a DFS traversal to detect a cycle in a directed graph. In DFS, we use a recursive
