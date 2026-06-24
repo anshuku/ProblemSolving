@@ -427,7 +427,9 @@ so the entire problem becomes "every item belongs to exactly one group". This re
 special-case complexity.
 
 
-
+Indegree is used to track the count of parents. 
+Outdegre measures how many children are present.
+For tree with parent -> child relationships, outdegree is better as it can help track dependencies.
 
 
 
