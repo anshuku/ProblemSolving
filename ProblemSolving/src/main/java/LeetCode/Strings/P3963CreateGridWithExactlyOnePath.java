@@ -27,15 +27,44 @@ public class P3963CreateGridWithExactlyOnePath {
 
 	public static void main(String[] args) {
 		int m = 2, n = 3;
+//		int m = 1, n = 4;
 
-		String[] grid = createGrid(m, n);
+		String[] gridStringBuilder = createGridStringBuilder(m, n);
+		System.out.println(
+				"StringBuilder: The grid with exactly one valid path is: " + Arrays.toString(gridStringBuilder));
 
-		System.out.println("The grid with exactly one valid path is: " + Arrays.toString(grid));
+		String[] gridCharArray = createGridCharArray(m, n);
+		System.out.println("Char Array: The grid with exactly one valid path is: " + Arrays.toString(gridCharArray));
+	}
+
+	private static String[] createGridStringBuilder(int m, int n) {
+		String[] grid = new String[m];
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('.');
+
+		for (int i = 1; i < n; i++) {
+			sb.append('#');
+		}
+
+		for (int i = 0; i < m - 1; i++) {
+			grid[i] = sb.toString();
+		}
+
+		sb = new StringBuilder();
+
+		for (int i = 0; i < n; i++) {
+			sb.append('.');
+		}
+
+		grid[m - 1] = sb.toString();
+
+		return grid;
 	}
 
 	// The simplest route to chose is to go right when possible, then go down till
 	// one reaches the destination.
-	public static String[] createGrid(int m, int n) {
+	public static String[] createGridCharArray(int m, int n) {
 		String[] grid = new String[m];
 
 		char[][] gridArr = new char[m][n];
