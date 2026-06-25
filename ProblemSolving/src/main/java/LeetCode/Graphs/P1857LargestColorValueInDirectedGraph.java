@@ -332,6 +332,6 @@ public class P1857LargestColorValueInDirectedGraph {
 		count[node][colorsArr[node] - 'a']++;
 		// Remove the node from the stack.
 		inStack[node] = false;
-		return count[node][colorsArr[node] - 'a'];
+		return count[node][colorsArr[node] - 'a']; // can return ++count[node][colorsArr[node] - 'a'];
 	}
 }
