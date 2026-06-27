@@ -432,6 +432,9 @@ Outdegre measures how many children are present.
 For tree with parent -> child relationships, outdegree is better as it can help track dependencies.
 
 
+To find the length of a number, we can use below approaches:
+int len = String.valueOf(num).length();
+int len = num == 0? 1: (int) Math.log10(num) + 1
 
 
 
