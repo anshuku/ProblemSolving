@@ -437,4 +437,58 @@ int len = String.valueOf(num).length();
 int len = num == 0? 1: (int) Math.log10(num) + 1
 
 
+We identified the minimum state needed for DP/graph search. One's instinct 
+may point to store the character. But we only need the count of character.
+1. We ask: "What information affects the future?". Suppose we're at node u.
+The only restriction is: If the next node has the same label as the current
+streak's character, increment the streak; otherwise reset it to 1. So to
+determine the next state, one needs: 1. which node one is in. 2. How long the
+current streak is. 3. What character the streak consists of. Initially this
+suggests the state (node, streakCharacter, streakLength).
+2. Is the streak character independent? Now ask can I ever be at the same
+node with two different streak characters? Suppose we're at node u with
+label[u] = 'c'. Could the streak character be 'a'? No. As every path ends
+with node u. The last character of the path is therefore label[u]. The streak
+is defined by the suffix of identical characters ending at the current node.
+Therefore the streak character must equal label[u] as it's determined by
+current node.
+3. Observation, if the state is (node, count), then current streak character
+= labels[node] is already known. In other words, (node, count, character)
+contains redundant info. Whenever one piece of info can be computed from the
+others, we shouldn't store it. This is common DP optimizations.
+Now to recognize this in contest: We write down the transition before
+deciding the DP state. Here it's labels[v] == ? then streak++ else
+streak = 1. We ask what's "?" It's the character of the current streak. Then
+we ask can I determine it from my current node? Immediately, current node = u
+so labels[u] is exactly that character.
+For contests, when we're about to add another dimension to the state, ask can
+this dimension be derived from the existing state? If it's fixed no need to
+store it. Example parent's color in graph, substree size in tree, cellvalue
+for fixed grid, as they're fixed so no need to store it.
+Rule: Never store something that is a deterministic function of the rest of
+the state.
+Here, if we store the character, state is distance[node][26][k+1], or (node,
+currentCharacter, count). Transition, if labels[v] == currentCharacter,
+newCount = count + 1 else currentCharacter = labels[v] and newCount = 1.
+Here, currentCharacter will always equal labels[node]. So for every reachable
+state, currentCharacter == labels[node], The other 25 character entries for
+that node are unreachable. No need to store 26x more states, while only 1/26
+of them can ever be valid.
+Mindset: When solving DP or shortest-path problems with state, repeatedly ask
+these 3 questions:
+1. What information influences future transitions?
+2. Is any of that informaton already implied by my current position/state?
+3. If I remove one state variable, can I still compute every transition
+correctly?
+In this problem, > The streak length influences future transitions, so it
+must be stored. > The streak character also influences future transitions but
+it's always equal to labels[currentNode], so it's implied by the node and
+doesn't need to be stored.
+
+
+
+
+
+
+
 
