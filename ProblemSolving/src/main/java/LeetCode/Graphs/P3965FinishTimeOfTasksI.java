@@ -26,6 +26,15 @@ import java.util.Queue;
  * 
  * Return the finish time of the root task 0.
  * 
+ * Constraints:
+ * > 1 <= n <= 10^5
+ * > edges[i] == [ui, vi]
+ * > 0 <= ui, vi <= n - 1
+ * > ui != vi
+ * > The input is generated such that edges represents a valid tree.
+ * > baseTime.length == n
+ * > 1 <= baseTime[i] <= 10^5​​​​​​​
+ * 
  * Approach - DFS, Topological Sort: Kahn's Algo
  */
 public class P3965FinishTimeOfTasksI {
@@ -48,10 +57,10 @@ public class P3965FinishTimeOfTasksI {
 
 	// DFS: Tree bottom-up DP.
 	// Since every node's answer depends only on its children's answers, making it a
-	// classic bottom-up tree DP problem. We ues recursion to compute the finish
+	// classic bottom-up tree DP problem. We use recursion to compute the finish
 	// time of each node. The base case is when the node is leaf, we return
 	// baseTime[node]. The recursive case is when we compute the finish time of all
-	// children. We get the latest and earlies and then find finishTime as per the
+	// children. We get the latest and earliest and then find finishTime as per the
 	// conditions.
 	// The finish time of a node depends only on: minimum child finish time, maximum
 	// child finish time. So we never need info from deeper descendants directly.
@@ -117,7 +126,7 @@ public class P3965FinishTimeOfTasksI {
 	// Space complexity - O(V + E)
 	public static long finishTimeKahn(int n, int[][] edges, int[] baseTime) {
 		int[] indegree = new int[n]; // Used to track the count of parents, outdegree is better
-		// Outdegre measures how many children are present.
+		// Outdegree measures how many children are present.
 
 		List<Integer>[] adjList = new ArrayList[n];
 
@@ -143,6 +152,8 @@ public class P3965FinishTimeOfTasksI {
 			}
 		}
 
+		// long[] is better as the constraints suggest n <= 10^5 and baseTime <= 10^5.
+		// In the worst case time = 10^5*10^5 = 10^10 > 2*10^9, exceeds int max.
 		long[] earliest = new long[n]; // min finishing time
 		Arrays.fill(earliest, Long.MAX_VALUE);
 
@@ -171,5 +182,4 @@ public class P3965FinishTimeOfTasksI {
 
 		return finish[0];
 	}
-
 }
