@@ -486,7 +486,14 @@ it's always equal to labels[currentNode], so it's implied by the node and
 doesn't need to be stored.
 
 
+To sort an int[] in reverse order
+One can't use below which is applicable for Integer[] or String[] as int[] contains primitives.
+Java doesn't allows Comparator to be passed for primitives in Arrays.sort();
 
+For objects like Integer[]:
+Integer[] nums = {3, 1, 4};
+Arrays.sort(nums, (a,b) -> Integer.compare(b, a));
+Arrays.sort(nums, Comparator.reverseOrder());
 
 
 
