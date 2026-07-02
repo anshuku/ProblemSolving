@@ -19,7 +19,7 @@ package LeetCode.BinarySearch;
  * > 1 <= value[i], decay[i] <= 10^9​​​​​​​
  * > 1 <= m <= 10^9
  * 
- * Approach - Binary Search + Greedy
+ * Approach - Binary Search + Greedy + Arithmetic Sum
  */
 public class P3971MaximumTotalValue {
 
@@ -45,7 +45,7 @@ public class P3971MaximumTotalValue {
 		System.out.println("Brute Force: The max value one can obtain: " + maxValueBruteForce);
 	}
 
-	// Binary Search + Greedy
+	// Binary Search + Greedy + Arithmetic Sum
 	// For every index i, the values one can obtain are value[i], value[i] -
 	// decay[i], value[i] - 2*decay[i], value[i] - 3*decay[i]... So each index
 	// generates an AP. We need to choose at most m numbers from the union of all
@@ -54,7 +54,7 @@ public class P3971MaximumTotalValue {
 	// Key Idea: Suppose we know threshold X(which we'll get via binary search). We
 	// select every reward >= X. For each index, value - decay*(t - 1) >= X
 	// t <= (value - X)/decay + 1. Hence, count = floor((value - X)/decay) + 1.
-	// Provide value >= X, otherwise count = 0. So, we can compute
+	// Provided value >= X, otherwise count = 0. So, we can compute
 	// > How many values are at least X and > Their total sum in O(n).
 	// Sum of first k terms: If k selections, then v, v-d, v-2d...
 	// Sum=k*(2v - (k-1)*d)/2, as it has negative common difference.
@@ -77,6 +77,7 @@ public class P3971MaximumTotalValue {
 		long start = 1;
 		long end = 1000000000;
 
+		// We want to find the upper bound for threshold
 		while (start <= end) {
 			long mid = start + (end - start) / 2;
 
@@ -88,6 +89,7 @@ public class P3971MaximumTotalValue {
 			}
 		}
 
+		// Upper bound will reach next value so we subtract 1 to get the last value
 		long threshold = start - 1;
 
 		long totalCount = 0;
