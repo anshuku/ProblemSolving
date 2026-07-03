@@ -20,18 +20,16 @@ public class P53MaximumSubarray {
 //		int[] arr = { 5, 4, -1, 7, 8 };
 
 		int maxSum = largestSumContiguousSubarrayKadane(arr);
-
 		System.out.println("Kadane: Largest sum for contiguous subarray is:" + maxSum);
 
 		int[] subArr = arrLargestSumContiguousSubarrayKadane(arr);
-
 		System.out.println("Kadane Array: Largest sum contiguous subarray is:");
 		for (int i = subArr[0]; i <= subArr[1]; i++) {
 			System.out.print(arr[i] + " ");
 		}
+		System.out.println();
 
 		int maxSumDp = largestSumContiguousSubarrayKadaneDP(arr);
-		System.out.println();
 		System.out.println("DP: Largest sum for contiguous subarray is:" + maxSumDp);
 	}
 
