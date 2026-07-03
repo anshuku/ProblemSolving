@@ -1,12 +1,14 @@
 package LeetCode.Arrays;
 
 /*
- * Given an integer array nums, find the subarray with the largest sum, and return its sum.
- * LOD: Medium
+ * P53. Maximum Subarray - Medium
  * 
- * This uses Greedy and DP approach
+ * Given an integer array nums, find the subarray with the largest sum, and return its sum.
+ * 
+ * Approach - Greedy, DP
+ * 
  * Time Complexity: O(n)
- * Space Complexity: O(1) and O(
+ * Space Complexity: O(1) and O(n)
  */
 public class P53MaximumSubarray {
 
@@ -28,7 +30,7 @@ public class P53MaximumSubarray {
 		System.out.println();
 		System.out.println("Largest sum contiguous subarray by dp is:" + maxSumDp);
 	}
-	
+
 	private static int largestSumContiguousSubarrayKadane(int[] arr) {
 		int maxSumEndingHere = 0;
 		int maxSumSoFar = Integer.MIN_VALUE;
