@@ -15,20 +15,24 @@ public class P53MaximumSubarray {
 	public static void main(String[] args) {
 		int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
 
+//		int[] arr = { 1 };
+
+//		int[] arr = { 5, 4, -1, 7, 8 };
+
 		int maxSum = largestSumContiguousSubarrayKadane(arr);
 
-		System.out.println("Largest sum contiguous subarray is:" + maxSum);
+		System.out.println("Kadane: Largest sum for contiguous subarray is:" + maxSum);
 
 		int[] subArr = arrLargestSumContiguousSubarrayKadane(arr);
 
-		System.out.println("Array with Largest sum contiguous subarray is ");
+		System.out.println("Kadane Array: Largest sum contiguous subarray is:");
 		for (int i = subArr[0]; i <= subArr[1]; i++) {
 			System.out.print(arr[i] + " ");
 		}
 
 		int maxSumDp = largestSumContiguousSubarrayKadaneDP(arr);
 		System.out.println();
-		System.out.println("Largest sum contiguous subarray by dp is:" + maxSumDp);
+		System.out.println("DP: Largest sum for contiguous subarray is:" + maxSumDp);
 	}
 
 	private static int largestSumContiguousSubarrayKadane(int[] arr) {
@@ -65,7 +69,7 @@ public class P53MaximumSubarray {
 				s = i + 1;
 			}
 		}
-		System.out.println("Arr: Largest sum contiguous subarray is " + maxSumSoFar);
+		System.out.println("Array: Largest sum for contiguous subarray is " + maxSumSoFar);
 		return new int[] { start, end };
 	}
 
