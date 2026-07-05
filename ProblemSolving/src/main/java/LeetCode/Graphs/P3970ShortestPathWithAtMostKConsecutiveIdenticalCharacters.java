@@ -169,7 +169,7 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 		long[][] distance = new long[n][k + 1];
 
 		for (long[] arr : distance) {
-			Arrays.fill(arr, Long.MAX_VALUE); // Can you Integer.MAX_VALUE as well.
+			Arrays.fill(arr, Long.MAX_VALUE); // Can use Integer.MAX_VALUE as well.
 		}
 
 		PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
