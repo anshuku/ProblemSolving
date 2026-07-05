@@ -29,9 +29,25 @@ import java.util.List;
 public class P3975FilterOccupiedIntervals {
 
 	public static void main(String[] args) {
-		int[][] occupiedIntervals = { { 2, 6 }, { 4, 8 }, { 10, 10 }, { 10, 12 }, { 14, 16 } };
-		int freeStart = 7;
-		int freeEnd = 11;
+//		int[][] occupiedIntervals = { { 2, 6 }, { 4, 8 }, { 10, 10 }, { 10, 12 }, { 14, 16 } };
+//		int freeStart = 7;
+//		int freeEnd = 11;
+
+//		int[][] occupiedIntervals = { { 1, 5 }, { 2, 3 } };
+//		int freeStart = 3;
+//		int freeEnd = 8;
+
+//		int[][] occupiedIntervals = { { 1, 3 } };
+//		int freeStart = 2;
+//		int freeEnd = 2;
+
+//		int[][] occupiedIntervals = { { 1, 1 }, { 2, 2 } };
+//		int freeStart = 100;
+//		int freeEnd = 100;
+
+		int[][] occupiedIntervals = { { 31, 40 }, { 75, 92 }, { 44, 46 }, { 50, 51 }, { 43, 47 } };
+		int freeStart = 45;
+		int freeEnd = 52;
 
 		List<List<Integer>> filteredIntervalsShort = filterOccupiedIntervalsShort(occupiedIntervals, freeStart,
 				freeEnd);
@@ -122,10 +138,10 @@ public class P3975FilterOccupiedIntervals {
 			if (b < freeStart || a > freeEnd) {
 				merged.add(Arrays.asList(a, b));
 			} else {
-				if (b < freeEnd) {
+				if (a < freeStart) {
 					merged.add(Arrays.asList(a, freeStart - 1));
 				}
-				if (a > freeStart) {
+				if (b > freeEnd) {
 					merged.add(Arrays.asList(freeEnd + 1, b));
 				}
 			}

@@ -1,34 +1,65 @@
 package LeetCode.Arrays;
 
 /*
- * Given an integer array nums, find the subarray with the largest sum, and return its sum.
- * LOD: Medium
+ * P53. Maximum Subarray - Medium
  * 
- * This uses Greedy and DP approach
+ * Given an integer array nums, find the subarray with the largest sum, and return its sum.
+ * 
+ * Approach - Greedy, DP
+ * 
  * Time Complexity: O(n)
- * Space Complexity: O(1) and O(
+ * Space Complexity: O(1) and O(n)
  */
 public class P53MaximumSubarray {
 
 	public static void main(String[] args) {
 		int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
 
-		int maxSum = largestSumContiguousSubarrayKadane(arr);
+		int val1 = Math.ceilDiv(-4, 3);
+		System.out.println("val1:" + val1);
 
-		System.out.println("Largest sum contiguous subarray is:" + maxSum);
+		int val2 = 4 / 3;
+		System.out.println("val2:" + val2);
+
+//		int[] arr = { 1 };
+
+//		int[] arr = { 5, 4, -1, 7, 8 };
+
+		int maxSum = largestSumContiguousSubarrayKadane(arr);
+		System.out.println("Kadane: Largest sum for contiguous subarray is:" + maxSum);
 
 		int[] subArr = arrLargestSumContiguousSubarrayKadane(arr);
-
-		System.out.println("Array with Largest sum contiguous subarray is ");
+		System.out.println("Kadane Array: Largest sum contiguous subarray is:");
 		for (int i = subArr[0]; i <= subArr[1]; i++) {
 			System.out.print(arr[i] + " ");
 		}
+		System.out.println();
 
 		int maxSumDp = largestSumContiguousSubarrayKadaneDP(arr);
-		System.out.println();
-		System.out.println("Largest sum contiguous subarray by dp is:" + maxSumDp);
+		System.out.println("DP: Largest sum for contiguous subarray is:" + maxSumDp);
+
+		int maxSumDp2 = largestSumContiguousSubarrayKadaneDP2(arr);
+		System.out.println("DP2: Largest sum for contiguous subarray is:" + maxSumDp2);
 	}
-	
+
+	private static int largestSumContiguousSubarrayKadaneDP2(int[] arr) {
+		int n = arr.length;
+		int[] dp = new int[n];
+		dp[0] = arr[0];
+		int ans = arr[0];
+
+		for (int i = 1; i < n; i++) {
+			dp[i] = Math.max(arr[i], dp[i - 1] + arr[i]);
+			ans = Math.max(ans, dp[i]);
+		}
+		return ans;
+	}
+
+	// There is a sequence of numbers.
+	// If all are positive, one must add them all.
+	// If all are negative, take the smallest negative.
+	// If positive and negative, one need to take into account if the sum remains
+	// positive throughout and also record the max.
 	private static int largestSumContiguousSubarrayKadane(int[] arr) {
 		int maxSumEndingHere = 0;
 		int maxSumSoFar = Integer.MIN_VALUE;
@@ -63,7 +94,7 @@ public class P53MaximumSubarray {
 				s = i + 1;
 			}
 		}
-		System.out.println("Arr: Largest sum contiguous subarray is " + maxSumSoFar);
+		System.out.println("Array: Largest sum for contiguous subarray is " + maxSumSoFar);
 		return new int[] { start, end };
 	}
 
