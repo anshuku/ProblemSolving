@@ -15,6 +15,12 @@ public class P53MaximumSubarray {
 	public static void main(String[] args) {
 		int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
 
+		int val1 = Math.ceilDiv(-4, 3);
+		System.out.println("val1:" + val1);
+
+		int val2 = 4 / 3;
+		System.out.println("val2:" + val2);
+
 //		int[] arr = { 1 };
 
 //		int[] arr = { 5, 4, -1, 7, 8 };
@@ -31,8 +37,29 @@ public class P53MaximumSubarray {
 
 		int maxSumDp = largestSumContiguousSubarrayKadaneDP(arr);
 		System.out.println("DP: Largest sum for contiguous subarray is:" + maxSumDp);
+
+		int maxSumDp2 = largestSumContiguousSubarrayKadaneDP2(arr);
+		System.out.println("DP2: Largest sum for contiguous subarray is:" + maxSumDp2);
 	}
 
+	private static int largestSumContiguousSubarrayKadaneDP2(int[] arr) {
+		int n = arr.length;
+		int[] dp = new int[n];
+		dp[0] = arr[0];
+		int ans = arr[0];
+
+		for (int i = 1; i < n; i++) {
+			dp[i] = Math.max(arr[i], dp[i - 1] + arr[i]);
+			ans = Math.max(ans, dp[i]);
+		}
+		return ans;
+	}
+
+	// There is a sequence of numbers.
+	// If all are positive, one must add them all.
+	// If all are negative, take the smallest negative.
+	// If positive and negative, one need to take into account if the sum remains
+	// positive throughout and also record the max.
 	private static int largestSumContiguousSubarrayKadane(int[] arr) {
 		int maxSumEndingHere = 0;
 		int maxSumSoFar = Integer.MIN_VALUE;
