@@ -166,6 +166,7 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 
 		char[] labelsArr = labels.toCharArray();
 
+		// We take the smallest weight first for processing
 		PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 
 		pq.offer(new long[] { 0, 0, 1 });
