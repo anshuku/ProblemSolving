@@ -166,17 +166,15 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 
 		char[] labelsArr = labels.toCharArray();
 
-		long[][] distance = new long[n][k + 1];
-
-		for (long[] arr : distance) {
-			Arrays.fill(arr, Long.MAX_VALUE); // Can use Integer.MAX_VALUE as well.
-		}
-
 		PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 
 		pq.offer(new long[] { 0, 0, 1 });
 
-		distance[0][1] = 0;
+		long[][] weight = new long[n][k + 1];
+		for (long[] arr : weight) {
+			Arrays.fill(arr, Long.MAX_VALUE); // Can use Integer.MAX_VALUE as well.
+		}
+		weight[0][1] = 0;
 
 		while (!pq.isEmpty()) {
 			long[] node = pq.poll();
@@ -188,7 +186,7 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 				return (int) d;
 			}
 
-			if (d != distance[u][count]) {
+			if (d != weight[u][count]) {
 				continue;
 			}
 
@@ -205,10 +203,10 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 				if (newCount > k) {
 					continue;
 				}
-				if (distance[v][newCount] > d + w) {
-					distance[v][newCount] = d + w;
+				if (weight[v][newCount] > d + w) {
+					weight[v][newCount] = d + w;
 
-					pq.offer(new long[] { distance[v][newCount], v, newCount });
+					pq.offer(new long[] { weight[v][newCount], v, newCount });
 				}
 			}
 		}
@@ -216,7 +214,7 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 		long minWeight = Integer.MAX_VALUE;
 
 		for (int i = 1; i <= k; i++) {
-			minWeight = Math.min(minWeight, distance[n - 1][i]);
+			minWeight = Math.min(minWeight, weight[n - 1][i]);
 		}
 
 		return minWeight == Integer.MAX_VALUE ? -1 : (int) minWeight;
