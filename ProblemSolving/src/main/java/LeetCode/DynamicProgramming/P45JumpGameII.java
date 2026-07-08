@@ -68,8 +68,8 @@ public class P45JumpGameII {
 	// using the greedy approach. In the range of jump i, we update far for jump
 	// i+1, similary for the range of jump i + 1, we update far for jump i+2.
 	// To summarize: the current jump ends when we reach index end. Between the
-	// current index and end, we find the farthes reachable index far. At the end of
-	// the current jump, we increment our answer and set end = far for next jump.
+	// current index and end, we find the farthest reachable index far. At the end
+	// of the current jump, we increment our answer and set end = far for next jump.
 	// Algo: Initialize currEnd and currFar as 0 and number of jumps as answer = 0.
 	// Iterate over nums, for each index i, the farthest index we can reach from i
 	// is i + nums[i]. We update currFar = max(currFar, i + nums[i]). If i =
@@ -109,7 +109,7 @@ public class P45JumpGameII {
 
 		for (int i = n - 2; i >= 0; i--) {
 			int maxJump = Math.min(i + nums[i], n - 1);
-			for (int j = i + 1; j <= maxJump; j++) { // same as for (int j = maxJump; j > index; j---)
+			for (int j = i + 1; j <= maxJump; j++) { // same as for (int j = maxJump; j > index; j--)
 				dp[i] = Math.min(dp[i], dp[j] + 1);
 			}
 		}
