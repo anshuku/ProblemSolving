@@ -234,8 +234,8 @@ public class P322CoinChange {
 
 	// Greedy enumeration
 	// Starting from count = 1,2,3 stop when minimum count is found.
-	// Unlike Perfect squares appraoch, there are certain issues:
-	// 1. isNumDivisble(amount, count) repeated;y computes the same subproblems
+	// Unlike Perfect squares approach, there are certain issues:
+	// 1. isNumDivisble(amount, count) repeatedly computes the same subproblems
 	// which takes exponential time so memoization is essential.
 	// 2. count 1 -> amount is brute force BFS without pruning.
 	// The function may find the solution, but slowly for big amounts.

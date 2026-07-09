@@ -19,6 +19,16 @@ import java.util.PriorityQueue;
  * such that the concatenation of the labels of the nodes along the path contains 
  * at most k consecutive identical characters. If no valid path exists, return -1.
  * 
+ * Constraints:
+ * 1 <= n == labels.length <= 5 * 10^4
+ * 0 <= edges.length <= 5 * 10^4
+ * edges[i] == [ui, vi, wi]
+ * 0 <= ui, vi <= n - 1
+ * ui != vi
+ * 1 <= wi <= 10^4
+ * labels consists of lowercase English letters
+ * 1 <= k <= 50
+ * 
  * Approach - Dijkstra's Algorithm with a state
  */
 public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
@@ -44,9 +54,81 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 		String labels = "aaa";
 		int k = 2;
 
+		int minEdgeWeightOpt = shortestPathOpt(n, edges, labels, k);
+		System.out.println("Optimized: Min edge weight of path 0->(n-1) with <= k consecutive identical characters: "
+				+ minEdgeWeightOpt);
+
 		int minEdgeWeight = shortestPath(n, edges, labels, k);
 		System.out.println(
 				"Min edge weight of path 0->(n-1) with <= k consecutive identical characters: " + minEdgeWeight);
+	}
+
+	private static int shortestPathOpt(int n, int[][] edges, String labels, int k) {
+		List<int[]>[] adjList = new ArrayList[n];
+
+		for (int i = 0; i < n; i++) {
+			adjList[i] = new ArrayList<>();
+		}
+
+		for (int[] edge : edges) {
+			adjList[edge[0]].add(new int[] { edge[1], edge[2] });
+		}
+
+		// We take the smallest weight first for processing if the weights are different
+		// and if the weight is same, then sort based on count of identical characters.
+		PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+			if (a[0] != b[0]) {
+				return Integer.compare(a[0], b[0]);
+			}
+			return Integer.compare(a[1], b[1]);
+		});
+
+		pq.offer(new int[] { 0, 1, 0 });
+
+		int[][] weight = new int[n][k + 1];
+
+		for (int[] arr : weight) {
+			Arrays.fill(arr, Integer.MAX_VALUE);
+		}
+
+		weight[0][1] = 0;
+
+		char[] labelsArr = labels.toCharArray();
+
+		while (!pq.isEmpty()) {
+			int[] node = pq.poll();
+
+			int u = node[2];
+			int currWeight = node[0];
+			int count = node[1];
+
+			if (u == n - 1) {
+				return currWeight;
+			}
+
+			if (weight[u][count] != currWeight) {
+				continue;
+			}
+
+			for (int[] neighbor : adjList[u]) {
+				int v = neighbor[0];
+				int w = neighbor[1];
+
+				int newCount = labelsArr[u] == labelsArr[v] ? count + 1 : 1;
+
+				if (newCount > k) {
+					continue;
+				}
+
+				if (weight[v][newCount] > currWeight + w) {
+					weight[v][newCount] = currWeight + w;
+
+					pq.offer(new int[] { weight[v][newCount], newCount, v });
+				}
+			}
+		}
+
+		return -1;
 	}
 
 	// Dijkstra's Algorithm
@@ -166,17 +248,18 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 
 		char[] labelsArr = labels.toCharArray();
 
-		long[][] distance = new long[n][k + 1];
-
-		for (long[] arr : distance) {
-			Arrays.fill(arr, Long.MAX_VALUE); // Can you Integer.MAX_VALUE as well.
-		}
-
+		// We take the smallest weight first for processing
+		// We can take smallest count of identical character but it'll be TLE and not an
+		// optimized solution. Also if (u == n - 1) check in the bfs need to be dropped.
 		PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 
 		pq.offer(new long[] { 0, 0, 1 });
 
-		distance[0][1] = 0;
+		long[][] weight = new long[n][k + 1];
+		for (long[] arr : weight) {
+			Arrays.fill(arr, Long.MAX_VALUE); // Can use Integer.MAX_VALUE as well.
+		}
+		weight[0][1] = 0;
 
 		while (!pq.isEmpty()) {
 			long[] node = pq.poll();
@@ -188,7 +271,7 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 				return (int) d;
 			}
 
-			if (d != distance[u][count]) {
+			if (d != weight[u][count]) {
 				continue;
 			}
 
@@ -205,21 +288,25 @@ public class P3970ShortestPathWithAtMostKConsecutiveIdenticalCharacters {
 				if (newCount > k) {
 					continue;
 				}
-				if (distance[v][newCount] > d + w) {
-					distance[v][newCount] = d + w;
+				if (weight[v][newCount] > d + w) {
+					weight[v][newCount] = d + w;
 
-					pq.offer(new long[] { distance[v][newCount], v, newCount });
+					pq.offer(new long[] { weight[v][newCount], v, newCount });
 				}
 			}
 		}
 
-		long minWeight = Integer.MAX_VALUE;
+		// No need of below as we're always taking the smallest weight first for
+		// processing.
+//		long minWeight = Integer.MAX_VALUE;
+//
+//		for (int i = 1; i <= k; i++) {
+//			minWeight = Math.min(minWeight, weight[n - 1][i]);
+//		}
+//
+//		return minWeight == Integer.MAX_VALUE ? -1 : (int) minWeight;
 
-		for (int i = 1; i <= k; i++) {
-			minWeight = Math.min(minWeight, distance[n - 1][i]);
-		}
-
-		return minWeight == Integer.MAX_VALUE ? -1 : (int) minWeight;
+		return -1;
 	}
 
 }
