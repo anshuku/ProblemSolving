@@ -496,6 +496,7 @@ Arrays.sort(nums, (a,b) -> Integer.compare(b, a));
 Arrays.sort(nums, Comparator.reverseOrder());
 
 
-
+Standard Dijkstra hygiene: If the popped value does not equal distance[a][b].., this entry is stale.
+A better value for the same (a, b, ...) was found after it was pushed, so we skip it.
 
 
