@@ -500,3 +500,10 @@ Standard Dijkstra hygiene: If the popped value does not equal distance[a][b].., 
 A better value for the same (a, b, ...) was found after it was pushed, so we skip it.
 
 
+A useful rule when converting memoization to tabulation is:
+> If a memoized state returns immediately (base case), initialize that DP layer in tabulation.
+> Start the loops from the states that depend on the base case, not from the base case itself.
+
+
+
+
