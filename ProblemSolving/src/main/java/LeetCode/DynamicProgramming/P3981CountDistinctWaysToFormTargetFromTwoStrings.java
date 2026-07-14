@@ -96,6 +96,7 @@ public class P3981CountDistinctWaysToFormTargetFromTwoStrings {
 		int[][][] dp = new int[m + 1][n + 1][l + 1];
 
 		// Base case
+		// We iterate till and including m and n, as we've to make dp[m][n][l] = 1
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
 				dp[i][j][l] = 1;
