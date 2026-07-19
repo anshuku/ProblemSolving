@@ -106,15 +106,15 @@ public class P3983SubsequenceAfterOneReplacement {
 	// left[i] = earliest position of s[i] in t after matching s[0..i-1].
 	// If every character is matched then, s is already a subsequence, return true.
 	// 2. Suffix matching: Scan from right to left.
-	// right[i] = latest position of s[i] before matching s[i+1...]
-	// It records where every suffix can start
+	// right[i] = latest position of s[i] in t before matching s[i+1...]
+	// It records where every suffix can start.
 	// 3. Try replacing each position: Assume we replace s[i],
 	// The prefix must end at: L = left[i - 1], (or -1 if i == 0).
 	// The suffix must begin at: R = right[i+1], (or n if i == m - 1)
-	// If L + 1 < R, then there exists at least 1 position of t between the matched
-	// prefix and suffix or L < k < R. We can simply replace s[i] with the character
-	// at that position, making the entire string a subsequence. If this consition
-	// holds true for any index, return true. Otherwise, return false.
+	// If L + 1 < R, then there exists at least 1 position k in t between the
+	// matched prefix and suffix or L < k < R. We can simply replace s[i] with the
+	// character at that position, making the entire string a subsequence. If this
+	// condition holds true for any index, return true. Otherwise, return false.
 	// L is the index in t where the prefix s[0...i-1] end, and R is the index where
 	// the suffix s[i+1..m-1] starts. The replaced character s[i] can become any
 	// letter, so we only need 1 position in t between L and R to match it. L+1 < R
@@ -123,9 +123,8 @@ public class P3983SubsequenceAfterOneReplacement {
 	// leaving no place to insert the replaced character while preserving the
 	// subsequence order.
 	// Time complexity - O(n + m), m = s.length(), n = t.length(). Each pointer
-	// scans
-	// t at most once. Prefix scan: O(n+m), Suffix scan: O(n+m), final iteration for
-	// condition check: O(m).
+	// scans t at most once. Prefix scan: O(n + m), Suffix scan: O(n + m), final
+	// iteration for condition check: O(m).
 	// Space complexity - O(m) for left and right arrays.
 	private static boolean canMakeSubsequenceOnePass2Arrays(String s, String t) {
 		char[] sArr = s.toCharArray();
