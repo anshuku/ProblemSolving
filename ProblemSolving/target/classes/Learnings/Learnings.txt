@@ -510,4 +510,4 @@ Modulo care: a number num can be -ve, and Java's % preserves the sign of the div
 num % mod might stay -ve. Add MOD and re-mod to normalize into [0, mod - 1].
 
 
-
+Using char[] is always faster than String directly
