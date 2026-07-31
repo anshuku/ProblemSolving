@@ -511,3 +511,57 @@ num % mod might stay -ve. Add MOD and re-mod to normalize into [0, mod - 1].
 
 
 Using char[] is always faster than String directly
+
+
+Standard prefix-sum convention: prefix[k] = sum of T[0...k-1]. So sum of
+T[l..r] = prefix[r+1] - prefix[l], we include sum from l to r so we
+subtract total sum till r from total sum till l-1.
+
+Why prefix has length m + 1, prefix[k] is defined as "sum of 1st k elements" - so prefix[0] = 0 
+means sum of 0 elements or empty prefix. prefix[1] = T[0],... prefix[m] = sum of all m elements. 
+That's m + 1 values total (0 through m), hence array size m + 1. This is what makes prefix[r+1] - prefix[l] 
+always valid: even when r = m - 1 (the very last index), we need prefix[m], which requires the 
+array to have size m + 1. Without the extra slot, in Manacher's algorithm prefix[i + P[i] + 1] 
+would go out of bounds when a palindrome reaches the last index of T.
+
+
+Rolling Hash: We define h[k] = hash of nums[0...k-1] as a prefix polynomial hash:
+h[k] = nums[0]*base^(k-1) + nums[1]*base^(k-2) +...+ nums[k-1]*base^0 (mod)
+Each prefix hash is built incrementally: h[k+1] = h[k]*base + nums[k].
+his is how one can evaluate a polynomial digit-by-digit (like turning a decimal string into a number).
+
+Why we need to "shift" h[l]: we want the hash of just nums[l...r]
+h[l] = nums[0]*base^(l-1) + nums[1]*base^(l-2) +..+ nums[l-1]*base^0
+hash(nums[l..r]) = nums[l]*base^(r-l) + nums[l+1]*base^(r-l-1) + ... + nums[r]*base^0.
+h[r+1] = nums[0]*base^(r) + ... + nums[l-1]*base^(r-l+1) | similar to h[l]
++ nums[l]*base^(r-l) + ... + nums[r]*base^0 | matches hash(nums[l..r])
+So h[r+1] = (hash of unwanted prefix nums[0....l-1], but with extra factors of base included) 
++ (the part we want).
+We need to cancel out that unwanted first part. Notice h[l] = the same prefix nums[0..l-1], 
+but with smaller powers of base (missing exactly r-l+1 extra factors of base compared to how it's there inside h[r+1]).
+So if we multiply h[l] by base^(r-l+1), we boost every term's exponent by exactly r-l+1, making it match 
+term-for-term with the part inside h[r+1].
+h[l] * base^(r-l+1) = nums[0]*base^r +...+ nums[l-1]*base^(r-l+1)
+It's identical to unwanted prefix portion of h[r+1]. We subtract to cancel:
+h[r+1] - h[l]*base^(r-l+1) = hash(nums[l..r])
+It's the formula and not arbitrary - it falls directly out of matching exponents so the unwanted prefix terms cancel.
+
+long result = (h[r + 1] - h[l] * pow[r - l + 1] % mod + mod) % mod; extracts the substring hash nums[l..r]
+Why we took mod of the product h[l]*base^(r-l+1) first before subtracting:
+h[l]*base^(r-l+1) can be a huge number (upto mod*mod before reduction) - computing it without taking mod 
+may overflow long in Java. So, we reduce that product via mod before subtracting, to keep every intermediate 
+value safely within [0, mod). Since modular arithmetic is compatible with subtraction ((a-b) mod m is valid 
+regardless of when b is reduced), it's mathematically fine to mode the product first, then subtract, 
+then mod the final result again.
+
+Why we need negative fix-up, h[r+1] and h[l]*base^(r-l+1) % mod are each in [0, mod), but subtracting 2 values 
+can go negative (3 - 7 = -4). Java's % operator returns a result with the same sign as dividend, so -4 % mod 
+stays negative - unlike Python's %, which auto-corrects. So we manually add mod back if the result is -ve, 
+restoring to the proper [0,mod) range.
+
+
+
+
+
+
+
