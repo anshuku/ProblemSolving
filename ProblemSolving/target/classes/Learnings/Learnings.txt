@@ -560,6 +560,9 @@ stays negative - unlike Python's %, which auto-corrects. So we manually add mod 
 restoring to the proper [0,mod) range.
 
 
+Arrays.sort(char[] a, int fromIndex, int toIndex) Sorts the specified range of the array into ascending order. 
+The range to be sorted extends from the index fromIndex, inclusive, to the index toIndex, exclusive. 
+If fromIndex == toIndex, the range to be sorted is empty.
 
 
 
