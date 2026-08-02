@@ -521,6 +521,13 @@ Manacher's Algorithm can be used to:
 * Find max palindrome subarray sum.
 
 
+Max Palindrome Subarray Sum 
+Intuition:
+ * Expand around center: Start fresh at every center.
+ * Binary search + Hashing: I can test any radius instantly, so I'll binary search the largest one.
+ * Manacher: Most expansions are redundant. By using symmetry inside the current rightmost palindrome,
+ 			 I can reuse work and only expand when I discover new territory.
+
 Standard prefix-sum convention: prefix[k] = sum of T[0...k-1]. So sum of
 T[l..r] = prefix[r+1] - prefix[l], we include sum from l to r so we
 subtract total sum till r from total sum till l-1.
