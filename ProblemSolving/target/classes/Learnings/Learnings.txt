@@ -510,7 +510,15 @@ Modulo care: a number num can be -ve, and Java's % preserves the sign of the div
 num % mod might stay -ve. Add MOD and re-mod to normalize into [0, mod - 1].
 
 
-Using char[] is always faster than String directly
+Using char[] is always faster than String directly.
+
+
+Manacher's Algorithm can be used to:
+* Find max palindrome substring/subarray
+* Find number of palindromes
+* Find max radius around every center
+* Find max radius/length of palindrome
+* Find max palindrome subarray sum.
 
 
 Standard prefix-sum convention: prefix[k] = sum of T[0...k-1]. So sum of
