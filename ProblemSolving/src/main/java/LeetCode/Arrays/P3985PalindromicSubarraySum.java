@@ -12,6 +12,12 @@ package LeetCode.Arrays;
  * > 1 <= nums[i] <= 10​​​​​​​^9
  * 
  * Approach - Manacher + Prefix Sum, Prefix Sum + Binary Search + Hashing
+ * 
+ * Intuition:
+ * Expand around center: Start fresh at every center.
+ * Binary search + Hashing: I can test any radius instantly, so I'll binary search the largest one.
+ * Manacher: Most expansions are redundant. By using symmetry inside the current rightmost palindrome,
+ * I can reuse work and only expand when I discover new territory.
  */
 public class P3985PalindromicSubarraySum {
 
