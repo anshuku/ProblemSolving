@@ -580,6 +580,51 @@ The range to be sorted extends from the index fromIndex, inclusive, to the index
 If fromIndex == toIndex, the range to be sorted is empty.
 
 
+The BigInteger class was specifically created to support arbitrary-precision integer arithmetic in Java.
+It bypasses the size limits of primitive integer data types like int (32-bit) and long (64-bit).
+
+Key Characteristics:
+* Memory-Bound Size: The size of a BigInteger is limited only by your system's available memory, 
+preventing standard overflow errors.
+* Immutability: Just like standard String objects, instances of BigInteger cannot be changed after creation. 
+Operations always return a brand-new object.
+* No Fractional Data: It only works with whole numbers. For arbitrary-precision decimals, you must use BigDecimal.
+
+
+Modular Inverses:
+Definition: In modular arithmetic (like a 12-hour clock), standard division does not exist. 
+A modular inverse is a number that "undoes" multiplication, acting like a fraction.
+A modular inverse is a number that acts like a fraction in modular arithmetic, letting you "divide" by 
+multiplying instead. Specifically, the modular inverse of an integer a modulo m is an integer x such that 
+(a * x) equivalent 1 (mod m). It only exists if a and m share no common factors other than 1 (they are coprime).
+
+*How it works: The modular inverse of a modulo m is a number x such that (a * x) mod m = 1. 
+It only exists if a and m share no common factors other than 1 (they are coprime).
+
+*Use cases: Calculated using the Extended Euclidean Algorithm; vital for decrypting codes and 
+creating keys in public-key cryptography.
+
+
+We use:
+result = result * (n - i + 1) / i; 
+instead of 
+result *= (n - i + 1) / i;
+as there is a difference between how the 2 expressions evaluate mathematically different formulas 
+due to operator precedence and integer division in Java.
+
+result = result * (n - i + 1) / i; 
+Evaluated from left to right. Multiplies first result * (n - i + 1), then divides by i.
+
+result *= (n - i + 1) / i; Evaluated from right to left due to the assignment operator (*=).
+Divides first then multiplies. (n - i + 1) / i is calculated first. Because of integer division,
+any remainder is dropped. result is then multiplied by that truncated integer.
+
+
+We can't just compute the multinomial coefficient rem! / (n1! n2! ... n26!) via code
+We have to use running product of the binomial coefficients.
+By multiplication priniciple,
+P = ∏ i = 1 to 26 C of count[ci] in (rem - ∑ j = 1 -> i-1 count[cj])
+
 
 
 
