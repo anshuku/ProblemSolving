@@ -2,40 +2,72 @@ package LeetCode.Backtracking;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /* 
- * P.46 Permutations - Medium
+ * P46. Permutations - Medium
+ * 
  * Given an array nums of distinct integers, return all the possible permutations. 
  * You can return the answer in any order.
+ * 
+ * Approach - Backtracking
  */
 public class P46Permutations {
+	static int counter = 0;
+	static int swapCounter = 0;
 
 	public static void main(String[] args) {
 
 		// 65(2^6) 128(2^7) | 16(2^4) 30(2^5)
 		int[] nums = { 1, 2, 3 };
 
-		List<List<Integer>> list = permute(nums);
-		System.out.println("Permute: Permutations are " + list);
-		System.out.println("Permute: counter " + counter + " swap counter " + swapCounter);
+		List<List<Integer>> listArray = permuteArray(nums);
+		System.out.println("Permute Array: Permutations are " + listArray);
+//		System.out.println("Permute: counter " + counter + " swap counter " + swapCounter);
 
-		List<List<Integer>> ans = backtrack(nums);
+		List<List<Integer>> ans = permuteBacktrack(nums);
 		System.out.println("Backtrack: Permutations are " + ans);
-		System.out.println("Backtrack: counter " + counter);
+//		System.out.println("Backtrack: counter " + counter);
 
 		counter = 0;
 		recursion(nums, new ArrayList<Integer>(), new boolean[nums.length]);
 		System.out.println("Recursion: Permutations are " + globalResult);
-		System.out.println("Recursion: counter " + counter);
+//		System.out.println("Recursion: counter " + counter);
 
-		permuteList(nums);
-		System.out.println("Permute List: Permutations are " + result);
-		System.out.println("Permute List: counter " + counter + " swap counter " + swapCounter);
+		List<List<Integer>> list = permuteList(nums);
+		System.out.println("Permute List: Permutations are " + list);
+
+		permuteListAlt(nums);
+		System.out.println("Permute List Alt: Permutations are " + result);
+//		System.out.println("Permute List: counter " + counter + " swap counter " + swapCounter);
 
 	}
 
-	private static List<List<Integer>> permute(int[] nums) {
+	// Backtracking
+	// Backtracking is an algorithm for finding all solutions by exploring all
+	// potential candidates. If the solution candidate turns to be not a solution
+	// (or at least not the last one), backtracking algorithm discards it by making
+	// some changes on the previous step, i.e. backtracks and then try again.
+	// Here is a backtrack function which takes the index of the 1st integer to
+	// consider as an argument backtrack(first).
+	// * If the 1st index to consider has index n that means the current permutation
+	// is done. So we add it to result.
+	// * Iterate over the integers from index first to index n-1.
+	// -> Place i-th integer first in permutation, i.e. swap(nums[first], nums[i])
+	// -> Proceed to create all permutations which starts from i-th integer:
+	// backtrack(first + 1).
+	// -> Now backtrack, i.e. swap(nums[first], nums[i]) back.
+	// Time complexity - O(∑ k = 1 -> N P(N, k)) where P(N, k) = N!/(N-k)! =
+	// N*(N-1)*...(N-k+1) is so-called k permutations of n or partial permutation.
+	// Here, first+1 = k for the expression simplicity. The formula is: for each k
+	// (each first) one performs N*(N-1)*..(N-k+1) operations, and k is going
+	// through the range of values from 1 to N (and first from 0 to N-1).
+	// Let's do a rough estimation of the result:
+	// N! <= ∑ k = 1 -> N N!/(N-k)! = ∑ k = 1 -> N P(N, k) <= N*N!, i.e. the
+	// algorithm performs better than O(N*N!) and a bit slower than O(N!).
+	// Space complexity - O(N!) since one has to keep N! solutions
+	private static List<List<Integer>> permuteArray(int[] nums) {
 		counter = 0;
 		swapCounter = 0;
 		List<List<Integer>> ans = new ArrayList<>();
@@ -54,8 +86,11 @@ public class P46Permutations {
 			return;
 		} else {
 			for (int i = index; i < nums.length; i++) {
+				// Place i-th integer first in the current permutation.
 				swap(nums, index, i);
+				// Use next integers to complete the permutations
 				permute(nums, result, index + 1);
+				// Backtrack
 				swap(nums, index, i);
 			}
 		}
@@ -71,7 +106,7 @@ public class P46Permutations {
 		nums[e] = temp;
 	}
 
-	private static List<List<Integer>> backtrack(int[] nums) {
+	private static List<List<Integer>> permuteBacktrack(int[] nums) {
 		counter = 0;
 		List<List<Integer>> ans = new ArrayList<>();
 		return backtrack(nums, new ArrayList<Integer>(), ans);
@@ -124,29 +159,52 @@ public class P46Permutations {
 		}
 	}
 
+	private static List<List<Integer>> permuteList(int[] nums) {
+		counter = 0;
+		swapCounter = 0;
+		List<Integer> list = new ArrayList<>();
+
+		for (int num : nums) {
+			list.add(num);
+		}
+		List<List<Integer>> result = new ArrayList<>();
+		permuteList(0, list, result);
+		return result;
+	}
+
+	private static void permuteList(int index, List<Integer> nums, List<List<Integer>> result) {
+		if (index == nums.size()) {
+			result.add(new ArrayList<Integer>(nums));
+		}
+
+		for (int i = index; i < nums.size(); i++) {
+			Collections.swap(nums, index, i);
+			permuteList(index + 1, nums, result);
+			Collections.swap(nums, index, i);
+		}
+	}
+
 	static List<List<Integer>> result = new ArrayList<>();
-	static int counter = 0;
-	static int swapCounter = 0;
 
 	// Time complexity - O(n!)
 	// Space complexity - O(n!)
-	public static List<List<Integer>> permuteList(int[] nums) {
+	public static List<List<Integer>> permuteListAlt(int[] nums) {
 		counter = 0;
 		swapCounter = 0;
 		List<Integer> list = new ArrayList<Integer>();
 		Arrays.stream(nums).forEach(a -> list.add(a));
-		permuteList(list, 0);
+		permuteListAlt(list, 0);
 		return result;
 	}
 
-	private static void permuteList(List<Integer> nums, int l) {
+	private static void permuteListAlt(List<Integer> nums, int l) {
 		counter++;
 		if (l == nums.size()) {
 			result.add(nums);
 		} else {
 			for (int i = l; i < nums.size(); i++) {
 				nums = swap(nums, l, i);
-				permuteList(nums, l + 1);
+				permuteListAlt(nums, l + 1);
 				nums = swap(nums, l, i);
 			}
 		}

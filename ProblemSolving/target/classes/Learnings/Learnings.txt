@@ -626,5 +626,16 @@ By multiplication priniciple,
 P = ∏ i = 1 to 26 C of count[ci] in (rem - ∑ j = 1 -> i-1 count[cj])
 
 
+GCD is calculated via Euclidean Algorithm
+We multiply with 1L first if the other variables are int to get the result in long.
+long strength = 1L * a * b / (gcd * gcd);
+
+
+Formula for Space complexity: Input Space + Output space + Auxiliary Space
+Clarify in interview if Space complexity involves Input Space!
+
+
+
+
 
 
