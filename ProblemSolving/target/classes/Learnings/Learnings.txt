@@ -662,4 +662,90 @@ dr 10 (n) = 0, if n = 0
 dr 10 (n) = 1 + (n - 1) mod 9, if n =/= 0
 
 
+There are 3 main type of interview questions about permutations:
+1. Generate all permutations - Swap Backtracking generates all N! permutations in O(N*N!) time
+2. Generate next permutation - D.E. Knuth Algo generates lexicographically sorted permutations. It uses previous 1 in O(N). 
+3. Generate the permutation number k (current problem) - Fit it into polynomial time complexity (n, n^2,.. ,no bracktracking)
+
+In D.E. Knuth algo, the previous permutation is known.
+
+
+Factorial Number system
+Here, we use a elegant idea that is based on the mapping. It's much easier to generate a number than 
+combinations / permutations. We generate numbers, and then map them to combinations / subsets / permutations.
+
+This sort of encoding is widely used in password-cracking algorithms.
+
+One could map a subset with a binary bitmask of length n. The ith 0 means "the element number i is absent" 
+and ith 1 means "the element i is present".
+
+One could do the same for permutations, mapping permutation with the integer in Factorial Number System 
+Representation.
+
+Why do we need Factorial Number System
+Usually standard decimal or binary positional system could meet our needs. Example, each subset could 
+be described by a number in binary representation:
+k = ∑ m = 0 -> N - 1 km * 2^m. where 0 <= km <= 1.
+123 -> 000 | 001 -> 3 | 010 -> 2 | 100 -> 1 | 011 -> 23 | 101 -> 13 | 110 -> 12 | 111 -> 123
+
+The problem with permutations is that there is a much more permutations than subsets, N! grows up much faster 
+than 2^N. Therefore, the solution space provided by binary positional system with constant base(2^m) cannot 
+match with the number of permutations.
+
+Here, factorial number system helps, it's a positional system with non-constant base m!.
+k = ∑ m = 0 -> N - 1 km * m!, where 0 <= km <= m. 
+The magnitude of weights is not constant as well and depends on base: 0 <= km <= m for the base m!, 
+i.e. k0 = 0, 0 <= k1 <= 1, 0 <= k2 <=2, etc.
+Permutation | Permutation Number 	 | Factorial Number System representation
+	 123 	| 0 = 0*2! + 0*1! + 0*0! | 000
+	 132 	| 1 = 0*2! + 1*1! + 0*0! | 010
+	 213 	| 2 = 1*2! + 0*1! + 0*0! | 100
+	 231 	| 3 = 1*2! + 1*1! + 0*0! | 110
+	 312 	| 4 = 2*2! + 0*1! + 0*0! | 200
+	 321 	| 5 = 2*2! + 1*1! + 0*0! | 210
+
+We could now map all permutations, from permutation number 0:
+k = 0 = ∑ m = 0 -> N - 1 0*m! to permutation number N! - 1:
+k = N! - 1 = ∑ m = 0 -> N - 1 m*m!.
+
+Hence, we've a way to encode permutation number into factorial representation. Now let us use this 
+factorial representation to construct the permutation itself.
+
+How to construct the Permutation from its Factorial Representation:
+Let us pick up N = 3, which corresponds to the input array nums = [1,2,3], and construct its permutation number 
+k = 3. Since we number the permutations from 0 to N! - 1 (and not from 1 to N! as in the problem), we take the
+permutation number k = 2.
+
+Let us first construct the factorial representation of k = 2:
+k = 2 = 1*2! + 0*1! + 0*0! = (1, 0, 0)
+
+The coefficients in factorial representation are indices of elements in the input array. These are not direct indices, 
+but the indices after the removal of already used elements. This is due to the fact that each element should be
+used in permutation only once.
+
+213 | 2 = 1*2! + 0*1! + 0*0! | 100
+
+For k = 2, the 1st coefficient or weight in factorial representation is 1, i.e. the 1st element in the permutation 
+is nums[1] = 2. We use it and then delete it from nums, since each element should be used only once
+Next coefficient in factorial representation is 0. Let's use nums[0] = 1 in the permutation and then delete it from nums.
+Next coefficient in factorial representation is 0. Let's use nums[0] = 3 in the permutation and then delete it from nums. 
+We get the permutation as 213.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
