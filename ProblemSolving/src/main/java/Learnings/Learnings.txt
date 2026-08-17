@@ -77,6 +77,30 @@ If the solution candidate turns out to be not a solution (or at least not the la
 the backtracking algorithm discards it by making some changes on the previous step, 
 i.e. backtracks and then tries again. 
 
+Backtracking is a general algorithm for finding all (or some) solutions to some problems with constraints. 
+It incrementally builds candidates to the solutions, and abandons a candidate as soon as it determines that 
+the candidate cannot possibly lead to a solution.
+
+To generate a permutation of the array, we could follow the Depth-First Search (DFS) approach, 
+or more precisely the backtracking technique.
+The idea is that we pick the numbers one by one. For a permutation of length N, we would then need N stages 
+to generate a valid permutation. At each stage, we need to pick one number into the permutation, out of the 
+remaining available numbers. Later at the same stage, we will try out all available choices. By trying out, 
+we progressively build up candidates to the solution, and revert each choice with another alternative until 
+there is no more choice.
+
+Example: Given an input of [1,1,2], at the 1st stage, we've 2 choices to pick a number as the 1st number in the 
+final permutation, i.e 1 and 2. 
+Note: The reason that we've only 2 choices instead of 3, is that there is a duplicate in the given input. 
+Picking any of the duplicate numbers as the 1st number of the permutation would lead us to the same permutation 
+at the end. Should the numbers in the array be all unique, we would then have the same number of choices as the 
+length of the array. Here, we need to revisit each of the stages, and make a different choice in order to try out 
+all possibilities. The reversion of the choices is called backtracking.
+
+Note: In backtracking algo, usually some explorations lead to dead end, and we have to abandon those explorations 
+in the middle. However, due to specificity of a problem and our exploration strategy, each exploration may result 
+in a valid permitation (no vain).
+
 When there is path exploration we can apply Backtracking algorithm.
 
 
