@@ -147,8 +147,10 @@ public class P31NextPermutation {
 			i--;
 		}
 
+		// But, if a valid pivot is found, we do lower bounded binary search in the
+		// descending array portion of nums.
 		if (i >= 0) {
-			// Lower bound binary search in decreasing nums
+			// We do this via lower bounded binary search in the descending portion of nums.
 			int start = i + 1;
 			int end = n - 1;
 
@@ -164,6 +166,8 @@ public class P31NextPermutation {
 				}
 			}
 
+			// At last, end is the 1st index which satisfies nums[end] > nums[i]
+			// Swap the pivot element or nums[i] and successor or nums[end].
 			swap(nums, i, end);
 		}
 
