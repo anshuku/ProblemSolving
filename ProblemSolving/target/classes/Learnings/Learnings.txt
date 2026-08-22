@@ -756,8 +756,14 @@ Next coefficient in factorial representation is 0. Let's use nums[0] = 3 in the 
 We get the permutation as 213.
 
 
+static final int mod = 1_000_000_007;
+static final int inv2 = 500_000_004; // modular inverse of 2 mod (1e9+7)
+long total = count * ((start + end) % mod) % mod;
+total = total * inv2 % mod;
 
-
+The general lesson: keep a hard boundary between "real quantities used for real comparisions/arithmetic" 
+(resources, ops) and "the final answer accumulator" (cost). Only mod the latter, and whenever one need 
+to divide inside modular arithmetic, use a modular inverse instead of /.
 
 
 
