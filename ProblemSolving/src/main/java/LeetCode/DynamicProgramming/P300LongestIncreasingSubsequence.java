@@ -22,6 +22,10 @@ public class P300LongestIncreasingSubsequence {
 		System.out.println(
 				"Build BS: The lengths of longest increasing subsequence is " + longestIncreasingSubseqBuildBS);
 
+		int longestIncreasingSubseqBuildBS2 = lengthOfLISBuildBS2(nums);
+		System.out.println(
+				"Build BS2: The lengths of longest increasing subsequence is " + longestIncreasingSubseqBuildBS2);
+
 		int longestIncreasingSubseqBuild = lengthOfLISBuild(nums);
 		System.out.println("Build: The lengths of longest increasing subsequence is " + longestIncreasingSubseqBuild);
 
@@ -30,6 +34,35 @@ public class P300LongestIncreasingSubsequence {
 
 		int longestIncreasingSubseqDP2 = lengthOfLISDP2(nums);
 		System.out.println("DP Build: The lengths of longest increasing subsequence is " + longestIncreasingSubseqDP2);
+	}
+
+	private static int lengthOfLISBuildBS2(int[] nums) {
+		int n = nums.length;
+
+		List<Integer> list = new ArrayList<>();
+		list.add(nums[0]);
+
+		for (int i = 1; i < n; i++) {
+			if (list.getLast() < nums[i]) {
+				list.add(nums[i]);
+			} else {
+				int start = 0;
+				int end = list.size() - 1;
+
+				while (start <= end) {
+					int mid = start + (end - start) / 2;
+
+					if (list.get(mid) < nums[i]) {
+						start = mid + 1;
+					} else {
+						end = mid - 1;
+					}
+
+					list.set(start, nums[i]);
+				}
+			}
+		}
+		return list.size();
 	}
 
 	// Intelligently building a subsequence with Binary search
