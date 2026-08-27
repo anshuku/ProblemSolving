@@ -13,6 +13,11 @@ import java.util.Map;
  * The majority element of a subarray is the element that 
  * appears strictly more than half of the times in that subarray.
  * 
+ * Constraints:
+ * > 1 <= nums.length <= 1000
+ * > 1 <= nums[i] <= 10^​​​​​​​9
+ * > 1 <= target <= 10^9
+ * 
  * Approach - int Counter, HashMap
  */
 public class P3737CountSubarraysWithMajorityElementI {
