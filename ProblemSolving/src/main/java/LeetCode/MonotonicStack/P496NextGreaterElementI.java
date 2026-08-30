@@ -47,7 +47,7 @@ public class P496NextGreaterElementI {
 	// Stack + Map: Can handle duplicate values
 	// We use Map and Stack to store the result for every possible number in nums2
 	// in the form of (element, next_greater_element). Stack stores elements in
-	// monotonically decreasing order.
+	// monotonically decreasing order due to *next greater* value requirement.
 	// We scan nums2 and store each element in stack if the current element in nums2
 	// is smaller than stack's top. If the current element is greater than stack's
 	// top, we keep on popping each element from the stack and populate the map with
