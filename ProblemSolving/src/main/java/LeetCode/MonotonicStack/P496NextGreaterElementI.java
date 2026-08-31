@@ -30,8 +30,9 @@ public class P496NextGreaterElementI {
 //		int[] nums1 = { 2, 4 };
 //		int[] nums2 = { 1, 2, 3, 4 };
 
-		int[] nextGreaterElementStack = nextGreaterElementStack(nums1, nums2);
-		System.out.println("Stack: The next greater element array: " + Arrays.toString(nextGreaterElementStack));
+		int[] nextGreaterElementMStack = nextGreaterElementMStack(nums1, nums2);
+		System.out.println(
+				"Monotonic Stack: The next greater element array: " + Arrays.toString(nextGreaterElementMStack));
 
 		int[] nextGreaterElementMap = nextGreaterElementMap(nums1, nums2);
 		System.out.println("Map: The next greater element array: " + Arrays.toString(nextGreaterElementMap));
@@ -61,7 +62,7 @@ public class P496NextGreaterElementI {
 	// nums2, so m <= n.
 	// Space complexity - O(m), for stack containing at most n elements and map has
 	// n key-value pairs.
-	public static int[] nextGreaterElementStack(int[] nums1, int[] nums2) {
+	public static int[] nextGreaterElementMStack(int[] nums1, int[] nums2) {
 		int n = nums1.length;
 		int m = nums2.length;
 
