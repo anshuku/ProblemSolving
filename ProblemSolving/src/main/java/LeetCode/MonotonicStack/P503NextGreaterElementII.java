@@ -21,6 +21,10 @@ public class P503NextGreaterElementII {
 //		int[] nums = { 1, 2, 1 };
 		int[] nums = { 1, 2, 3, 4, 3 };
 
+		int[] nextGreaterMStackOpt = nextGreaterElementsMStackOpt(nums);
+		System.out.println(
+				"Monotonic Stack Optimized: The next greater element is: " + Arrays.toString(nextGreaterMStackOpt));
+
 		int[] nextGreaterMStack = nextGreaterElementsMStack(nums);
 		System.out.println("Monotonic Stack: The next greater element is: " + Arrays.toString(nextGreaterMStack));
 
@@ -33,6 +37,27 @@ public class P503NextGreaterElementII {
 		int[] nextGreaterArrayModAlt = nextGreaterElementsArrayModAlt(nums);
 		System.out
 				.println("Array Modulus Alt: The next greater element is: " + Arrays.toString(nextGreaterArrayModAlt));
+	}
+
+	private static int[] nextGreaterElementsMStackOpt(int[] nums) {
+		int n = nums.length;
+		Stack<Integer> stack = new Stack<>();
+
+		for (int i = n - 1; i >= 0; i--) {
+			stack.push(i);
+		}
+
+		int[] result = new int[n];
+
+		for (int i = n - 1; i >= 0; i--) {
+			while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) {
+				stack.pop();
+			}
+
+			result[i] = stack.isEmpty() ? -1 : nums[stack.peek()];
+			stack.push(i);
+		}
+		return result;
 	}
 
 	// Monotonic stack: Monontonically decreasing
