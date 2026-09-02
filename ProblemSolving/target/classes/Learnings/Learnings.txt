@@ -766,7 +766,18 @@ The general lesson: keep a hard boundary between "real quantities used for real 
 to divide inside modular arithmetic, use a modular inverse instead of /.
 
 
+For circular array traversal below pattern can be used where we take modulus of current index + later index 
+with the size of array. This keeps the value from the next index to the index - 1.
+		for (int i = 0; i < n; i++) {
+			greater[i] = -1;
 
+			for (int j = 1; j < n; j++) {
+				if (nums[(i + j) % n] > nums[i]) {
+					greater[i] = nums[(i + j) % n];
+					break;
+				}
+			}
+		}
 
 
 
