@@ -780,6 +780,26 @@ with the size of array. This keeps the value from the next index to the index - 
 		}
 
 
+Lexicographically smaller:
+A String a is lexicographically smaller than String b, if the 1st position where the Strings differs,
+String a has a letter that appears earlier in alphabet than corresponding letter in string b.
+If the first min(a.length, b.length) characters do not differ, then the shorter string is lexicographically 
+smaller one.
+
+String are compared from the 1st character to the last one. Which string is greater depends on the comparision
+between the first unequal corresponding character in the 2 strings. Hence, any string beginning with a will
+always be less than any string beginning with b, regardless of the ends of boths strings.
+
+
+While evaluating Space complexity:
+Each time we slice the string we're creating a new one (strings are immutable).
+
+
+
+
+
+
+
 
 
 
