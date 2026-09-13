@@ -795,10 +795,14 @@ While evaluating Space complexity:
 Each time we slice the string we're creating a new one (strings are immutable).
 
 
+For finding minimum in Constant time, we can't use Binary Search Tree or Heap to find the min element as 
+they take O(logn) time each. Also, find, add, and remove take O(logn) time.
 
 
-
-
+If the question doesn't say what to do in invalid test cases. For example, what if we perform pop(), getMin(), or top()
+while there are no element in a MinStack. Thne, one can safely assume the test cases will always be valid and these 
+methods will be perform only if there are at least 1 element in a MinStack. In a readl interview, one must always ask 
+the interviewer before making assumptions. They may say that these cases won't happen, or return -1 or throw an exception.
 
 
 
