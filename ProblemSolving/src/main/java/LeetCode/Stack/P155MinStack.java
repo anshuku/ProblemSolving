@@ -168,6 +168,30 @@ public class P155MinStack {
 			// beyond that numbers are not cached internally and new references are created
 			// for every new push to stack via stack.push(val), this val is new Integer(val)
 			// which creates a new object in heap.
+			// Why use .equals() or .intValue() with == for stack's peek value comparision?
+			// This is caused by Java Integer vs int value comparision issue caused by
+			// autoboxing and integer caching.
+			// Here, == fails, as the stack store Integer objects: peek() returns an Integer
+			// object, not an int. So == compares object references, while .equals()
+			// compares numberic values. Hence when we call for push(-1024) twice it does,
+			// stack.push(Integer.valueOf(-1024) twice. Autoboxing calls
+			// Integer.valueOf(value). Since, -1024 is outside Java's cached Integer range,
+			// each call creates a different Integer object. Think of it like this:
+			// stack -> Integer(-1024) @0xA1 | minStack -> Integer(-1024) @0xB2
+			// Here, we've same value, different objects. Hence, when we perform pop() based
+			// on == comparision, it becomes 0xA1 = 0xB2 // false, so pop in minSack is
+			// skipped, leaving -1024 behind.
+			// Why .equals() works, Integer.equals() compares the stored integer value.
+			// Java caches Integer objects only for values: -128 to 127.
+			// Using == with Integer is dangerous - it appears to work for small numbers but
+			// fails for larger (or smaller) ones.
+			// Alternate: Since we're only comparing numeric values, unbox them to int:
+			// using .intValue() == .intValue()
+			// Also, stack.peek() == value, doesn't have the same problem, as the value here
+			// is an int, Java automatically unboxes the Integer to int, so it becomes a
+			// primitive comparision similar to .intValue() == value.
+			// This compares values, not object refeerenes, and is safe, The problem only
+			// occurs when both sides arae Integer objects.
 			if (minStack.peek().intValue() == stack.peek().intValue()) { // minStack.peek().equals(stack.peek())
 				minStack.pop();
 			}
