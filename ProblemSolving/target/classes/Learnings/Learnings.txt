@@ -800,12 +800,89 @@ they take O(logn) time each. Also, find, add, and remove take O(logn) time.
 
 
 If the question doesn't say what to do in invalid test cases. For example, what if we perform pop(), getMin(), or top()
-while there are no element in a MinStack. Thne, one can safely assume the test cases will always be valid and these 
-methods will be perform only if there are at least 1 element in a MinStack. In a readl interview, one must always ask 
+while there are no element in a MinStack. Then, one can safely assume the test cases will always be valid and these 
+methods will be perform only if there are at least 1 element in a MinStack. In a real interview, one must always ask 
 the interviewer before making assumptions. They may say that these cases won't happen, or return -1 or throw an exception.
 
 
-Maximum Binary Tree is also called Cartesian Tree
+Maximum Binary Tree is also called Cartesian Tree.
+
+
+For primitive arrays like int[], char[], or boolean[]:
+Below gives a deep copy clone:
+int[] original = {1,2,3};
+int[] newArr = Array.copyOf(original, original.length);
+int[] cloned = original.clone();
+cloned[0] = 99;
+also they are not same object references (container has different memory address) so, == gives false
+System.out.println("Original[0]: " + original[0]); // Prints 1
+System.out.println("Cloned[0]: " + cloned[0]);     // Prints 99
+System.out.println("Are they the same object? " + (original == cloned)); // Prints false
+
+For non primitive and multi-dimensional array like Integer, Boolean, int[][]:
+clone method gives a shallow copy:
+Integer[] original = new Integer[n];
+Integer[] cloned = original.clone();
+
+While using .clone() on an array of objects (non-primitive types), Java creates a new array 
+container object in memory, but it doesn't copy the actual objects inside the array.
+Instead, it copies the references (memory addresses) of those objects.
+
+The Array Container object: original == cloned will be false. They are separate containers.
+The elements inside: original[0] == cloned[0] will be true. Both arrays point to the same objects in memory.
+
+In multidimensional array, only the top-level array is cloned. The inner subarrays will still
+be shared (references) between the original and the clone as it's a shallow copy.
+
+Since the objects are shared, modifying the internal state of the cloned array will affect the original array. 
+However, replacing an element entirely in the cloned array will not affect the original array.
+
+Person[] original = { new Person("Alice"), new Person("Bob") };
+Person[] cloned = original.clone(); // Shallow copy
+
+// 1. Modifying a shared object's field (Affects both)
+cloned[0].name = "Charlie"; 
+System.out.println(original[0].name); // Prints "Charlie"
+
+// 2. Reassigning a reference (Does NOT affect both)
+cloned[1] = new Person("David"); 
+System.out.println(original[1].name); // Prints "Bob" (Original remains untouched)
+
+To make a deep copy:
+The independent copy where changes to the objects inside the cloned array don't leak back to the original, 
+one must manually iterate through the array and clone/instantiate each object individually:
+
+Person[] deepCopy = new Person[original.length];
+for (int i = 0; i < original.length; i++) {
+    deepCopy[i] = new Person(original[i].name); // Creating brand new object instances
+}
+
+
+Integer range caching in Java: -127 to 128 when both sides compared are Integers.
+We use int values or .equals() as we use a Integer Stack so == compares references instead of int value. 
+Even though it works for -128 to 127, but beyond that numbers are not cached internally and new references are 
+created for every new push to stack via stack.push(val), this val is new Integer(val) which creates a new object in heap.
+
+Why use .equals() or .intValue() with == for stack's peek value comparision?
+This is caused by Java Integer vs int value comparision issue caused by autoboxing and integer caching.
+Here, == fails, as the stack store Integer objects: peek() returns an Integer object, not an int. 
+So == compares object references, while .equals() compares numberic values. Hence when we call for push(-1024) 
+twice it does, stack.push(Integer.valueOf(-1024) twice. Autoboxing calls Integer.valueOf(value). Since, -1024 
+is outside Java's cached Integer range, each call creates a different Integer object. Think of it like this:
+stack -> Integer(-1024) @0xA1 | minStack -> Integer(-1024) @0xB2
+Here, we've same value, different objects. Hence, when we perform pop() based on == comparision, it becomes 
+0xA1 = 0xB2 // false, so pop in minSack is skipped, leaving -1024 behind.
+
+Why .equals() works, Integer.equals() compares the stored integer value.
+Java caches Integer objects only for values: -128 to 127.
+Using == with Integer is dangerous - it appears to work for small numbers but fails for larger (or smaller) ones.
+Alternate: Since we're only comparing numeric values, unbox them to int:
+using .intValue() == .intValue()
+
+Also, stack.peek() == value, doesn't have the same problem, as the value here is an int, Java automatically 
+unboxes the Integer to int, so it becomes a primitive comparision similar to .intValue() == value.
+This compares values, not object refeerenes, and is safe, The problem only occurs when both sides arae Integer objects.
+
 
 
 
