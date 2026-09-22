@@ -19,12 +19,21 @@ import java.util.Stack;
  * String a has a letter that appears earlier in alphabet than corresponding letter in string b.
  * If the first min(a.length, b.length) characters do not differ, then the shorter string is lexicographically 
  * smaller one.
+ * 
+ * This problem is same as 1081. Smallest Subsequence of Distinct Characters
+ * 
+ * Given a string s, return the lexicographically smallest subsequence of s 
+ * that contains all the distinct characters of s exactly once.
  */
 public class P316RemoveDuplicateLetters {
 
 	public static void main(String[] args) {
 //		String s = "bcabc";
 		String s = "cbacdcbc";
+
+		String smallestUniqueMStackOpt = removeDuplicateLettersMStackOpt(s);
+		System.out.println("Monotonic Stack Opt: The smallest unique string after removing duplicates is: "
+				+ smallestUniqueMStackOpt);
 
 		String smallestUniqueMStack = removeDuplicateLettersMStack(s);
 		System.out.println(
@@ -33,6 +42,45 @@ public class P316RemoveDuplicateLetters {
 		String smallestUniqueSmallestLeft = removeDuplicateLettersSmallestLeft(s);
 		System.out.println("Smallest Left: The smallest unique string after removing duplicates is: "
 				+ smallestUniqueSmallestLeft);
+	}
+
+	// Monotonic Stack optimized
+	// Time complexity - O(n), N be the length of the string, and let Σ denote the
+	// character set. In this problem, all characters are lowercase English letters,
+	// so ∣Σ∣=26. Although there is a nested loop, the time is still
+	// O(n). This is because the inner while loop is bounded by the total number of
+	// elements added to the stack (each time it pops, an element goes). This means
+	// that the total amount of time spent in the inner loop is bounded by O(n),
+	// giving total O(n) time.
+	// Space compelxity - O(∣Σ∣), since each character can appear at the stack at
+	// most once, the stack contains at most ∣Σ∣ characters. Additionally, 2 arrays
+	// of size ∣Σ∣ are used to record whether each character is in the stack (seen),
+	// and the number of its remaining occurrences (count).
+	private static String removeDuplicateLettersMStackOpt(String s) {
+		char[] sArr = s.toCharArray();
+
+		int[] count = new int[26];
+		boolean[] seen = new boolean[26];
+
+		for (char c : sArr) {
+			count[c - 'a']++;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		for (char c : sArr) {
+			if (!seen[c - 'a']) {
+				while (!sb.isEmpty() && sb.charAt(sb.length() - 1) > c && count[sb.charAt(sb.length() - 1) - 'a'] > 0) {
+					seen[sb.charAt(sb.length() - 1) - 'a'] = false;
+					sb.deleteCharAt(sb.length() - 1);
+				}
+				sb.append(c);
+				seen[c - 'a'] = true;
+			}
+			count[c - 'a']--;
+		}
+
+		return sb.toString();
 	}
 
 	// Greedy: Solving letter by letter
