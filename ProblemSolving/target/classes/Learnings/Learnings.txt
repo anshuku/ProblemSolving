@@ -881,7 +881,7 @@ using .intValue() == .intValue()
 
 Also, stack.peek() == value, doesn't have the same problem, as the value here is an int, Java automatically 
 unboxes the Integer to int, so it becomes a primitive comparision similar to .intValue() == value.
-This compares values, not object refeerenes, and is safe, The problem only occurs when both sides arae Integer objects.
+This compares values, not object references, and is safe, The problem only occurs when both sides are Integer objects.
 
 
 
