@@ -884,7 +884,9 @@ unboxes the Integer to int, so it becomes a primitive comparision similar to .in
 This compares values, not object references, and is safe, The problem only occurs when both sides are Integer objects.
 
 
+Monotonic stack - for cases when problem involves comparing size of elements, order is relevant.
 
+ArrayDeque is faster than Stack.
 
 
 
