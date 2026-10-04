@@ -884,9 +884,43 @@ unboxes the Integer to int, so it becomes a primitive comparision similar to .in
 This compares values, not object references, and is safe, The problem only occurs when both sides are Integer objects.
 
 
-Monotonic stack - for cases when problem involves comparing size of elements, order is relevant.
+Monotonic stack:
+A monotonically increasing array or a stack: An array arr is called monotonically increasing if for
+2 indices i and j where i > j, arr[i] >= arr[j] always holds true. If the array is strictly increasing,
+the relation can change to > in place of >=. Hence, every element is greater than (or equal to, if the 
+array is not strictly incresing) the last element. For a monotonically decreasing array / stack, the opposite
+will hold.
+
+Monotonically increasing stack: If we're interseted in the next and previous smaller elements.
+Monotonically decreasing stack: If we're interseted in the next and previous greater elements.
+
+How to build a Monotonically increasing stack?
+
+To build a monotonically increasing stack, as we iterate through an array's elements, we push them onto stack.
+But before pushing an element, we ensure that always increasing property is maintained.
+This means if the item at the top of the stack is bigger than (or equal to) >= the current item under iteration,
+we first pop it off before pushing the current element on top.
+
+For cases when problem involves comparing size of elements, order is relevant.
 
 ArrayDeque is faster than Stack.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
