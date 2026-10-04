@@ -18,11 +18,11 @@ public class P907SumOfSubarrayMinimums {
 //		int[] arr = { 3, 1, 2, 4 }; // 17
 		int[] arr = { 11, 81, 94, 43, 3 }; // 444
 
-		int minSumStackDP = sumSubarrayMinsStackDP(arr);
-		System.out.println("Stack DP: The sum of minimum element of each subarray is: " + minSumStackDP);
+		int minSumMStackDP = sumSubarrayMinsMStackDP(arr);
+		System.out.println("Monotonic Stack DP: The sum of minimum element of each subarray is: " + minSumMStackDP);
 
-		int minSumStack = sumSubarrayMinsStack(arr);
-		System.out.println("Stack: The sum of minimum element of each subarray is: " + minSumStack);
+		int minSumMStack = sumSubarrayMinsMStack(arr);
+		System.out.println("Monotonic Stack: The sum of minimum element of each subarray is: " + minSumMStack);
 
 		int minSumArray = sumSubarrayMinsArray(arr);
 		System.out.println("Array: The sum of minimum element of each subarray is: " + minSumArray);
@@ -73,7 +73,7 @@ public class P907SumOfSubarrayMinimums {
 	// elements of dp array in O(n) time.
 	// Space complexity - O(n), we use 2 external data structures - dp and stack
 	// which takes O(n) space in worst case. So, it requires O(2n) space.
-	private static int sumSubarrayMinsStackDP(int[] arr) {
+	private static int sumSubarrayMinsMStackDP(int[] arr) {
 		int n = arr.length;
 
 		// Stores the sum of minimum value present in the subarrays ending at index i.
@@ -181,7 +181,7 @@ public class P907SumOfSubarrayMinimums {
 	// calculate the contribution of that item. This is done for n times.
 	// Space complexity - O(n), in worst case when the elements are in increasing
 	// order, the stack will contain all the items.
-	private static int sumSubarrayMinsStack(int[] arr) {
+	private static int sumSubarrayMinsMStack(int[] arr) {
 		int n = arr.length;
 
 		long minSum = 0;
