@@ -21,6 +21,13 @@ import java.util.TreeMap;
  * 
  * Approach - Binary Search, Map
  * 
+ * Constraints:
+ * > 1 <= length <= 5 * 10^4
+ * > 0 <= index < length
+ * > 0 <= val <= 10^9
+ * > 0 <= snap_id < (the total number of times we call snap())
+ * > At most 5 * 10^4 calls will be made to set, snap, and get.
+ * 
  * Here after initializing the Snapshot array we can call set, snap and get in any order
  * for any number of times.
  * 
@@ -59,8 +66,13 @@ public class P1146SnapshotArrayTreeMapArray {
 	}
 
 	public int get(int index, int snap_id) {
-		Map.Entry<Integer, Integer> entry = map[index].floorEntry(snap_id);
-		return entry.getValue();
+//		Map.Entry<Integer, Integer> entry = map[index].floorEntry(snap_id);
+//		return entry.getValue();
+
+//		return map[index].floorEntry(snap_id).getValue();
+
+		int key = map[index].floorKey(snap_id);
+		return map[index].get(key);
 	}
 
 	public static void main(String[] args) {
