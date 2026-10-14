@@ -23,6 +23,13 @@ import java.util.Map;
  * with timestamp_prev <= timestamp. If there are multiple such values, it returns the 
  * value associated with the largest timestamp_prev. If there are no values, it returns "".
  * 
+ * Constraints:
+ * > 1 <= key.length, value.length <= 100
+ * > key and value consist of lowercase English letters and digits.
+ * > 1 <= timestamp <= 10^7
+ * > All the timestamps timestamp of set are strictly increasing.
+ * > At most 2 * 10^5 calls will be made to set and get.
+ * 
  * Approach - Binary Search, LinkedHashMap
  */
 public class P981TimeBasedKeyValueStoreBinarySearch {
@@ -34,17 +41,33 @@ public class P981TimeBasedKeyValueStoreBinarySearch {
 	}
 
 	public void set(String key, String value, int timestamp) {
-//		if (map.containsKey(key)) {
-//			LinkedHashMap<Integer, String> entries = map.get(key);
-//			entries.put(timestamp, value);
-//		} else {
-//			LinkedHashMap<Integer, String> entry = new LinkedHashMap<>();
-//			entry.put(timestamp, value);
-//			map.put(key, entry);
-//		}
+		if (map.containsKey(key)) {
+			// Here entries refers to the same TreeMap object already stored in the HashMap.
+			// Therefore, inserting a new timestamp modifies that existing object.
+			LinkedHashMap<Integer, String> entries = map.get(key);
+			entries.put(timestamp, value);
+		} else {
+			LinkedHashMap<Integer, String> entry = new LinkedHashMap<>();
+			entry.put(timestamp, value);
+			map.put(key, entry);
+		}
 
 		// Faster
 		map.computeIfAbsent(key, k -> new LinkedHashMap<>()).put(timestamp, value);
+
+		// TreeMap<Integer, String> curr = new TreeMap<>();
+		// curr.put(timestamp, value);
+		// map.put(key, curr);
+
+		// We can't use above:
+		// As the above approach creates a new TreeMap every time set is called and
+		// replaces the previous TreeMap for that key. When a key already exists, there
+		// is replacement of old value, instead of merging of contents of the 2 TreeMap
+		// objects. The reason is that the HashMap doesn't automatically accumulate
+		// values inside the TreeMap. One must explictly update the existing inner map
+		// rather than replace it.
+		// Whereas in the 1st and 2nd approach, we retrieve and update the existing
+		// TreeMap (if present), preserving all previously stored timestamps and values.
 
 	}
 
@@ -55,6 +78,9 @@ public class P981TimeBasedKeyValueStoreBinarySearch {
 		LinkedHashMap<Integer, String> entries = map.get(key);
 		List<Integer> list = new ArrayList<>(entries.keySet());
 		int n = list.size();
+
+		// The increasing timestamp constraint ensures timestamps arrive in sorted
+		// order. Hence, we can apply binary search.
 		int start = 0;
 		int end = n - 1;
 
