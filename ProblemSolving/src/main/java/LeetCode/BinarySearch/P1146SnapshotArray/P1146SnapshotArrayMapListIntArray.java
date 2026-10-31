@@ -23,6 +23,13 @@ import java.util.Map;
  * 
  * Approach - Binary Search, Map
  * 
+ * Constraints:
+ * > 1 <= length <= 5 * 10^4
+ * > 0 <= index < length
+ * > 0 <= val <= 10^9
+ * > 0 <= snap_id < (the total number of times we call snap())
+ * > At most 5 * 10^4 calls will be made to set, snap, and get.
+ * 
  * Here after initializing the Snapshot array we can call set, snap and get in any order
  * for any number of times.
  */
@@ -31,7 +38,7 @@ public class P1146SnapshotArrayMapListIntArray {
 	// Map stores the list of array in [snap_id, value] pair stored as int[]
 	// at a given index. Every index stores a list of [snap_id, value] pairs.
 	Map<Integer, List<int[]>> map;
-	int snap_id;
+	int snap_id = 0;
 
 	P1146SnapshotArrayMapListIntArray(int length) {
 		map = new HashMap<>();
