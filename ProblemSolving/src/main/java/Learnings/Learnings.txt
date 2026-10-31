@@ -906,12 +906,17 @@ For cases when problem involves comparing size of elements, order is relevant.
 ArrayDeque is faster than Stack.
 
 
+Divisible and Non-divisible Sums Difference
 
 
-
-
-
-
+String's substring Replacement via regex:
+To replace every period "." with "[.]"
+Use character skipping
+address.replaceAll("\\.", "[.]")
+String a = "a.b";
+String b = a.replaceAll("\\.", "[.]");
+System.out.println("b:" + b); // prints b:a[.]b
+Without //. it prints b:[.][.][.]
 
 
 
