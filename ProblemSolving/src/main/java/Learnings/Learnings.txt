@@ -919,14 +919,28 @@ System.out.println("b:" + b); // prints b:a[.]b
 Without //. it prints b:[.][.][.]
 
 
+Double calculation:
+To get the expression value as per required data type, here double, one need to explicitly typecast:
+double time = (double) (target - position[i]) / speed[i];
+
+Below is incorrect:
+double time = (target - position[i]) / speed[i];
 
 
+Taking an array of Object[] where Object(int, double) is faster than taking 2D double array or double[][]
+If we're comparing elements based on integer
+Arrays.sort(cars, (a, b) -> Integer.compare(a.position, b.position));
+Arrays.sort(cars, (a, b) -> Double.compare(a[0], b[0]));
 
+public static class Car {
+	int position;
+	double time;
 
-
-
-
-
+	Car(int position, double time) {
+		this.position = position;
+		this.time = time;
+	}
+}
 
 
 
