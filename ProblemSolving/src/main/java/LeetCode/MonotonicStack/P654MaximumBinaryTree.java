@@ -190,7 +190,7 @@ public class P654MaximumBinaryTree {
 
 			stack.push(current);
 		}
-		return stack.getLast(); // or stack.pollLast();
+		return stack.getLast(); // For deque, stack.pollLast(); or stack.removeLast();
 //		return stack.getFirst();
 	}
 
