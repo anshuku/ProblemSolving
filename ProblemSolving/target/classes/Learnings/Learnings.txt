@@ -943,6 +943,17 @@ public static class Car {
 }
 
 
+When recursive calls need to consume elements sequentially from a common traversal, they must 
+share the traversal pointer or explicitly return its updated value. 
+This pattern is useful in many tree construction problems, 
+including preorder/inorder and preorder/postorder construction.
 
+We can use an array (new int[]{0}) to maintain the index as arrays are reference types in Java. This allows all 
+recursive calls to share the same array object, so updating preIndex[0] is visible to every call.
+
+
+Binary Search Tree
+Sorting preorder to create inorder works as the input is a BST with distinct values. Inorder traversal 
+of a BST is sorted, so sorting preorder gives the same inorder sequence.
 
 
