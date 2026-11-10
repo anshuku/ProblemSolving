@@ -31,7 +31,6 @@ public class P1512NumberOfGoodPairs {
 	}
 
 	private static int numIdenticalPairsFrequency1Pass(int[] nums) {
-		int n = nums.length;
 		int count = 0;
 
 		int[] frequency = new int[101];
@@ -43,7 +42,6 @@ public class P1512NumberOfGoodPairs {
 	}
 
 	public static int numIdenticalPairsFrequency2Pass(int[] nums) {
-		int n = nums.length;
 		int numGood = 0;
 
 		int[] frequency = new int[101]; // Max number is 100
