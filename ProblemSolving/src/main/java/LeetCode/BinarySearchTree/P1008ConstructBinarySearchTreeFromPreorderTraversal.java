@@ -154,10 +154,10 @@ public class P1008ConstructBinarySearchTreeFromPreorderTraversal {
 			// Follow BST logic to create a parent-child link
 			if (node.val < child.val) {
 				node.right = child;
-			} else { // Add the child into deque/deque
+			} else {
 				node.left = child;
 			}
-
+			// Add the child into deque/stack
 			stack.push(child);
 		}
 
