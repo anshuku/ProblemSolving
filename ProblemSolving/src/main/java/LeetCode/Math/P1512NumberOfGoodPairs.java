@@ -23,11 +23,26 @@ public class P1512NumberOfGoodPairs {
 //		int[] nums = { 1, 2, 3, 100, 100, 3 };
 //		int[] nums = { 1, 2, 3 };
 
-		int numGood = numIdenticalPairs(nums);
-		System.out.println("The number of good pairs are: " + numGood);
+		int numGoodFrequency1Pass = numIdenticalPairsFrequency1Pass(nums);
+		System.out.println("Frequency 1 Pass: The number of good pairs are: " + numGoodFrequency1Pass);
+
+		int numGoodFrequency2Pass = numIdenticalPairsFrequency2Pass(nums);
+		System.out.println("Frequency 2 Pass: The number of good pairs are: " + numGoodFrequency2Pass);
 	}
 
-	public static int numIdenticalPairs(int[] nums) {
+	private static int numIdenticalPairsFrequency1Pass(int[] nums) {
+		int n = nums.length;
+		int count = 0;
+
+		int[] frequency = new int[101];
+
+		for (int num : nums) {
+			count += frequency[num]++;
+		}
+		return count;
+	}
+
+	public static int numIdenticalPairsFrequency2Pass(int[] nums) {
 		int n = nums.length;
 		int numGood = 0;
 
