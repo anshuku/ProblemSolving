@@ -957,3 +957,12 @@ Sorting preorder to create inorder works as the input is a BST with distinct val
 of a BST is sorted, so sorting preorder gives the same inorder sequence.
 
 
+To convert a Integer list to an int array:
+int[] result = list.stream().mapToInt(i -> i).toArray();
+
+To convert a Integer list to Integer array.
+Integer[] result = list.toArray(new Integer[0]);
+
+
+
+
